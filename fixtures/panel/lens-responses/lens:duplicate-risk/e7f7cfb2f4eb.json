@@ -1,0 +1,4 @@
+{
+  "confidence": 0.76,
+  "findings": [{"claim": "The claim may overlap with existing configuration notes but is not an exact duplicate.", "severity": "medium", "evidence_refs": ["trace://synthetic-dissent"]}]
+}

@@ -1,0 +1,62 @@
+{
+  "schema_version": "compound.capability.skill_candidate_review.v0.1",
+  "id": "scr_panel_synthetic_promote",
+  "created_at": "2026-07-01T00:00:00Z",
+  "status": "review_required",
+  "candidate_kind": "skill",
+  "candidate_id": "skill:panel-synthetic-review",
+  "source_path": "synthetic://external-skill/panel-synthetic-review",
+  "source_exists": true,
+  "source_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "target_path": "synthetic://skills/panel-synthetic-review",
+  "target_exists": false,
+  "external": {
+    "id": "external.panel.synthetic-review",
+    "name": "Panel Synthetic Review",
+    "slug": "panel-synthetic-review",
+    "description": "Synthetic public skill candidate used to prove panel create_candidate flow.",
+    "source": "synthetic-fixture",
+    "source_type": "public_repo",
+    "url": "https://example.invalid/panel-synthetic-review",
+    "repository_url": "https://example.invalid/panel-synthetic-review.git",
+    "topics": [
+      "panel",
+      "fixture"
+    ]
+  },
+  "proposed_classification": "skill_candidate",
+  "lifecycle_stage": "candidate_review",
+  "recommended_disposition": "create_candidate",
+  "disposition_reason": "Synthetic fixture has no overlap and enough evidence for candidate creation.",
+  "graph_coherence": {
+    "decision_hint": "create_candidate",
+    "decision_confidence": 0.91,
+    "duplicate_risk": 0.05,
+    "evidence_strength": 0.92,
+    "audit_risk": "low",
+    "top_overlap_score": 0
+  },
+  "overlap_refs": [
+    {
+      "node_id": "skill:existing-reference",
+      "kind": "skill",
+      "name": "Existing Reference",
+      "matched_tokens": [
+        "reference"
+      ],
+      "score": 1
+    }
+  ],
+  "audit_signals": [],
+  "evidence_required": [
+    "source_url",
+    "description"
+  ],
+  "eval_fixture_suggestions": [
+    "synthetic panel review fixture"
+  ],
+  "next_action": "review YAML draft requires decision",
+  "warnings": [
+    "synthetic fixture; no external mutation"
+  ]
+}

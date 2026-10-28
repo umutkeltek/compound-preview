@@ -1,0 +1,56 @@
+{
+  "schema_version": "compound.release_run_evidence.v0.1",
+  "issue_id": "REL-P0-001",
+  "captured_at": "2026-08-29T22:38:18Z",
+  "canonical_source_sha": "02c1194f2935fafc56db093401ea3caed5f47101",
+  "fixture_source_sha": "e0d197f809f914e8e943ae56dd8295d987ac0b37",
+  "work": {
+    "id": "work_2365ae8bc415",
+    "terminal_state": "failed",
+    "move_type": "audit_only",
+    "action_intent_id": "act_061c925b2a30",
+    "policy_decision_id": "pol_ff1d597b5ba2",
+    "receipt_id": "rec_d363a2676fb5",
+    "transition_id": "tr_d363a2676fb5"
+  },
+  "run_attempts": [
+    {
+      "id": "ratt_20260829T221121Z_79a647c3",
+      "role": "claim_reservation",
+      "terminal_status": "superseded",
+      "receipt_id": "rec_d363a2676fb5",
+      "transition_id": "tr_d363a2676fb5"
+    },
+    {
+      "id": "ratt_20260829T221224Z_5917e70f",
+      "role": "governed_harness",
+      "terminal_status": "failed",
+      "receipt_id": "rec_d363a2676fb5",
+      "transition_id": "tr_d363a2676fb5"
+    }
+  ],
+  "recovery_binaries": [
+    {
+      "source": "canonical_source_sha",
+      "sha256": "469975efff81f553300c8507c59e097a2c6f4ec378630c486eb602a332e92329",
+      "result": "terminal close committed"
+    },
+    {
+      "source": "fixture_source_sha",
+      "sha256": "5153ee4bc4fed05e37816540c3de3b1e7ff7ac3a80296053414875990bef81c3",
+      "result": "refused before state mutation: completed_at must equal Receipt.created_at and closing event timestamp"
+    }
+  ],
+  "recovery_properties": {
+    "global_run_attempt_sweep_used": false,
+    "both_attempts_share_terminal_receipt_and_transition": true,
+    "work_lease_absent_after_close": true,
+    "branch_binary_left_work_unchanged": true
+  },
+  "scratch_retirement": {
+    "recovery_worktree": ".agents/worktrees/recovery-close-2365",
+    "detached_red_worktree": "temporary detached worktree (retired)",
+    "marker_directory": "temporary governed-run marker directory (retired)",
+    "status": "retired_clean_nonforce_after_evidence_capture"
+  }
+}

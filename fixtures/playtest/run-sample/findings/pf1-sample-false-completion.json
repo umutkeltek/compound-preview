@@ -1,0 +1,16 @@
+{
+  "schema_version": "playtest.finding.v0.1",
+  "id": "pf1",
+  "severity": "P0",
+  "type": "false_completion_feedback",
+  "title": "Phantom save: banner reports the note was filed but the sample-app store never received it",
+  "evidence": {
+    "player_belief": "Tapped Save on the daily note; a green banner said 'Saved' with no further prompt, so the note felt filed.",
+    "ledger_truth": "sample-app note store after the session still shows zero entries; the tapped Save never reached the store.",
+    "impact": "Player leaves believing three notes were filed while the store holds none. A silent drop of user intent reads worse than an obvious error.",
+    "member_findings": ["runner f2 (banner-without-write)", "grader store diff"],
+    "screenshots": ["shots/s1-save-banner.png", "shots/s2-empty-store.png"]
+  },
+  "repro": ["seed sample-app per fixture manifest", "open the daily note, tap Save, observe the green banner", "reopen the note list: it is still empty"],
+  "source": "synthetic fixture run-sample; fully fabricated for tests"
+}

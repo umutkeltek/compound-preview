@@ -1,0 +1,20 @@
+{
+  "confidence": 0.5,
+  "findings": [
+    {
+      "claim": "Alex may intend \"no pressure\" as reassurance, but Sam may hear it as permission to not follow up, which could explain why Sam never proposes a time.",
+      "severity": "medium",
+      "evidence_refs": ["we should grab coffee sometime, no pressure", "let me know if you're around"]
+    },
+    {
+      "claim": "Sam may intend \"if it works out\" as an honest hedge, but Alex may hear it as a soft no, which could explain Alex matching down to \"it's whatever\" in the next turn.",
+      "severity": "medium",
+      "evidence_refs": ["sure, if it works out. I'm pretty busy this week", "same, it's whatever, just figured I'd mention it"]
+    },
+    {
+      "claim": "Both parties may receive the other's closing line at face value as an ordinary conversational exit, with no divergence between intent and reception.",
+      "severity": "low",
+      "evidence_refs": ["will do. anyway I should go, things to do", "yeah me too, talk later"]
+    }
+  ]
+}

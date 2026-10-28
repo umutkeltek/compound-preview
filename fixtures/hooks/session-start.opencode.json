@@ -1,0 +1,8 @@
+{
+  "hook": "session-start",
+  "harness": "opencode",
+  "cwd": "/repo/fixture",
+  "task": "inspect repository context",
+  "repo_kind": "product",
+  "session_id": "session_opencode_fixture"
+}

@@ -1,0 +1,51 @@
+schema_version: compound.tool_topology.v0.1
+id: topo_fixture_browser
+adapter_id: fixture.tool-topology
+source_system: fixture-os
+observed_at: "2026-06-29T00:00:00Z"
+source_ref:
+  path: fixtures/generated/tool-resolver.md
+  kind: generated_view
+  owner: fixture-spine
+  source_class: generated
+  revision: sha256:def456
+entries:
+  - id: tool:browser-cli
+    kind: tool
+    name: agent-browser CLI
+    interface: cli
+    status: active
+    weight: 2
+    triggers:
+      - browser
+      - screenshots
+      - logged-in site
+    capabilities:
+      - web automation
+    constraints:
+      - headless by default (isolated_headless)
+      - isolated --profile from the browser-profile registry
+      - same door in every harness and lane
+    evidence_refs:
+      - artifact_sha256:def456
+  - id: mcp:browser
+    kind: mcp
+    name: Browser MCP
+    interface: mcp
+    status: retired
+    triggers:
+      - browser
+    capabilities:
+      - web automation
+    constraints:
+      - not loaded by any harness config
+      - invisible inside switchback lanes
+    evidence_refs:
+      - artifact_sha256:def456
+recommendations:
+  - primary: tool:browser-cli
+    fallback: mcp:browser
+    reason: the agent-browser CLI is the one browser door; the retired MCP route resolves to it
+    confidence: 0.9
+evidence_refs:
+  - artifact_sha256:def456

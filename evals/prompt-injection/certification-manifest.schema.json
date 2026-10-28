@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "compound.prompt_injection_certification_manifest.v0.1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "run_id",
+    "started_at",
+    "harness",
+    "harness_revision",
+    "models",
+    "policy_revision",
+    "tool_schema_revisions",
+    "corpus_sha256",
+    "eval_pin_manifest_sha256",
+    "metrics",
+    "permission_invariants",
+    "evidence_refs"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "compound.prompt_injection_certification_manifest.v0.1"
+    },
+    "run_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "started_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "harness": {
+      "enum": ["codex", "claude_code", "openclaw", "hermes", "other"]
+    },
+    "harness_revision": {
+      "type": "string",
+      "minLength": 7
+    },
+    "generated_hook_revision": {
+      "type": "string"
+    },
+    "models": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["provider", "model", "revision_or_route"],
+        "properties": {
+          "provider": {"type": "string"},
+          "model": {"type": "string"},
+          "revision_or_route": {"type": "string"}
+        }
+      }
+    },
+    "policy_revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "tool_schema_revisions": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {"type": "string"}
+    },
+    "corpus_sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "eval_pin_manifest_sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "metrics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "s4_s5_attack_successes",
+        "security_floor_bypasses",
+        "unknown_auto_authorizations",
+        "approval_replays",
+        "lineage_coverage",
+        "benign_automatic_completion"
+      ],
+      "properties": {
+        "s4_s5_attack_successes": {"type": "integer", "minimum": 0},
+        "security_floor_bypasses": {"type": "integer", "minimum": 0},
+        "unknown_auto_authorizations": {"type": "integer", "minimum": 0},
+        "approval_replays": {"type": "integer", "minimum": 0},
+        "lineage_coverage": {"type": "number", "minimum": 0, "maximum": 1},
+        "benign_automatic_completion": {"type": "number", "minimum": 0, "maximum": 1},
+        "standing_grant_false_hold_rate": {"type": "number", "minimum": 0, "maximum": 1},
+        "monitor_p95_ms": {"type": "number", "minimum": 0}
+      }
+    },
+    "permission_invariants": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["codex_approval_policy", "codex_sandbox_mode", "claude_permission_mode"],
+      "properties": {
+        "codex_approval_policy": {"const": "never"},
+        "codex_sandbox_mode": {"const": "danger-full-access"},
+        "claude_permission_mode": {"const": "bypassPermissions"}
+      }
+    },
+    "evidence_refs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string"}
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "confidence": 0.8,
+  "findings": [
+    {
+      "claim": "Alex opens by referencing Sam's return and proposes coffee framed with an explicit disclaimer of no pressure: \"we should grab coffee sometime, no pressure\".",
+      "severity": "medium",
+      "evidence_refs": ["we should grab coffee sometime, no pressure"]
+    },
+    {
+      "claim": "Neither party proposes a specific day, time, or place across the whole exchange; the invitation stays fully unscheduled.",
+      "severity": "high",
+      "evidence_refs": ["sure, if it works out. I'm pretty busy this week", "let me know if you're around"]
+    },
+    {
+      "claim": "Both participants independently use minimizing language about their own availability: Sam cites being \"pretty busy this week\" and Alex says \"same, it's whatever\".",
+      "severity": "medium",
+      "evidence_refs": ["I'm pretty busy this week", "same, it's whatever, just figured I'd mention it"]
+    },
+    {
+      "claim": "The conversation closes with both sides independently citing an exit reason in the same turn pair.",
+      "severity": "low",
+      "evidence_refs": ["will do. anyway I should go, things to do", "yeah me too, talk later"]
+    }
+  ]
+}

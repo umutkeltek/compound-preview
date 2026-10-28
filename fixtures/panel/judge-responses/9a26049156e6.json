@@ -1,0 +1,9 @@
+{
+  "decision": "needs_human",
+  "confidence": 0.73,
+  "rationale": "Lenses disagree on whether Mom's questions and Dana's short replies form a care-and-closing pattern worth naming, or whether this is a plain, low-friction logistics exchange between family members; the exchange is short and both readings are consistent with the evidence, so this needs a human read plus the systemic lens's probe before treating either account as settled.",
+  "dissent": [
+    {"lens_ref": "lens:relational-received", "position": "promote", "note": "The reception gap between Mom's care-shaped questions and Dana's closing answers is consistent across three separate turns, which is enough pattern to promote the care-bid reading as primary."},
+    {"lens_ref": "lens:relational-literal", "position": "park", "note": "The observable exchange is short, resolves each topic, and ends with agreement on Sunday; without further evidence this should park rather than resolve toward either the care-bid or purely-logistics story."}
+  ]
+}

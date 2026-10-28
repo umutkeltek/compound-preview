@@ -1,0 +1,17 @@
+# Design worksheet only. Not an executable Compound/runtime schema.
+# Replace synthetic values through existing governed work/context owners.
+outcome: "More eligible users complete the first useful task"
+metric: {name: first_value_completion, denominator: eligible_new_users, baseline: unknown}
+window: "declare before observation; no benefit claim until mature"
+trigger: {event: product_revision_observed, entity: product.example, revision: example-revision}
+dedupe_key: "product.example:example-revision:first-value-observation"
+readiness: ["current product contract", "consumer available", "fresh authority", "usable measurement"]
+branch: activation
+complements: ["verified platform method only if its seam is touched"]
+output: "observed friction and one falsifiable hypothesis"
+consumer: "existing product review owner; require actual acknowledgment"
+bounds: {attempts: 1, time_minutes: 30, cost: "within existing grant", concurrency: 1}
+stop: ["duplicate", "revoked authority", "insufficient sample", "consumer unavailable"]
+recovery: "persist partial observations; never fabricate missing sessions"
+proof: ["real journey evidence", "review consumption", "actual work receipt"]
+next: "admit one reversible intervention only after readiness and policy"

@@ -1,0 +1,48 @@
+{
+  "schema_version": "compound.release_issue_evidence.v0.1",
+  "issue_id": "REL-P0-011",
+  "status": "focused_green",
+  "recorded_at": "2026-08-30T11:41:30Z",
+  "candidate_sha": "d59a5d94619704507af74268c240ad68fe5de808",
+  "toolchain": "go1.26.4",
+  "work_id": "work_c907b6eb4c0f",
+  "governed_tdd": {
+    "run_attempt_id": "ratt_20260830T113451Z_39e2003e",
+    "red": "The new missing-inbox regression test failed because the rooted reader's generic wrapped ENOENT was not recognized by os.IsNotExist.",
+    "green": "The same test and all affected producer packages passed after preserving missing rooted-open errors as os.PathError."
+  },
+  "corrected_premise": {
+    "stale": "Fresh-home writers omitted canonical custody directories.",
+    "current": "Writers already create their requested inbox under the publication lock. The optional read probe misclassified an absent inbox before the writer ran."
+  },
+  "invariant": "Missing optional inboxes are os.IsNotExist and do not scaffold; non-ENOENT custody failures remain hard errors.",
+  "fix": {
+    "commit": "d59a5d94619704507af74268c240ad68fe5de808",
+    "owner": "internal/candidates",
+    "boundary": "candidateHome.openDirectory",
+    "behavior": "Translate only rooted Openat ENOENT to os.PathError while retaining the exact display path and errno."
+  },
+  "verification": [
+    {
+      "command": "GOTOOLCHAIN=go1.26.4 go test ./internal/candidates -count=1 -run '^TestReadCandidateMissingInboxPreservesNotExistWithoutScaffolding$'",
+      "status": "red_before_fix_green_after_fix"
+    },
+    {
+      "command": "GOTOOLCHAIN=go1.26.4 go test ./internal/candidates ./internal/distiller ./internal/executorlens ./internal/product -count=1",
+      "status": "passed"
+    },
+    {
+      "command": "GOTOOLCHAIN=go1.26.4 go test -race ./internal/candidates ./internal/distiller ./internal/executorlens ./internal/product -count=1",
+      "status": "passed"
+    },
+    {
+      "command": "GOOS=linux GOTOOLCHAIN=go1.26.4 go test -exec true ./internal/candidates",
+      "status": "passed"
+    }
+  ],
+  "reviews": {
+    "spec": "approved with no findings",
+    "quality": "ready with no critical or important findings"
+  },
+  "residual_risk": "Canonical full proof and isolated release certification remain required before closure."
+}

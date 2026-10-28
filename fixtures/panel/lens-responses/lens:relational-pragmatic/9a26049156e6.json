@@ -1,0 +1,25 @@
+{
+  "confidence": 0.55,
+  "findings": [
+    {
+      "claim": "\"are you still coming Sunday\" may function as a genuine logistics confirmation with no other content.",
+      "severity": "low",
+      "evidence_refs": ["are you still coming Sunday"]
+    },
+    {
+      "claim": "\"just checking, no reason\" may function as a disclaimer that pre-empts Dana reading the question as worry or surveillance.",
+      "severity": "medium",
+      "evidence_refs": ["just checking, no reason. I can pick you up from the station if that helps"]
+    },
+    {
+      "claim": "\"did you eat today\" may function as an indirect care check disguised as a factual question, distinct from the stated Sunday-logistics topic.",
+      "severity": "medium",
+      "evidence_refs": ["did you eat today"]
+    },
+    {
+      "claim": "\"yes mom, I'm fine\" may function as a boundary-setting move that closes the topic quickly rather than answering only the literal question.",
+      "severity": "medium",
+      "evidence_refs": ["yes mom, I'm fine"]
+    }
+  ]
+}

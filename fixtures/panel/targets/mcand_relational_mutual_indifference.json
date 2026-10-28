@@ -1,0 +1,15 @@
+{
+  "id": "mcand_relational_mutual_indifference",
+  "entity": "relational-proof",
+  "predicate": "captured_exhaust",
+  "object": "sha256:dc9e561ab03333416bbaa6382d129fe62b0aab7ca5981f654f627fb693021314",
+  "confidence": 0,
+  "derivation": "observed",
+  "promotion_basis": "",
+  "state": "proposed",
+  "visibility": "candidate",
+  "source_trace_ref": "capture:sha256:dc9e561ab03333416bbaa6382d129fe62b0aab7ca5981f654f627fb693021314",
+  "snippet_hash": "sha256:relational-mutual-indifference",
+  "created_at": "2026-07-21T10:00:00Z",
+  "transcript_text": "Alex: hey, I heard you're back in town\nSam: yeah, for a bit. no big plans though\nAlex: cool. we should grab coffee sometime, no pressure\nSam: sure, if it works out. I'm pretty busy this week\nAlex: same, it's whatever, just figured I'd mention it\nSam: yeah totally. let me know if you're around\nAlex: will do. anyway I should go, things to do\nSam: yeah me too, talk later\n"
+}

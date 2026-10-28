@@ -1,0 +1,36 @@
+{
+  "schema_version": "compound.observation_batch.v0.1",
+  "source": {
+    "kind": "google_search_console",
+    "ref": "site:https://example.invalid",
+    "captured_at": "2026-07-04T12:00:00Z",
+    "collector": "fixture-gsc-edge",
+    "privacy": "synthetic"
+  },
+  "subject": {
+    "kind": "product",
+    "id": "product:focus-notes",
+    "surface": "search",
+    "channel": "organic_search"
+  },
+  "observations": [
+    {
+      "id": "obs_fixture_gsc_clicks",
+      "observed_at": "2026-07-04T00:00:00Z",
+      "kind": "metric",
+      "metric": "clicks",
+      "value": 42,
+      "window": {
+        "start": "2026-07-01",
+        "end": "2026-07-03"
+      },
+      "dimensions": {
+        "query": "focus notes app",
+        "country": "US"
+      },
+      "raw_ref": "gsc-row:fixture-clicks",
+      "confidence": 1,
+      "evidence_refs": ["fixture:gsc:clicks"]
+    }
+  ]
+}

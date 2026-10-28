@@ -1,0 +1,1 @@
+{ "hook": "post-tool-use", "harness": "claude_code", "tool": "filesystem.write" }

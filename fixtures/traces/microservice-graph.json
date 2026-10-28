@@ -1,0 +1,11 @@
+{
+  "candidates": [
+    { "entity": "service:gateway", "predicate": "language", "object": "go", "derivation": "extracted", "source_trace_ref": "trace_arch", "confidence": 0.95 },
+    { "entity": "service:auth", "predicate": "language", "object": "go", "derivation": "extracted", "source_trace_ref": "trace_arch", "confidence": 0.95 },
+    { "entity": "lib:jwt", "predicate": "kind", "object": "library", "derivation": "extracted", "source_trace_ref": "trace_arch", "confidence": 0.9 }
+  ],
+  "relations": [
+    { "from": "service:gateway", "to": "service:auth", "kind": "depends_on", "confidence": 0.95 },
+    { "from": "service:auth", "to": "lib:jwt", "kind": "depends_on", "confidence": 0.9 }
+  ]
+}

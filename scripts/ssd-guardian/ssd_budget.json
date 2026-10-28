@@ -1,0 +1,104 @@
+{
+  "schema_version": "compound.ssd-guardian.budget.v1",
+  "free_floor_gib": 150,
+  "undeclared_alert_gib": 5,
+  "scan_roots": [
+    "$HOME",
+    "/Volumes/Work"
+  ],
+  "comment": "Every path that is allowed to grow declares a ceiling and a policy. Anything undeclared over undeclared_alert_gib is reported, which is how the next 39 GiB surprise gets caught at 5 GiB. Policies: lru_cap (evict oldest files to cap), dir_lru_cap (evict whole subdirs), age_prune (drop top-level entries older than age_days), keep_newest (retain N newest matches), report_only (measure and alert, never delete). Operator-specific paths (a private tool's cache, a personal local project) do NOT belong here: this file is tracked and this repo is destined to be public. Declare them in the gitignored overlay docs_private/ssd_budget.local.json, which enforce_ssd_budget.ts merges additively by path.",
+  "paths": [
+    {
+      "path": "$HOME/Library/Caches/go-build",
+      "policy": "report_only",
+      "cap_gib": 20,
+      "why": "daily_toolchain_reclaim.ts owns enforcement — it refuses to evict while a Go build is live. Declared here for visibility only; one path, one owner."
+    },
+    {
+      "path": "$HOME/Library/Caches/compound-proof-gocache",
+      "policy": "report_only",
+      "cap_gib": 20,
+      "why": "daily_toolchain_reclaim.ts owns enforcement (live-build guard). Declared here for visibility only."
+    },
+    {
+      "path": "/Volumes/Work/Caches/compound-proof-gocache",
+      "policy": "report_only",
+      "cap_gib": 80,
+      "why": "daily_toolchain_reclaim.ts owns enforcement. Declared here for visibility only."
+    },
+    {
+      "path": "$TMPDIR",
+      "policy": "age_prune",
+      "cap_gib": 5,
+      "age_days": 1,
+      "why": "macOS only purges this at boot, and only past 3 days. Killed test batteries leak dirs here."
+    },
+    {
+      "path": "$HOME/.compound/exports",
+      "policy": "keep_newest",
+      "cap_gib": 6,
+      "keep": 1,
+      "why": "Daily full tarball of ~/.compound written onto the disk it backs up. One local copy is the most that is ever useful."
+    },
+    {
+      "path": "$HOME/Library/Caches/Homebrew",
+      "policy": "report_only",
+      "cap_gib": 3,
+      "why": "daily_toolchain_reclaim.ts runs `brew cleanup`. Declared here for visibility only."
+    },
+    {
+      "path": "$HOME/.cargo/registry",
+      "policy": "report_only",
+      "cap_gib": 5,
+      "why": "daily_toolchain_reclaim.ts owns the cargo step. Declared here for visibility only."
+    },
+    {
+      "path": "$HOME/.codex/sessions",
+      "policy": "report_only",
+      "cap_gib": 10,
+      "why": "Agent transcripts, 90d deep, nothing prunes. Real history: alert before deleting. Compresses ~3.2x."
+    },
+    {
+      "path": "$HOME/.claude/projects",
+      "policy": "report_only",
+      "cap_gib": 8,
+      "why": "Agent transcripts, 213d deep, 40k files."
+    },
+    {
+      "path": "$HOME/.compound/events",
+      "policy": "report_only",
+      "cap_gib": 12,
+      "why": "Event store. Immutable by design — never auto-delete."
+    },
+    {
+      "path": "$HOME/.hermes",
+      "policy": "report_only",
+      "cap_gib": 12,
+      "why": "148k files, 151d deep, includes a 2.8 GiB state.db plus pre-update snapshots."
+    },
+    {
+      "path": "$HOME/.switchback/state/body",
+      "policy": "report_only",
+      "cap_gib": 6,
+      "why": "Captured request/response bodies."
+    },
+    {
+      "path": "$HOME/.switchback/state/mode-d",
+      "policy": "report_only",
+      "cap_gib": 5,
+      "why": "Mode-D proxy capture."
+    },
+    {
+      "path": "$HOME/Library/Developer/CoreSimulator/Devices",
+      "policy": "report_only",
+      "cap_gib": 15,
+      "why": "Erase is handled by the simctl step with its own idle gate."
+    },
+    {
+      "path": "$HOME/Projects",
+      "policy": "report_only",
+      "cap_gib": 140,
+      "why": "Working trees. Build artifacts are swept separately."
+    }
+  ]
+}

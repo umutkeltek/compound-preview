@@ -1,0 +1,4 @@
+{
+  "confidence": 0.74,
+  "findings": [{"claim": "The claim can be checked by inspecting the synthetic configuration source again.", "severity": "low", "evidence_refs": ["trace://synthetic-dissent"]}]
+}

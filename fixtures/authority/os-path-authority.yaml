@@ -1,0 +1,35 @@
+version: 1
+generated: false
+status: wave0_active
+canonical_roots:
+  control_spine:
+    path: ~/Projects/control-spine/root
+    status: active
+    owns:
+      - control spine
+      - generated views
+  meaning_store:
+    path: ~/brain
+    status: active_index
+    owns:
+      - durable meaning
+stale_or_compat_roots:
+  old_control_spine:
+    path: ~/Projects/old-control-spine
+    status: retired_archived
+    retired: 2026-06-10
+    allowed_use: none
+    write_policy: forbidden
+  old_decisions:
+    path: ~/Desktop/decisions
+    status: missing_stale
+    allowed_use: none
+    write_policy: forbidden
+  folded_agent_context:
+    path: ~/Projects/control-spine/agent-context
+    status: retired_merged
+    moved_to: control-spine/contracts
+    allowed_use: pointer_only
+    write_policy: forbidden
+rules:
+  generated_views_hand_edit_policy: forbidden

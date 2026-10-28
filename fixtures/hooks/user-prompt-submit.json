@@ -1,0 +1,1 @@
+{ "hook": "user-prompt-submit", "harness": "claude_code", "cwd": "/repo/productX", "task": "fix onboarding copy", "repo_kind": "product", "prompt": "the onboarding screen copy is confusing, please fix it" }

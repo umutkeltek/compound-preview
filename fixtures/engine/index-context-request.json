@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "request_id": "req_fixture_index_context",
+  "op": "index",
+  "corpus_gen": 42,
+  "claims": [
+    {
+      "claim_id": "claim_app_runtime",
+      "text": "app runtime go",
+      "entity": "app",
+      "claim_type": "architecture",
+      "seq": 7,
+      "created_at": "2026-07-02T00:00:00Z",
+      "confidence": 0.91,
+      "derivation": "deterministic",
+      "evidence_n": 2
+    }
+  ],
+  "edges": [
+    {
+      "from": "app",
+      "kind": "depends_on",
+      "to": "auth",
+      "confidence": 0.9
+    }
+  ],
+  "allowlist": null
+}

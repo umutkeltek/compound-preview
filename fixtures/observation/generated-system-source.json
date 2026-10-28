@@ -1,0 +1,28 @@
+{
+  "schema_version": "compound.observation_batch.v0.1",
+  "source": {
+    "kind": "compound_projection",
+    "ref": "compound://projection/workbench-read-model",
+    "captured_at": "2026-07-04T12:00:00Z",
+    "collector": "fixture-generated-source-edge",
+    "privacy": "synthetic"
+  },
+  "subject": {
+    "kind": "projection",
+    "id": "compound://projection/workbench",
+    "surface": "operator",
+    "channel": "workbench"
+  },
+  "observations": [
+    {
+      "id": "obs_fixture_generated_workbench",
+      "observed_at": "2026-07-04T12:00:00Z",
+      "kind": "generated_view",
+      "title": "Fixture workbench projection drift",
+      "content": "Synthetic generated view says the workbench projection drifted from source authority.",
+      "raw_ref": "compound://projection/workbench-read-model#fixture",
+      "confidence": 0.9,
+      "evidence_refs": ["artifact_sha256:fixture-workbench"]
+    }
+  ]
+}

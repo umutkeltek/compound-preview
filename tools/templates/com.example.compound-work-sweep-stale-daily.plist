@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Template only. Replace every PLACEHOLDER value before installing.
+
+WHY THIS EXISTS
+  `compound work sweep-stale` advances stuck WorkEnvelopes (claimed/running/
+  verifying with no lifecycle activity and no live attempt / delegate /
+  land-lease) to a terminal state. The run-attempt sweep is its sibling but
+  owns a different organ: run_attempts/*.json, NOT work/work/*.json.
+
+  The default mode is DRY-RUN. This template runs dry-run daily so the
+  operator gets a fresh candidate list to review without the verb ever
+  silently reclaiming anything. Promotion to `--yes` is a deliberate
+  operator decision and is NOT exposed by this template — the operator must
+  hand-install a second template if they want the apply cadence, and they
+  should review the dry-run output first.
+
+  Default threshold is 72h (matches work.DefaultSweepStaleThreshold). Edit
+  the ProgramArguments below to tighten it once the live dataset is clean.
+
+  CRITICAL: do NOT install this template against a home that has any
+  currently-claimed or currently-running work owned by a live lane. The
+  --dry-run default protects you from silent reclaim, but a follow-up
+  hand-installed --yes schedule WILL reclaim anything that fits the
+  candidate rules. Run the dry-run, read the candidate list, then arm the
+  apply template.
+
+Install example:
+  mkdir -p "${HOME}/Library/LaunchAgents"
+  cp tools/templates/com.example.compound-work-sweep-stale-daily.plist \
+     "${HOME}/Library/LaunchAgents/com.example.compound-work-sweep-stale-daily.plist"
+  launchctl bootstrap "gui/$(id -u)" \
+     "${HOME}/Library/LaunchAgents/com.example.compound-work-sweep-stale-daily.plist"
+
+Verify it is actually running (do not trust the install alone):
+  launchctl print "gui/$(id -u)/com.example.compound-work-sweep-stale-daily" | head
+  compound work sweep-stale
+
+Unload example:
+  launchctl bootout "gui/$(id -u)" \
+     "${HOME}/Library/LaunchAgents/com.example.compound-work-sweep-stale-daily.plist"
+-->
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.example.compound-work-sweep-stale-daily</string>
+  <key>ProgramArguments</key>
+  <array>
+    <!-- absolute path to the compound binary -->
+    <string>PLACEHOLDER</string>
+    <string>work</string>
+    <string>sweep-stale</string>
+    <!-- dry-run is the default; the explicit flag is documentation, not
+         a gate. --json keeps the candidate list machine-parseable for
+         operator dashboards. -->
+    <string>--dry-run</string>
+    <string>--json</string>
+    <!-- threshold default is 72h; tighten here only after the dry-run
+         output proves the candidate set is what you expect. -->
+    <string>--threshold</string>
+    <string>72h</string>
+  </array>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>COMPOUND_HOME</key>
+    <string>PLACEHOLDER</string>
+  </dict>
+  <!-- Daily. The sweep threshold is 72h; a daily cadence is the right
+       resolution for human review (a stale envelope does not need
+       minute-level detection — by definition it has been silent for
+       days). RunAtLoad fires once on bootstrap so an operator who
+       installs the template gets a baseline candidate list immediately,
+       not 24h later. -->
+  <key>StartInterval</key>
+  <integer>86400</integer>
+  <key>RunAtLoad</key>
+  <true/>
+  <key>StandardOutPath</key>
+  <string>PLACEHOLDER</string>
+  <key>StandardErrorPath</key>
+  <string>PLACEHOLDER</string>
+</dict>
+</plist>

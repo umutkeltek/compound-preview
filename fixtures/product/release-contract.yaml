@@ -1,0 +1,10 @@
+schema_version: 1
+project: source-contract-demo
+release_status: fixture_ready_for_review
+release_identity:
+  bundle_id: com.example.sourcecontractdemo
+  app_store_connect_app_id: "app-demo-sourcecontract"
+  version: 1.0.0
+  build: 42
+  subscription_product_ids:
+    - com.example.sourcecontractdemo.pro.monthly

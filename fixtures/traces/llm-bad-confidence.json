@@ -1,0 +1,13 @@
+{
+  "schema_version": "compound.distiller.llm_extraction.v0.1",
+  "trace_ref": "trace_reject_bad_confidence",
+  "source_refs": ["raw:turn_1"],
+  "candidates": [
+    {
+      "kind": "skill",
+      "subject": "distiller.eval",
+      "statement": "confidence outside the contract",
+      "confidence": 1.2
+    }
+  ]
+}

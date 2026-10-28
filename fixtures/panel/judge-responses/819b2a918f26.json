@@ -1,0 +1,6 @@
+{
+  "decision": "promote",
+  "confidence": 0.82,
+  "rationale": "Most lenses support promotion, but one lens requests narrowing before durable recall.",
+  "dissent": [{"lens_ref": "lens:fossilization-risk", "position": "needs_human", "note": "The claim should be narrowed to configuration state before promotion."}]
+}

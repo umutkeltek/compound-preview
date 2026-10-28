@@ -1,0 +1,56 @@
+{
+  "schema_version": "compound.release_issue_evidence.v0.1",
+  "issue_id": "REL-P0-013",
+  "status": "focused_green",
+  "recorded_at": "2026-08-30T08:25:38Z",
+  "pre_fix_sha": "2b3b58fa2cc94940d2b71e61a4a11da2536be05f",
+  "fix_shas": [
+    "eb5ede88c7ed5819bcec6d794baca5391a4b835a",
+    "27c88080878dbe9053db4ec6fb571bb616300597"
+  ],
+  "red": {
+    "run_attempt_id": "ratt_20260830T065122Z_fa6eace0",
+    "test": "TestCeremonyOverlaySyncIsSafeUnderConcurrentInstallers",
+    "command": "GOTOOLCHAIN=go1.26.4 go test -count=20 ./internal/arch -run \"^TestCeremonyOverlaySyncIsSafeUnderConcurrentInstallers$\"",
+    "exit_code": 1,
+    "first_relevant_error": "concurrent ln failed because the shared published SKILL.md already existed",
+    "meaning": "Direct rm followed by ln exposed a missing overlay and made concurrent installers race the same destination."
+  },
+  "fix_invariant": {
+    "preparation": "Create a process-unique pending symlink in the destination directory.",
+    "publication": "Use same-directory mv -f to atomically replace the published overlay.",
+    "cleanup": "A POSIX EXIT trap removes the current pending path; HUP, INT, and TERM exit through that trap.",
+    "concurrency": "A deterministic ln barrier forces 24 installers to prepare concurrently and every worker is drained before assertion."
+  },
+  "focused_verification": [
+    {
+      "run_attempt_id": "ratt_20260830T070915Z_02345f0f",
+      "command": "GOTOOLCHAIN=go1.26.4 go test -count=20 ./internal/arch -run \"^TestCeremonyOverlaySync(IsSafeUnderConcurrentInstallers|RemovesPendingLinkOnTermination)$\"",
+      "exit_code": 0,
+      "duration_seconds": 13.829
+    },
+    {
+      "run_attempt_id": "ratt_20260830T070915Z_02345f0f",
+      "command": "GOTOOLCHAIN=go1.26.4 go test -race -count=1 ./internal/arch -run \"^TestCeremonyOverlaySync(IsSafeUnderConcurrentInstallers|RemovesPendingLinkOnTermination)$\"",
+      "exit_code": 0,
+      "duration_seconds": 2.006
+    }
+  ],
+  "governed_execution": {
+    "work_id": "work_946a6554daa2",
+    "run_attempt_id": "ratt_20260830T070915Z_02345f0f",
+    "status": "succeeded",
+    "verified_source_sha": "27c88080878dbe9053db4ec6fb571bb616300597"
+  },
+  "independent_review": {
+    "spec": "approved",
+    "code_quality": "approved",
+    "blocking_findings": 0
+  },
+  "broad_verification": {
+    "command": "GOTOOLCHAIN=go1.26.4 go test ./internal/arch",
+    "exit_code": 1,
+    "classification": "unrelated REL-P0-012 cmd/compound LOC ratchet; overlay tests green"
+  },
+  "canonical_broad_status": "pending REL-P0-012 remediation and a fresh source-bound canonical proof"
+}

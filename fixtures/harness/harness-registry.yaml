@@ -1,0 +1,68 @@
+schema_version: compound.harness_registry.v0.1
+id: fixture-harness-registry
+adapter_id: fixture.harness-registry
+source_system: fixture-os
+observed_at: "2026-06-29T12:00:00Z"
+source_ref:
+  path: fixtures/harness/harness-registry.yaml
+  kind: registry
+  owner: fixture-harness-owner
+  source_class: generated
+  revision: sha256:harness-fixture
+harnesses:
+  - name: codex
+    instruction_mechanism: AGENTS.md + hooks + skills
+    capabilities:
+      session_start_context: true
+      user_prompt_context: true
+      pre_tool_use_block: true
+      post_tool_use_event: true
+      stop_feedback: true
+      session_end_receipt: true
+      native_skills: true
+      mcp: true
+    limitations:
+      - native PreToolUse requires the stable hooks feature and an installed trusted hook
+  - name: claude_code
+    instruction_mechanism: CLAUDE.md + hooks + skills
+    capabilities:
+      session_start_context: true
+      user_prompt_context: true
+      pre_tool_use_block: true
+      post_tool_use_event: true
+      session_end_receipt: true
+      native_skills: true
+      mcp: true
+    limitations:
+      - hook behavior can vary by installation
+  - name: hermes
+    instruction_mechanism: AGENTS.md + plugin lifecycle hooks + skills + MCP
+    capabilities:
+      session_start_context: true
+      user_prompt_context: true
+      pre_tool_use_block: true
+      post_tool_use_event: true
+      stop_feedback: false
+      session_end_receipt: true
+      native_skills: true
+      mcp: true
+    limitations:
+      - native blocking requires an installed and content-attested Compound plugin
+      - no-agent cron and script execution requires a wrapper or action contract
+  - name: opencode
+    instruction_mechanism: config instructions + plugins + native skills
+    capabilities:
+      session_start_context: true
+      user_prompt_context: true
+      pre_tool_use_block: false
+      post_tool_use_event: true
+      stop_feedback: false
+      session_end_receipt: false
+      native_skills: true
+      mcp: true
+    limitations:
+      - tool.execute.before cannot deny; the Compound integration does not register it
+      - injection and observation callbacks fail open
+      - no proven SessionEnd or Stop mapping
+evidence_refs:
+  - harness_registry_fixture:sha256:harness-fixture

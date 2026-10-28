@@ -1,0 +1,12 @@
+projection_id: projection:synthetic-runtime-dashboard
+view_ref: generated-dashboard.md
+source_refs:
+  - source-ledger.jsonl
+source_ledger_seq: 8
+built_at: "2026-06-29T00:00:00Z"
+max_age_hours: 240
+generator: fixture-dashboard-generator
+coverage_verdict: complete
+expected_output_hash: sha256:64cb04c037d8557360f5b347b6ec14fc620349bc2c622105e8a0cd18d786b058
+expected_source_hashes:
+  source-ledger.jsonl: sha256:5d2fddcd277fb2475c888d4457c2d2cbd9e081dd5e5aeba1b965ae106e3f7805

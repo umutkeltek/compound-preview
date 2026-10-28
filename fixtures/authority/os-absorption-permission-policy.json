@@ -1,0 +1,24 @@
+{
+  "schema_version": "compound.os_absorption_source_matrix.v0.1",
+  "authority_ref": "compound://registries/os-absorption-source-matrix",
+  "rows": [
+    {
+      "id": "os_source_claude_code_permission_policy",
+      "source_ref": "source://operating-system/spine/permission-registration.ts",
+      "source_kind": "typescript_policy_writer",
+      "source_revision": "sha256:c9f884e2992c654318394116389c66ab4ecb7215ac304ca16589872d1c404731",
+      "old_owner": "operating-system TypeScript permission registration",
+      "old_role": "permission-policy authority and hybrid settings writer",
+      "current_role": "compatibility and reviewed import evidence",
+      "privacy": "private",
+      "compound_owner": "compound://config/harness-permissions/claude_code",
+      "consumer": "compound harness generate and compound harness drift",
+      "proof": "reviewed parity, managed-slice renderer tests, and drift red/green",
+      "retirement_gate": "reviewed parity; clean drift; warning-free live load; idempotent second render; no independent legacy policy writer",
+      "status": "pending",
+      "evidence_refs": [
+        "source_sha256:c9f884e2992c654318394116389c66ab4ecb7215ac304ca16589872d1c404731"
+      ]
+    }
+  ]
+}

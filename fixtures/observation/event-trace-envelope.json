@@ -1,0 +1,39 @@
+{
+  "schema_version": "compound.observation_batch.v0.1",
+  "source": {
+    "kind": "event_stream",
+    "ref": "compound://events/synthetic-observation",
+    "captured_at": "2026-07-04T12:00:00Z",
+    "collector": "fixture-event-edge",
+    "privacy": "synthetic"
+  },
+  "subject": {
+    "kind": "workflow",
+    "id": "workflow:observation-intake",
+    "surface": "runtime",
+    "channel": "event_stream"
+  },
+  "observations": [
+    {
+      "id": "obs_fixture_event_trace",
+      "observed_at": "2026-07-04T12:00:00Z",
+      "kind": "event",
+      "title": "Observation event became trace material",
+      "raw_ref": "event-row:fixture-observation-trace",
+      "confidence": 1,
+      "dimensions": {
+        "event_kind": "workflow.step.completed",
+        "event_class": "workflow",
+        "mutation_class": "local_artifact_write",
+        "metadata_quality": "complete",
+        "project": "compound",
+        "path": "state/observation-event-imports/fixture.ndjson",
+        "caller": "fixture-event-edge",
+        "run_id": "run_fixture_event"
+      },
+      "evidence_refs": [
+        "artifact_sha256:fixture-event"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,82 @@
+{
+  "schema_version": "compound.release_issue_evidence.v0.1",
+  "issue_id": "REL-P0-012",
+  "status": "focused_green",
+  "recorded_at": "2026-08-30T11:10:30Z",
+  "candidate_sha": "2f76a2b1181a305760a5ae90bfcc81c6aaf984ca",
+  "toolchain": "go1.26.4",
+  "work_id": "work_16d092567e7c",
+  "governed_tdd": {
+    "run_attempt_id": "ratt_20260830T105101Z_1652a614",
+    "red": "new internal/mem and cmd/compound tests failed because RunCauseConsumptionCLI was undefined before implementation",
+    "green": [
+      "compound/internal/mem selected tests passed in 2.273s",
+      "compound/cmd/compound selected tests passed in 2.774s",
+      "TestCheckCmdCompoundBudgetPassesOnRealRepo passed"
+    ],
+    "transcript": "run-attempt:ratt_20260830T105101Z_1652a614"
+  },
+  "before": {
+    "source_sha": "29b3d4355167f58d5710f53a79dc4537f0696cf5",
+    "cmd_compound_non_test_go_loc": 52849,
+    "ceiling": 52791,
+    "over_by": 58,
+    "falsifier": "GOTOOLCHAIN=go1.26.4 go test -count=1 -v ./internal/arch -run ^TestCheckCmdCompoundBudgetPassesOnRealRepo$",
+    "result": "failed in 0.446s"
+  },
+  "fix": {
+    "commit": "2f76a2b1181a305760a5ae90bfcc81c6aaf984ca",
+    "subject": "refactor(mem): own cause consumption CLI",
+    "ownership": "cause-consumption command orchestration and rendering moved from cmd/compound into existing internal/mem owner",
+    "cmd_compound_non_test_go_loc": 52786,
+    "ceiling": 52791,
+    "headroom": 5,
+    "preserved": [
+      "JSON output",
+      "human output and five-tier order",
+      "exact recorded path stderr",
+      "read-only no-record mode",
+      "permissive unknown arguments",
+      "one clock read without record and two with record",
+      "error to exit-1 process adapter"
+    ]
+  },
+  "verification": [
+    {
+      "command": "GOTOOLCHAIN=go1.26.4 go test ./internal/mem ./cmd/compound -count=5 -run ^(TestRunCauseConsumptionCLI|TestCmdMemoryConsumption)",
+      "status": "passed",
+      "package_seconds": {"internal/mem": 16.172, "cmd/compound": 16.486}
+    },
+    {
+      "command": "GOTOOLCHAIN=go1.26.4 go test -race ./internal/mem ./cmd/compound -count=1 -run ^(TestRunCauseConsumptionCLI|TestCmdMemoryConsumption)",
+      "status": "passed",
+      "package_seconds": {"internal/mem": 2.923, "cmd/compound": 3.488}
+    },
+    {
+      "command": "GOTOOLCHAIN=go1.26.4 go test ./internal/mem -count=1",
+      "status": "passed",
+      "package_seconds": 14.321
+    },
+    {
+      "command": "GOTOOLCHAIN=go1.26.4 go test ./internal/arch -count=1",
+      "status": "passed after explicitly staging the deleted and new files for tracked-tree leak inspection",
+      "package_seconds": 319.974
+    },
+    {
+      "command": "GOTOOLCHAIN=go1.26.4 go test -count=1 -v ./internal/arch -run ^TestCheckCmdCompoundBudgetPassesOnRealRepo$",
+      "status": "passed on clean committed source",
+      "package_seconds": 0.296
+    }
+  ],
+  "intermediate_refusal": {
+    "command": "GOTOOLCHAIN=go1.26.4 go test ./internal/arch -count=1",
+    "status": "failed before staging",
+    "reason": "doc-leak correctly refused a deleted tracked path that remained in the Git index; the same output already reported the LOC gate green at 52786/52791",
+    "resolution": "stage only the six scoped files, rerun unchanged full package"
+  },
+  "reviews": {
+    "spec": "compliant with no findings",
+    "quality": "ready; no critical or important findings; optional short-write and child exit-path hardening noted"
+  },
+  "residual_risk": "Focused, race, full internal/mem, and full architecture proof are green. Canonical full proof and isolated certifier remain required before closure."
+}

@@ -1,0 +1,800 @@
+{
+  "schema_version": "compound.release_issues.v0.1",
+  "base_sha": "61442538",
+  "branch": "fix/sweep-stale-reclaim-txn-20260903",
+  "updated_at": "2026-09-04T00:00:00Z",
+  "issues": [
+    {
+      "id": "REL-P0-001",
+      "severity": "P0",
+      "subsystem": "work-close",
+      "title": "Duplicate close lease-transfer gate",
+      "status": "fixing",
+      "reproducer": "Inject close failures at every publication boundary, then race delegated refusal/cleanup against a frozen close. Invoke delegate/status/dry-run without experimental admission and use a non-whole-second close timestamp.",
+      "root_cause": "Close originally transferred lease authority before its final recoverable boundary. Later hardening exposed coupled authority leaks: delegated mutation could cross a frozen close, delegate CLI entry eagerly opened a writable store and implicitly swept attempts before parse/admission, and ClosePlan rebuilt an evaluated decision without restoring the exact context-pack binding.",
+      "invariant": "A failed close cannot transfer the lease or publish a successful steal trail; frozen close authority fences every competing mutation; read-only or unadmitted CLI paths have zero side effects; the validated Receipt, WorkEnvelope, and closing event persist one exact timestamp; exact retry succeeds.",
+      "red_test": "Fresh red at e0d197f809f914e8e943ae56dd8295d987ac0b37: TestDelegateFrozenCloseFencesPreMintRefusalPublications, TestDelegateFrozenCloseFencesPreMintSessionCleanup, and TestDelegateRefusalPublicationRechecksConcurrentFrozenClose fail on authority_changed/runner-state invariants. Governed recovery also reproduced the non-whole-second close timestamp mismatch before state mutation. v4 red at 0da0f321: TestCloseHoldsSharedWorkAdmissionThroughTerminalization fails with 'close terminalization ran outside shared work admission' — close terminalization prepare -> terminal write -> RunAttempt terminalize -> lease release ran without holding the shared work-admission inode every RunAttempt liveness write already holds.",
+      "fix_commits": [
+        "ec080dbef6865ba2e0b3db8798e86fe5a90c2a88",
+        "3eb9ea6bb0dde318db42a26e65c663ea8960c87e",
+        "1e3de7237bc1ca19d6a57649eaa9ddc9ea7daffc",
+        "cba74e4dc08bf7a1da8c33ac2323ffced252ee74",
+        "354275cccd200fe15fe24d1bb7cf7a3493ebe6e2",
+        "bc7c1494945e15e4146355aad0bd1621f6750ce4",
+        "5dfec9f7bb566b3181a7d94b5cb0d0ecdc4266e0",
+        "49b54682dbbb852f309182ce441796501f24e715",
+        "225d69697fff127a54d6c937dbe5895a26bbc045",
+        "a9fa0286"
+      ],
+      "focused_tests": [
+        "GOTOOLCHAIN=go1.26.4 go test ./internal/work -run <close-focused-regressions> -count=1 (pass, 10.879s)",
+        "GOTOOLCHAIN=go1.26.4 go test -race ./internal/work -run <close-focused-regressions> -count=1 (pass, 10.999s)",
+        "GOTOOLCHAIN=go1.26.4 go test ./internal/work -run '^(TestCloseNonWholeSecondPersistsOneExactTimestamp|TestCloseCrashAfterFirstEnvelopeWithNoPreparedAttemptsUsesOneGeneration|TestCloseResumesLegacyPreparedActionIdentityAfterUpgrade|TestCrashGapReconcileMapsEveryWorkCloseOutcome)$' -count=1 (pass at 49b54682, 2.493s)",
+        "GOTOOLCHAIN=go1.26.4 go test -race ./internal/work -run '^(TestCloseNonWholeSecondPersistsOneExactTimestamp|TestCloseCrashAfterFirstEnvelopeWithNoPreparedAttemptsUsesOneGeneration|TestCloseResumesLegacyPreparedActionIdentityAfterUpgrade|TestCrashGapReconcileMapsEveryWorkCloseOutcome)$' -count=1 (pass at 49b54682, 3.853s)",
+        "GOTOOLCHAIN=go1.26.4 go test ./cmd/compound -run '^(TestWorkDelegate.*|TestExperimentalDelegateMutationEnablementHasOneProductionOwner)$' -count=1 (pass at 225d6969, 13.483s)",
+        "GOTOOLCHAIN=go1.26.4 go test ./internal/work -run '^(TestDelegateMutationPackageGateDefaultsOff|TestDelegateFrozenClose.*|TestDelegateRefusalPublicationRechecksConcurrentFrozenClose|TestDelegateDryRunNeverSpawnsOrPersists|TestDelegateRefusesFrozenCloseBeforeMint|TestOpenReadOnlyRefusesLifecycleMutationOnPreparedHome)$' -count=1 (pass at 225d6969, 5.916s)",
+        "GOTOOLCHAIN=go1.26.4 go test -race ./cmd/compound -run '^(TestWorkDelegate.*|TestExperimentalDelegateMutationEnablementHasOneProductionOwner)$' -count=1 (pass at 225d6969, 17.971s)",
+        "GOTOOLCHAIN=go1.26.4 go test -race ./internal/work -run '^(TestDelegateMutationPackageGateDefaultsOff|TestDelegateFrozenClose.*|TestDelegateRefusalPublicationRechecksConcurrentFrozenClose|TestDelegateDryRunNeverSpawnsOrPersists|TestDelegateRefusesFrozenCloseBeforeMint|TestOpenReadOnlyRefusesLifecycleMutationOnPreparedHome)$' -count=1 (pass at 225d6969, 6.556s)",
+        "go test ./internal/work -run TestCloseHoldsSharedWorkAdmissionThroughTerminalization -count=1 -v (RED on 0da0f321: 'close terminalization ran outside shared work admission', 9.047s)",
+        "go test ./internal/work -run TestCloseHoldsSharedWorkAdmissionThroughTerminalization -count=1 -v (GREEN post a9fa0286, 3.019s)",
+        "go test ./internal/work -run 'Close|Terminal|Delegate|SweepStale|Reclaim|RunAttempt' -count=1 (pass, 565.520s, run alone/detached per contention guidance)",
+        "go test ./internal/work -count=1 -timeout=20m (pass, 479.301s, run alone/detached)",
+        "go test ./internal/runattempt ./internal/home -count=1 (runattempt 102.677s, home 238.012s; both pass)",
+        "go vet ./internal/work/ (pass); gofmt -l over changed .go files clean"
+      ],
+      "broad_tests": [
+        "GOTOOLCHAIN=go1.26.4 go test ./internal/work -count=1 (failed: default 10m timeout)"
+      ],
+      "evidence_paths": [
+        "release-evidence/runs/20260829-initial-inventory.json",
+        "release-evidence/runs/20260829-p0-001-close-review.json",
+        "release-evidence/runs/20260830-p0-001-delegate-red.json",
+        "release-evidence/runs/20260830-p0-001-governed-recovery.json",
+        "release-evidence/runs/20260830-p0-001-containment-green.json"
+      ],
+      "residual_risk": "Focused and race matrices are green through 225d6969; close terminalization admission lock CLOSED by a9fa0286 (one Store helper withCloseAdmissionLock wraps homepkg.WithWorkAdmissionLock; completeClosePending's terminalization section runs strictly under the same authority every RunAttempt liveness write holds; TestCloseHoldsSharedWorkAdmissionThroughTerminalization green, focused close suite 565.520s green, full internal/work broad run 479.301s green). Integration with current main, full affected-package broad battery, and the canonical proof-check battery remain pending. Opted-in delegate TOCTOU and crash-atomicity are outside v0.1 and tracked as REL-P1-013.",
+      "owner": "orchestrator:codex:release-harden-20260829",
+      "updated_at": "2026-09-04T03:00:00Z"
+    },
+    {
+      "id": "REL-P0-002",
+      "severity": "P0",
+      "subsystem": "memory-pagination",
+      "title": "Memory cursor skips scanned-but-unprocessed candidates",
+      "status": "focused_green",
+      "reproducer": "TestAdjudicatePendingWriteCapPinsResumeBeforeUnreadPageRemainder failed at bdd19c86: the scan-page tail jumped over two of five actionable candidates; the proposed-generation race additionally completed past a newer still-proposed row.",
+      "root_cause": "Walk progress, decision progress, and committed mutation progress shared one cursor; CAS misses were also classified as terminal skips without observing whether the winning generation remained actionable.",
+      "invariant": "Cursor resume never jumps over unfinished actionable work and never duplicates an actionable transition.",
+      "red_test": "TestAdjudicatePendingWriteCapPinsResumeBeforeUnreadPageRemainder; TestAdjudicatePendingSmallCapMatrixHasNoGapsOrDuplicateMutations; TestAdjudicatePendingConcurrentProposedRewritePinsCursorForRetry; TestAdjudicatePendingMutationFailurePinsBeforeFailedCandidateAndRetryFinishes.",
+      "fix_commits": [
+        "1fe0fcdca88669d7670b823b7bb5129f9878abac"
+      ],
+      "focused_tests": [
+        "GOTOOLCHAIN=go1.26.4 go test ./internal/candidates ./internal/mem ./internal/promotedriver -count=1",
+        "GOTOOLCHAIN=go1.26.4 go test -race ./internal/candidates ./internal/mem ./internal/promotedriver -count=1",
+        "GOTOOLCHAIN=go1.26.4 go vet ./internal/candidates ./internal/mem ./internal/promotedriver ./cmd/compound"
+      ],
+      "broad_tests": [],
+      "evidence_paths": [
+        "release-evidence/runs/20260830-p0-002-p0-003-focused-green.json"
+      ],
+      "residual_risk": "Focused and race proofs are green. Canonical broad proof-check is still required before closure; post-rename durability ambiguity is tracked separately in REL-P1-007.",
+      "owner": "orchestrator:codex:release-harden-20260829",
+      "updated_at": "2026-08-30T02:30:16Z"
+    },
+    {
+      "id": "REL-P0-003",
+      "severity": "P0",
+      "subsystem": "candidate-custody",
+      "title": "Canonical candidate identity and path custody",
+      "status": "focused_green",
+      "reproducer": "At bdd19c86, point reads and the pending walker accepted blank-ID, filename/JSON mismatch, alias, and symlink candidates; the post-sweep census also followed raw paths.",
+      "root_cause": "Candidate readers independently reopened joined pathnames and derived identity from caller strings instead of a descriptor-rooted record that binds root, entry filename, body ID, file generation, and digest.",
+      "invariant": "Only a regular non-symlink file with canonical filename and matching nonblank JSON ID resolved inside the candidate root is actionable.",
+      "red_test": "TestMemoryCandidatePointReadRejectsNoncanonicalCustody; TestAdjudicatePendingNamesEveryCustodyCorruptionAndNeverActsOnIt; TestReconcilePendingStateRefusesCandidateCustodyCorruption; candidate ReadPage/ReadRecord corruption tables.",
+      "fix_commits": [
+        "1fe0fcdca88669d7670b823b7bb5129f9878abac",
+        "02ef09767c66726053dab530f8e73b4a3e932a4a"
+      ],
+      "focused_tests": [
+        "GOTOOLCHAIN=go1.26.4 go test ./internal/candidates ./internal/mem ./internal/promotedriver -count=1",
+        "GOTOOLCHAIN=go1.26.4 go test -race ./internal/candidates ./internal/mem ./internal/promotedriver -count=1",
+        "GOTOOLCHAIN=go1.26.4 go test ./cmd/compound -run 'Test(ParseMemoryAfterCursorAcceptsTokenOrFilenameAndRejectsPaths|MemoryAdjudicateNoArgExitsTwoWithUsage|MemoryAdjudicateUnknownIDNamesSearchedLocationAndDoor)$' -count=1",
+        "GOTOOLCHAIN=go1.26.4 go test -count=1 ./internal/candidates ./internal/mem ./internal/negatives ./internal/projection ./internal/sourceobs ./internal/decisions ./internal/contract",
+        "GOTOOLCHAIN=go1.26.4 go test -race -count=1 ./internal/candidates ./internal/mem ./internal/negatives ./internal/projection ./internal/sourceobs ./internal/decisions ./internal/contract",
+        "GOTOOLCHAIN=go1.26.4 go test -race ./internal/work -run '^(TestWorkbenchRejectsCorruptMemoryCandidateArtifactReferences|TestWorkbenchKeepsLaterValidMemoryCandidateCardAfterCorruptPanel|TestWorkbenchReportsCorruptMemoryCandidateWithoutReviewEligibility|TestWorkbenchRejectsCorruptMemoryCandidateIDsFromRunArtifacts|TestWorkbenchSurfacesRunArtifactsForHeldWork)$' -count=1",
+        "GOTOOLCHAIN=go1.26.4 go test -race ./cmd/compound -run '^(TestOrientOperatorReportMatchesRawHomeState|TestOrientOperatorUsesMemoryCandidateAuthorityForNeedsMe|TestOrientOperatorCarriesReviewedCapabilityFeedbackImpact|TestOrientOperatorTreatsConsumedSurfacingFeedbackReportTerminal|TestCandidateInboxSummaryNeverCountsCustodyCorruptionAsActionable|TestOrientOperatorSurfacesMemoryReviewCardsFromHeldRunArtifacts|TestOrientOperatorSurfacesWorkbenchCandidateIntegrity)$' -count=1",
+        "GOTOOLCHAIN=go1.26.4 go vet ./internal/candidates ./internal/mem ./internal/negatives ./internal/projection ./internal/sourceobs ./internal/decisions ./internal/contract ./internal/work ./cmd/compound"
+      ],
+      "broad_tests": [],
+      "evidence_paths": [
+        "release-evidence/runs/20260830-p0-002-p0-003-focused-green.json",
+        "release-evidence/runs/20260830-p0-003-supported-consumers-focused-green.json"
+      ],
+      "residual_risk": "The shared seam and supported v0.1 memory import/list/mutation, base-orient negatives, Workbench/coordination/operator orient, lineage, standing-law, and source-observation consumers are focused and race green. Panel, product, capability-graph, route-observation, archive, and migration readers still contain raw enumeration/read paths; those surfaces are outside the initial supported v0.1 journey and must remain experimental/private or be migrated before their support claim expands. Canonical broad proof and the REL-P1-007 durability ambiguities remain pending before closure.",
+      "owner": "orchestrator:codex:release-harden-20260829",
+      "updated_at": "2026-08-30T03:16:22Z"
+    },
+    {
+      "id": "REL-P0-004",
+      "severity": "P0",
+      "subsystem": "work-sweep",
+      "title": "Stale-work reclaim transaction",
+      "status": "fixing",
+      "reproducer": "Race liveness and same-state generation drift; freeze and semantically corrupt a checksum-valid pending frame; inject failure at every persistence and removal boundary; attempt ungated, malformed, conflicting, and repeated-threshold CLI mutation requests while snapshotting the whole temporary home.",
+      "root_cause": "The original reclaim mutated a stale snapshot, probed liveness outside the mutation boundary, and split envelope/event/lease persistence. The first recovery frame trusted checksum-valid but semantically forged facts and let delegate minting and lease repair cross a frozen reclaim. The CLI opened writable state before one shared parser had validated experimental admission, and repeated thresholds used last-value-wins semantics.",
+      "invariant": "Reclaim is per-work serialized, generation-bound, liveness-rechecked, and recoverable; durable intent binds exact envelopes, event prefix, canonical time, liveness, lease, and reason; corrupt partial state stays visibly recovery_required; lease release is last. Unsupported v0.1 mutation requires the exact experimental gate, and every read-only or rejected CLI shape is footprint-free.",
+      "red_test": "TestReclaimEnvelopeRefusesWhenGenerationChangedUnderneath; TestSweepStalePersistenceFaultsRecoverExactly; TestSweepStalePendingRejectsChecksumValidSemanticCorruption; TestSweepStalePendingCorruptionPreservesRecoveryClassification; TestSweepStalePendingRejectsForgedLastEventCandidateWithoutMutation; TestDelegateRefusesFrozenSweepStaleBeforeMint; TestLeaseRepairRefusesFrozenSweepStaleAuthorityWithoutMutation; TestRunWorkSweepStaleCLIParsesExperimentalMutationGate; TestWorkSweepStaleAdmissionUsesValidatedParser; TestWorkSweepStaleCLIOnlyValidExperimentalApplyMaterializesHome; TestDefaultSweepStaleProbeReadPathsDoNotMaterializeState.",
+      "fix_commits": [
+        "53c9dc0540ddca986f0f63ea1a3af9ee7157cd16",
+        "5ae2c2784e71c30af92d1058f8052b9e9affccb5",
+        "d5526a19a83273cc181fa821f1e55323a97ef944",
+        "25bc7de47bf78394ceecb396ace94d52a0e2db38",
+        "92ac0f8181593ebc70cd086fc5b44874450ca904",
+        "e26f496f3ae907ecb8135db4c4b3a53dab4ebacb",
+        "27984af79ddcf751b013f5e5fcef1e7dd9e5dd8a",
+        "8e60a073cf3baff0f0b3c48555521a022bca50f3",
+        "f5ca50c3",
+        "4a25078a",
+        "7bb4880f",
+        "5bcfbe01",
+        "a9fa0286"
+      ],
+      "focused_tests": [
+        "go test ./internal/runattempt -run TestLivenessIncreasingWritesHoldWorkAdmission -count=1 -v (RED on 15b12d8b: 6/6 subtests FAIL, 'work admission lock: authority root <home>/work must be materialized and safe: statat work: no such file or directory', 1.817s)",
+        "go test ./internal/runattempt -run TestLivenessIncreasingWritesHoldWorkAdmission -count=1 -v (GREEN after 4a25078a+7bb4880f: 6/6 subtests PASS, 0.661s)",
+        "go test ./internal/runattempt -count=1 (pass, 41.947s)",
+        "go test ./internal/home -run 'Admission|Work' -count=1 (pass, 4.127s)",
+        "go test ./internal/work -run 'RunAttempt|SweepStale|Reclaim|Delegate' -count=1 (pass, 64.751s, run alone/detached per contention guidance)",
+        "go test ./internal/work -run TestSweepStalePendingClearResumesAfterQuarantinedRemoval -count=1 -v (RED pre-5bcfbe01: 'recovery report ... want one exact completed reclaim'; GREEN post-fix, 5.544s)",
+        "go test ./internal/work -run 'TestSweepStale|TestReclaim' -count=1 (pass, 24.850s)",
+        "go test ./cmd/compound -run TestProofCheckAdmissionSweepAndExpiryCannotBypassLiveProcessTree -count=1 (pass, 2.040s; focused spot-check that admission-locked sweeps still protect live proof checks)",
+        "go test ./internal/work -run TestCloseHoldsSharedWorkAdmissionThroughTerminalization -count=1 -v (RED on 0da0f321: 'close terminalization ran outside shared work admission', 9.047s)",
+        "go test ./internal/work -run TestCloseHoldsSharedWorkAdmissionThroughTerminalization -count=1 -v (GREEN post a9fa0286, 3.019s)",
+        "go test ./internal/work -run 'Close|Terminal|Delegate|SweepStale|Reclaim|RunAttempt' -count=1 (pass, 565.520s, run alone/detached per contention guidance)",
+        "go test ./internal/work -count=1 -timeout=20m (pass, 479.301s, run alone/detached)",
+        "go test ./internal/runattempt ./internal/home -count=1 (runattempt 102.677s, home 238.012s; both pass)",
+        "go vet ./internal/runattempt/ ./internal/home/ ./internal/work/ (pass); gofmt -l over changed .go files clean"
+      ],
+      "broad_tests": [
+        "go test ./internal/work -count=1 -timeout=20m (v4 alone: pass, 479.301s — closed the full internal/work broad run that v2 timed out at 606s on parallel-scheduler contention; the 4-package parallel run remains open per packet's focused-only guidance)"
+      ],
+      "evidence_paths": [
+        "release-evidence/runs/20260831-p0-004-semantic-fencing-focused-green.json",
+        "release-evidence/runs/20260831-p0-004-cli-admission-focused-green.json",
+        "release-evidence/runs/20260904-p0-004-adopt-harden.json",
+        "release-evidence/runs/20260904-p0-004-close-admission-lock.json"
+      ],
+      "residual_risk": "Residual (d) cross-process RunAttempt liveness lock CLOSED by 4a25078a (home authority-root materialization door) + 7bb4880f (every liveness-increasing runattempt write -- Mint/MintWithID/MarkRunning/Heartbeat/HeartbeatProgress/CommitLaunch incl. the start callback, and the sweep tryHeartbeat renew -- now holds home.WithWorkAdmissionLock; TestLivenessIncreasingWritesHoldWorkAdmission green unmodified). Residual (c) resumable physical removal/quarantine recovery CLOSED by 5bcfbe01 (quarantined frozen sweep frame is read through the home removal chain and reconciled by the rerun). Residual (e) close terminalization admission lock CLOSED by a9fa0286 (one Store helper withCloseAdmissionLock wraps home.WithWorkAdmissionLock with the v3 home authority-root materialization door; completeClosePending's terminalization section -- terminalization prepare -> terminal write -> RunAttempt terminalize -> lease release -- now runs strictly under the same authority every RunAttempt liveness write holds; TestCloseHoldsSharedWorkAdmissionThroughTerminalization green; focused close suite 565.520s green; full internal/work broad run 479.301s green, closes the v2 606s timeout). STILL OPEN: retained land-lease mutation boundary, residual (a) every-boundary fault-matrix augmentation (TestSweepStalePersistenceFaultsRecoverExactly already covers 7 boundaries; only augmentation is open), residual (b) liveness-recheck-inside-boundary (TestSweepStaleApplyReprobesLivenessInsideMutationBoundary exists; augmentation open), canonical proof-check (cmd spot-check green only), and the 4-package parallel broad run (focused-only per packet guidance). Cross-work non-convoy during a parked launch callback remains intentionally outside the v0.1 admission support contract. work sweep-stale --yes remains outside the supported contract.",
+      "owner": "orchestrator:claude_minimax",
+      "updated_at": "2026-09-04T03:00:00Z"
+    },
+    {
+      "id": "REL-P0-005",
+      "severity": "P0",
+      "subsystem": "memory-promotion",
+      "title": "Promotion intent must bind exact execution and recovery",
+      "status": "focused_green",
+      "reproducer": "Mutate candidate or registry state after planning and interrupt each operation; require replay or finalization of the same planned pass.",
+      "root_cause": "The original apply rescanned and redecided after a coarse plan. The first frozen-pass repair still trusted mutable terminal summaries, did not frame cursor/pending finalization, allowed recapture to overwrite ordinary adjudicated candidates, and accepted semantically false operation results or a forged legacy recovery classification.",
+      "invariant": "The supported candidate-only apply seals exact target/companion pre-state and digests, promotion current-claim preconditions, cursor preconditions, ordered idempotency keys, semantic operation results, and one exact finalization frame; interruption replays or finalizes the same PassID, and the terminal receipt is a canonical projection of those prior frames.",
+      "red_test": "TestRecapturePreservesOrdinaryAdjudicatedCandidate; TestFrozenPassRecoveryRecordsMissingFinalizationOnSamePass; TestFrozenPassRecoveryReusesRecordedFinalization; TestLoadFrozenJournalRejectsTerminalSummaryDrift; TestLoadFrozenJournalRejectsFinalizationAndTerminalDrift; TestLoadFrozenJournalRejectsSemanticallyFalseOperationResult; TestLoadFrozenJournalRejectsWrongNonPromotionState; TestLoadFrozenJournalRejectsTerminalProvenanceDrift; TestValidateTerminalReceiptDoesNotMutatePlannedIntent; TestReplayableRecoveryFrameCannotSelfDeclareLegacyTerminal; plus the original target, keeper, current-claim, result, recovery, and post-terminal falsifiers.",
+      "fix_commits": [
+        "d5253234b98bc758c12268d8d947e634e50ffadd",
+        "3b26cf7bdbc6f608468b8e082ea14c428357c4f3"
+      ],
+      "focused_tests": [
+        "GOTOOLCHAIN=go1.26.4 go test ./internal/candidates ./internal/mem ./internal/promotedriver -count=1 (pass; candidates 5.304s, mem 28.203s, promotedriver 6.063s)",
+        "GOTOOLCHAIN=go1.26.4 go vet ./internal/candidates ./internal/mem ./internal/promotedriver ./cmd/compound (pass)",
+        "GOTOOLCHAIN=go1.26.4 go test -race ./internal/candidates ./internal/mem ./internal/promotedriver -count=1 (pass; candidates 24.544s, mem 28.522s, promotedriver 7.263s)",
+        "work_9635dd754046 / ratt_20260830T211028Z_cf370c2c: Go 1.26.4 mem+promotedriver package and race suites, promote-driver CLI read-only seam, vet, diff checks, and narrow commit all succeeded in 135308ms"
+      ],
+      "broad_tests": [],
+      "evidence_paths": [
+        "release-evidence/runs/20260830-p0-005-frozen-replay-focused-green.json",
+        "release-evidence/runs/20260831-p0-005-finalization-replay-focused-green.json"
+      ],
+      "residual_risk": "Registry import and lane-belief mutation remain explicitly experimental and rejected from supported apply. Candidate-only focused/race/vet proofs are green; canonical broad proof-check and an isolated governed memory-loop certifier are still required before closure.",
+      "owner": "orchestrator:codex:release-harden-20260829",
+      "updated_at": "2026-08-30T21:13:28Z"
+    },
+    {
+      "id": "REL-P0-006",
+      "severity": "P0",
+      "subsystem": "hook-budget",
+      "title": "Harness-safe hook-budget resolution",
+      "status": "focused_green",
+      "reproducer": "TestHookBudgetInvalidOverrideCannotDefeatHarnessDeadline returned 45s for invalid oh_my_pi input while the harness ceiling was 6s; the fallback regression initially failed to compile against the old three-argument gate seam; the usage regression showed oh_my_pi absent.",
+      "root_cause": "Invalid nonempty environment input collapses to the generic default while separately suppressing the shorter harness-specific deadline.",
+      "invariant": "Absent, valid, and invalid inputs are distinct; invalid or unsafe overrides cannot defeat the harness deadline.",
+      "red_test": "TestHookBudgetInvalidOverrideCannotDefeatHarnessDeadline; TestRunHookCommandWithoutHomeReusesOuterAnswerGate; TestHookUsageNamesSupportedOmpHarness",
+      "fix_commits": [
+        "77d506af33a61c9d14d8effb17a23009b7e9dea4",
+        "dde11ad5eabf288672281c73d14fbc14248e8695"
+      ],
+      "focused_tests": [
+        "GOTOOLCHAIN=go1.26.4 go test ./cmd/compound -run <hook-budget-regressions> -count=1 (pass, 0.593s)",
+        "GOTOOLCHAIN=go1.26.4 go test -race ./internal/hook ./cmd/compound -run <hook-budget-regressions> -count=1 (pass: 1.943s and 2.279s)",
+        "GOTOOLCHAIN=go1.26.4 go vet ./internal/hook ./internal/hookplan ./cmd/compound (pass)"
+      ],
+      "broad_tests": [
+        "GOTOOLCHAIN=go1.26.4 go test ./internal/hook ./internal/hookplan -count=1 (pass: 140.779s and 89.154s)"
+      ],
+      "evidence_paths": [
+        "release-evidence/runs/20260829-p0-006-hook-budget.json"
+      ],
+      "residual_risk": "Canonical proof, integration with current main, landing, and live OMP consumption remain pending. The fallback regression detects a second gate/output but source inspection, not a behavioral counter, proves no second watchdog shares the same gate.",
+      "owner": "orchestrator:codex:release-harden-20260829",
+      "updated_at": "2026-08-29T14:52:13Z"
+    },
+    {
+      "id": "REL-P0-007",
+      "severity": "P0",
+      "subsystem": "governed-execution",
+      "title": "Swept claim reservation strands governed execution failure finalization",
+      "status": "focused_green",
+      "reproducer": "Claim a work, allow its side-effect-free claim-reservation RunAttempt to be swept, then run a failing work advance --execute; automatic failed close rejects the abandoned claim attempt and leaves the work running.",
+      "root_cause": "A swept claim reservation is already terminal abandoned, so attach-time supersession cannot rewrite it. Close and ProofChainDoctor treated replacement history as outcome-neutral only for completed work; a later failed harness result therefore hit abandoned-versus-failed rejection before terminal publication. The replacement relation also needed exact result-ownership evidence: committed launch or rooted prepared+start_error, never origin alone.",
+      "invariant": "Every governed execution failure forward-links its actual RunAttempt and closes failed/audit_only even when an earlier side-effect-free claim reservation was swept.",
+      "red_test": "At production base c73ac31ee3bf24954942b3732b803bc2d5028854, TestWorkAdvanceExecuteFailureAfterSweptClaimReservationClosesFailed failed with terminal swept claim status abandoned contradicts close outcome failed; the start_error variant failed under the former executed-only replacement rule; the origin-only negative caught and rejected an over-broad intermediate fix at 871e7441.",
+      "fix_commits": [
+        "871e7441eb757a9b778c81fdc61de8550e17cf25",
+        "c7af2fb028dd052b5b09b2ead57c820325d1f234"
+      ],
+      "focused_tests": [
+        "GOTOOLCHAIN=go1.26.4 go test -count=1 ./cmd/compound -run '^(TestWorkAdvanceExecuteFailureAfterSweptClaimReservationClosesFailed|TestWorkAdvanceExecuteStartErrorAfterSweptClaimReservationClosesFailed)$' (pass, 3.544s)",
+        "GOTOOLCHAIN=go1.26.4 go test -race -count=1 ./cmd/compound -run '^(TestWorkAdvanceExecuteFailureAfterSweptClaimReservationClosesFailed|TestWorkAdvanceExecuteStartErrorAfterSweptClaimReservationClosesFailed)$' (pass, 5.884s)",
+        "GOTOOLCHAIN=go1.26.4 go test -count=1 ./internal/work -run '^(TestClose|TestRunAttempt|TestSupersededReservation)' (pass, 66.549s)",
+        "GOTOOLCHAIN=go1.26.4 go test -race -count=1 ./internal/work -run '^(TestRunAttemptOwnsHarnessOutcomeRequiresExecutedOrExactStartError|TestCloseCompletedRejectsOriginOnlyHarnessAsClaimReplacement|TestCloseFailedRejectsSweptSideEffectFreeReservation)$' (pass, 2.973s)",
+        "GOTOOLCHAIN=go1.26.4 go test -count=1 ./internal/work -run '^TestProofChain(Doctor|ForWork)' (pass, 22.112s)",
+        "GOTOOLCHAIN=go1.26.4 go test -count=1 ./internal/actuator (pass, 5.624s)",
+        "GOTOOLCHAIN=go1.26.4 go vet ./internal/work ./internal/actuator ./cmd/compound (pass)",
+        "git diff --check (pass)"
+      ],
+      "broad_tests": [],
+      "evidence_paths": [
+        "release-evidence/runs/20260829-claim-reservation-sweep-repro.json",
+        "release-evidence/runs/20260830-p0-007-governed-finalization-green.json"
+      ],
+      "residual_risk": "Pre-swept committed-failure, exact start_error, origin-only negative, proof projection, retry idempotency, race, and governed campaign execution are green. The distinct post-freeze sweep interleaving is reproduced and tracked as REL-P0-009; canonical broad proof remains blocked by REL-P0-008.",
+      "owner": "orchestrator:codex:release-harden-20260829",
+      "updated_at": "2026-08-30T03:48:09Z"
+    },
+    {
+      "id": "REL-P0-008",
+      "severity": "P0",
+      "subsystem": "proof-runtime",
+      "title": "Canonical internal/work suite exceeds the proof deadline",
+      "status": "focused_green",
+      "reproducer": "GOTOOLCHAIN=go1.26.4 go test ./internal/work -json -timeout=20m",
+      "root_cause": "The package grew to 801 top-level tests while every test remained serial and many table cases rebuilt identical persisted homes. Real fsync, rename, directory-sync, Git, and recovery paths therefore consumed more than 23 minutes even without competing packages.",
+      "invariant": "The unchanged durability assertions and real persistence paths complete within the canonical proof budget with enough isolated and contended margin; proof scheduling single-flights broad batteries.",
+      "red_test": "The 20-minute diagnostic timed out after 581 of 763 top-level tests; the active stack was in os.File.Sync, not deadlocked.",
+      "fix_commits": [
+        "80135cd9b70d49ff9bb3bc8fc6307e857b2c9ced",
+        "a58d4bd812bda74c71836a582cedf82fb3f3439c",
+        "156c3ce245aaad0c60570d44bea53872ef4a575c",
+        "8687f3b915ba9504f5ca3716d0ff9ff1fc5ab552",
+        "e0ab3e66b8cf5251450f09ab9d4a3951e98e28f0",
+        "ad8883c47613fc4b7d0dddbe343218939a21d10c"
+      ],
+      "focused_tests": [
+        "GOTOOLCHAIN=go1.26.4 go test ./internal/work (pass, 396.254s)",
+        "helper-transitively audited parallel cohorts passed repeated and race matrices",
+        "GOTOOLCHAIN=go1.26.4 go vet ./internal/work (pass)"
+      ],
+      "broad_tests": [
+        "GOTOOLCHAIN=go1.26.4 go test ./internal/work -count=1 (failed: default 10m timeout)",
+        "GOTOOLCHAIN=go1.26.4 go test ./internal/work -json -timeout=20m (failed: 1201.554s package timeout)",
+        "GOTOOLCHAIN=go1.26.4 go test -count=1 -timeout=40m ./internal/work ./cmd/compound (uncontended internal/work completed red after 1388.628s; cmd/compound manually interrupted after 1686.563s once the candidate was already red)",
+        "GOTOOLCHAIN=go1.26.4 go test ./... (failed: internal/work 605.424s under broad I/O contention; REL-P0-010)"
+      ],
+      "evidence_paths": [
+        "release-evidence/runs/20260829-p0-008-internal-work-timeout.json",
+        "release-evidence/runs/20260830-p0-008-uncontended-sample.json",
+        "release-evidence/runs/20260830-p0-008-runtime-remediation.json",
+        "release-evidence/runs/20260830-release-broad-runtime-red.json"
+      ],
+      "residual_risk": "The package now passes alone with 203.746s of default-timeout margin, but broad cross-package contention still pushes it to 605.424s. Canonical broad proof is tracked in REL-P0-010, so this issue remains focused_green rather than closed.",
+      "owner": "orchestrator:codex:release-harden-20260829",
+      "updated_at": "2026-08-30T05:43:25Z"
+    },
+    {
+      "id": "REL-P0-009",
+      "severity": "P0",
+      "subsystem": "governed-execution",
+      "title": "Close freeze and RunAttempt sweep race wedges failure finalization",
+      "status": "focused_green",
+      "reproducer": "Deterministically invoke RunAttempt SweepStale from prepareRunAttemptTerminalization after close-pending freezes a pending claim reservation but before terminalization preparation; FinalizeGovernedHarnessRun returns recovery_required and exact retries never converge.",
+      "root_cause": "Close freezes a pending RunAttempt snapshot in its durable close-pending frame, but sweep owns a separate per-attempt terminalization path outside the lifecycle mutation boundary. If sweep wins before prepare, recovery insists on preparing the stale pending snapshot against an already-terminal abandoned record, while the terminal-work reconciler is unavailable because the WorkEnvelope never became terminal.",
+      "invariant": "Once close freezes a generation, a concurrent side-effect-free sweep cannot strand governed failure finalization; the same frozen close must either commit or expose an idempotent reconciler that converges.",
+      "red_test": "TestCloseConvergesWhenSweepWinsBeforePrepare",
+      "fix_commits": [
+        "64756a5f4417bdd6202cf5cefada5bfc5fe1a5af"
+      ],
+      "focused_tests": [
+        "GOTOOLCHAIN=go1.26.4 go test -count=1 -v ./internal/work -run '^(TestCloseConvergesWhenSweepWinsBeforePrepare|TestCloseDoesNotRebuildSweptPlanAfterEarlierPrepare)$'",
+        "GOTOOLCHAIN=go1.26.4 go test -count=1 ./internal/work ./internal/runattempt -run 'ClosePending|Close.*RunAttempt|Sweep.*Close|Close.*Sweep|Terminalization'",
+        "GOTOOLCHAIN=go1.26.4 go test -race -count=1 ./internal/work -run 'ClosePending|Close.*RunAttempt|Sweep.*Close|Close.*Sweep|Terminalization'",
+        "GOTOOLCHAIN=go1.26.4 go test -race -count=1 ./internal/runattempt -run 'Sweep|Terminalization'",
+        "GOTOOLCHAIN=go1.26.4 go test -count=1 ./internal/actuator",
+        "GOTOOLCHAIN=go1.26.4 go vet ./internal/work ./internal/runattempt ./internal/actuator",
+        "governed verification work_0964cebaa990 / ratt_20260830T040042Z_3bacc0f3 succeeded against 64756a5f4417bdd6202cf5cefada5bfc5fe1a5af"
+      ],
+      "broad_tests": [],
+      "evidence_paths": [
+        "release-evidence/runs/20260830-p0-009-sweep-close-freeze-repro.json",
+        "release-evidence/runs/20260830-p0-009-close-sweep-recovery-focused-green.json"
+      ],
+      "residual_risk": "Focused, race, actuator, stage-failure, and governed clean-HEAD proof are green. Canonical broad proof remains unavailable until REL-P0-008 is remediated, so this issue is not closed.",
+      "owner": "orchestrator:codex:release-harden-20260829",
+      "updated_at": "2026-08-30T04:21:59Z"
+    },
+    {
+      "id": "REL-P0-010",
+      "severity": "P0",
+      "subsystem": "release-proof-runtime",
+      "title": "Plain full suite exhausts default package timeouts",
+      "status": "fixing",
+      "reproducer": "GOTOOLCHAIN=go1.26.4 go test ./cmd/compound",
+      "root_cause": "At 2f76a2b1, cmd/compound has 1380 top-level tests and 514 begin with t.Parallel, leaving about 866 tests in serial admission. After 241 audited net parallel additions, three recent literal runs still timed out at 600.706s, 600.794s, and 600.574s package time. Two later literal runs passed at 584.513s and 591.868s, proving progress but leaving only 8.132s worst-case margin. Concurrent durable packages also amplify fsync latency enough to push internal/work beyond its isolated runtime.",
+      "invariant": "The literal release-certifier command go test ./... passes with the repository-required toolchain and meaningful default-timeout margin, without hidden GOFLAGS, package exclusions, weakened durability, or raised timeouts.",
+      "red_test": "Governed literal runs ratt_20260830T085041Z_f4b0f27c, ratt_20260830T091354Z_4d6eb7f2, and ratt_20260830T093739Z_92192984 timed out at 600.706s, 600.794s, and 600.574s package time. Earlier exact and cap-5 runs were also red. Later exact runs ratt_20260830T100805Z_d12c2f43 and ratt_20260830T102517Z_3f4af403 passed but expose only 15.487s and 8.132s package margin.",
+      "fix_commits": [
+        "5b669f1ce3125eff4d8632c43b17c73a25600218",
+        "a4a45d373b8ed283611cc77a1b8071b313bcc899",
+        "ca66d0d26485b4b746a6b9755bb0bf69f30d8a11",
+        "2b3b58fa2cc94940d2b71e61a4a11da2536be05f",
+        "93e4988eded955d992aba5931dbbcc2a238440dd",
+        "bef8438085feb0c8f358aea02e13d1c7185dc75a",
+        "23a52ae2b3bf7bb167a8c244e535c879218303cf",
+        "6b0d9f469f23676d4b004cb2ebbceeabc7571ab7",
+        "ee58e0d023c43070c7cc9eed006eccaa80c8aff1",
+        "7ff9794a078bc4ab3831f060065e1d1a96a1b6a2",
+        "e07c58783cc3c250214c3fae0add45507041f3b7",
+        "15b8ec63da9a6b551600a09e86e99a3e7df734de",
+        "26f8096e8cd3e44b986bccfbad3116078e469480",
+        "0362e8a410cdcd6754bdcfb9dba9646d7e58c057",
+        "d5a5eec5307194018e51a6be3313215d769a9ac3",
+        "0ea1e98495a3c0085c13c9bf3fd24030681276a0",
+        "29b3d4355167f58d5710f53a79dc4537f0696cf5"
+      ],
+      "focused_tests": [
+        "Every committed cohort passed its exact selected test set repeatedly with -count and under -race before commit.",
+        "GOTOOLCHAIN=go1.26.4 go test ./cmd/compound -run <five audited Git tests> (6.758s serial)",
+        "GOTOOLCHAIN=go1.26.4 go test ./cmd/compound -run <same five tests after safe t.Parallel markers> (4.399s parallel)",
+        "Execution, leaf, work, proof-check, and surface cohorts all passed selected repeated and race tests with sequential spec then quality review."
+      ],
+      "broad_tests": [
+        "GOTOOLCHAIN=go1.26.4 go test ./... (failed: cmd/compound 602.390s and internal/work 605.424s)",
+        "GOTOOLCHAIN=go1.26.4 go test ./cmd/compound (failed: ratt_20260830T072016Z_47f7e909, 602.884s)",
+        "GOTOOLCHAIN=go1.26.4 go test ./cmd/compound (failed: ratt_20260830T073525Z_9157afc8, 602.727s)",
+        "GOTOOLCHAIN=go1.26.4 go test -p=5 ./cmd/compound (failed: ratt_20260830T074816Z_797748c1, 603.167s)",
+        "GOTOOLCHAIN=go1.26.4 go test ./cmd/compound (failed: ratt_20260830T085041Z_f4b0f27c, package 600.706s)",
+        "GOTOOLCHAIN=go1.26.4 go test ./cmd/compound (failed: ratt_20260830T091354Z_4d6eb7f2, package 600.794s)",
+        "GOTOOLCHAIN=go1.26.4 go test ./cmd/compound (failed: ratt_20260830T093739Z_92192984, package 600.574s)",
+        "GOTOOLCHAIN=go1.26.4 go test ./cmd/compound (passed: ratt_20260830T100805Z_d12c2f43, package 584.513s)",
+        "GOTOOLCHAIN=go1.26.4 go test ./cmd/compound (passed: ratt_20260830T102517Z_3f4af403, package 591.868s)"
+      ],
+      "evidence_paths": [
+        "release-evidence/runs/20260830-release-broad-runtime-red.json",
+        "release-evidence/runs/20260830-p0-010-cli-runtime-cohorts.json"
+      ],
+      "residual_risk": "The exact literal package command is green twice but has only 8.132s worst-case margin and literal go test ./... has not passed. Continue only independently safe runtime reductions; a global parallelism cap, timeout increase, hidden flag, or package exclusion would hide the release blocker.",
+      "owner": "orchestrator:codex:release-harden-20260829",
+      "updated_at": "2026-08-30T11:10:30Z"
+    },
+    {
+      "id": "REL-P0-011",
+      "severity": "P0",
+      "subsystem": "candidate-custody-fixtures",
+      "title": "Missing candidate inbox is misclassified as custody failure",
+      "status": "focused_green",
+      "reproducer": "GOTOOLCHAIN=go1.26.4 go test ./internal/candidates -count=1 -run '^TestReadCandidateMissingInboxPreservesNotExistWithoutScaffolding$'",
+      "root_cause": "The descriptor-rooted candidate reader wrapped an absent inbox directory in fmt.Errorf. errors.Is still recognized ENOENT, but os.IsNotExist did not unwrap that generic wrapper, so optional multi-inbox probes aborted before the existing create-capable writer could run.",
+      "invariant": "A missing optional candidate inbox remains os.IsNotExist without read-time scaffolding; symlink, non-directory, unsafe-path, and other custody failures remain hard errors; writers alone create canonical custody.",
+      "red_test": "Governed TDD run ratt_20260830T113451Z_39e2003e: TestReadCandidateMissingInboxPreservesNotExistWithoutScaffolding failed before the production fix because the wrapped absent inbox was not os.IsNotExist. The original broad run also failed seven producer tests across distiller, executorlens, and product.",
+      "fix_commits": [
+        "d59a5d94619704507af74268c240ad68fe5de808"
+      ],
+      "focused_tests": [
+        "GOTOOLCHAIN=go1.26.4 go test ./internal/candidates -count=1 -run '^TestReadCandidateMissingInboxPreservesNotExistWithoutScaffolding$' (red before fix, green after fix)",
+        "GOTOOLCHAIN=go1.26.4 go test ./internal/candidates (passed independent review)",
+        "GOTOOLCHAIN=go1.26.4 go test -race ./internal/candidates (passed independent review)",
+        "GOOS=linux GOTOOLCHAIN=go1.26.4 go test -exec true ./internal/candidates (passed cross-build)",
+        "Sequential independent spec and quality reviews approved with no critical or important findings."
+      ],
+      "broad_tests": [
+        "GOTOOLCHAIN=go1.26.4 go test ./... (pre-fix failed in internal/distiller, internal/executorlens, internal/product)",
+        "GOTOOLCHAIN=go1.26.4 go test ./internal/candidates ./internal/distiller ./internal/executorlens ./internal/product -count=1 (passed)",
+        "GOTOOLCHAIN=go1.26.4 go test -race ./internal/candidates ./internal/distiller ./internal/executorlens ./internal/product -count=1 (passed)"
+      ],
+      "evidence_paths": [
+        "release-evidence/runs/20260830-release-broad-runtime-red.json",
+        "release-evidence/runs/20260830-p0-011-missing-inbox-read.json"
+      ],
+      "residual_risk": "Focused, affected-package, race, cross-build, and independent-review proof are green. Canonical go test ./..., proof-check, and isolated release certification remain required before closure.",
+      "owner": "orchestrator:codex:release-harden-20260829",
+      "updated_at": "2026-08-30T11:41:30Z"
+    },
+    {
+      "id": "REL-P0-012",
+      "severity": "P0",
+      "subsystem": "architecture-budget",
+      "title": "cmd/compound exceeds ratcheted production LOC budget",
+      "status": "focused_green",
+      "reproducer": "GOTOOLCHAIN=go1.26.4 go test ./internal/arch -run 'TestCheckCmdCompoundBudgetPassesOnRealRepo|TestDoctorEmitsCmdCompoundBudgetFindings'",
+      "root_cause": "Cause-consumption command orchestration and rendering remained in a 64-line cmd/compound leaf even though internal/mem already owned the report and record APIs, leaving the CLI at 52849 non-test Go LOC, 58 above the immutable 52791 ceiling.",
+      "invariant": "The CLI leaf remains at or below its ratcheted production budget; new behavior moves behind an existing deep internal owner rather than raising the ceiling.",
+      "red_test": "TestCheckCmdCompoundBudgetPassesOnRealRepo failed at 52849/52791 before the fix. Governed TDD run ratt_20260830T105101Z_1652a614 also proved the new internal/mem API tests failed on the missing RunCauseConsumptionCLI symbol before implementation.",
+      "fix_commits": [
+        "2f76a2b1181a305760a5ae90bfcc81c6aaf984ca"
+      ],
+      "focused_tests": [
+        "GOTOOLCHAIN=go1.26.4 go test ./internal/mem ./cmd/compound -count=5 -run ^(TestRunCauseConsumptionCLI|TestCmdMemoryConsumption) (passed)",
+        "GOTOOLCHAIN=go1.26.4 go test -race ./internal/mem ./cmd/compound -count=1 -run ^(TestRunCauseConsumptionCLI|TestCmdMemoryConsumption) (passed)",
+        "GOTOOLCHAIN=go1.26.4 go test ./internal/mem -count=1 (passed 14.321s)",
+        "Independent sequential spec and quality reviews approved the ownership, output, record, error, and clock contracts."
+      ],
+      "broad_tests": [
+        "GOTOOLCHAIN=go1.26.4 go test ./internal/arch -count=1 (passed 319.974s)",
+        "GOTOOLCHAIN=go1.26.4 go test -count=1 -v ./internal/arch -run ^TestCheckCmdCompoundBudgetPassesOnRealRepo$ (passed on clean commit; 52786/52791, 5 lines headroom)"
+      ],
+      "evidence_paths": [
+        "release-evidence/runs/20260830-release-broad-runtime-red.json",
+        "release-evidence/runs/20260830-p0-012-cli-loc-owner.json"
+      ],
+      "residual_risk": "Focused, race, full internal/mem, full architecture, and clean-commit ratchet proof are green. Canonical go test ./..., proof-check, and isolated certifier remain required before closure.",
+      "owner": "orchestrator:codex:release-harden-20260829",
+      "updated_at": "2026-08-30T11:10:30Z"
+    },
+    {
+      "id": "REL-P0-013",
+      "severity": "P0",
+      "subsystem": "release-install",
+      "title": "Concurrent ceremony-overlay installers race publication",
+      "status": "focused_green",
+      "reproducer": "GOTOOLCHAIN=go1.26.4 go test -count=20 ./internal/arch -run \"^TestCeremonyOverlaySyncIsSafeUnderConcurrentInstallers$\"",
+      "root_cause": "sync-ceremony-overlays removed each published overlay before creating its replacement. Concurrent installers therefore shared one missing-path window and raced direct ln creation; a loser failed with File exists, and readers could observe no overlay.",
+      "invariant": "Every overlay replacement is prepared at a process-unique sibling path and atomically renamed over the published symlink; concurrent installers all succeed, readers never observe a missing or partial target, termination removes the pending link, and no pending residue survives.",
+      "red_test": "TestCeremonyOverlaySyncIsSafeUnderConcurrentInstallers failed repeatedly on 2b3b58fa with ln: .../SKILL.md: File exists in governed run ratt_20260830T065122Z_fa6eace0.",
+      "fix_commits": [
+        "eb5ede88c7ed5819bcec6d794baca5391a4b835a",
+        "27c88080878dbe9053db4ec6fb571bb616300597"
+      ],
+      "focused_tests": [
+        "GOTOOLCHAIN=go1.26.4 go test -count=20 ./internal/arch -run \"^TestCeremonyOverlaySync(IsSafeUnderConcurrentInstallers|RemovesPendingLinkOnTermination)$\" (13.829s)",
+        "GOTOOLCHAIN=go1.26.4 go test -race -count=1 ./internal/arch -run \"^TestCeremonyOverlaySync(IsSafeUnderConcurrentInstallers|RemovesPendingLinkOnTermination)$\" (2.006s)",
+        "Independent spec and code-quality review approved the deterministic barrier, worker draining, POSIX signal trap, and cleanup proof."
+      ],
+      "broad_tests": [
+        "GOTOOLCHAIN=go1.26.4 go test ./internal/arch (failed only on REL-P0-012 cmd/compound LOC ratchet)"
+      ],
+      "evidence_paths": [
+        "release-evidence/runs/20260830-p0-013-ceremony-overlay-atomic.json"
+      ],
+      "residual_risk": "Focused repeated, race, termination, and independent-review proof is green. The issue remains focused_green until a clean source-bound canonical battery passes after REL-P0-012.",
+      "owner": "orchestrator:codex:release-harden-20260829",
+      "updated_at": "2026-08-30T08:25:38Z"
+    },
+    {
+      "id": "REL-P1-001",
+      "severity": "P1",
+      "subsystem": "promotion-authority",
+      "title": "Real work authority for promotion apply",
+      "status": "open",
+      "reproducer": "Attempt apply with blank, synthetic, terminal, mismatched-action, mismatched-policy, actor, or RunAttempt authority.",
+      "root_cause": "Apply authority validation has not yet been proven to bind a real nonterminal maintenance work chain.",
+      "invariant": "Mutation apply accepts only exact live WorkEnvelope, action, policy, actor, and RunAttempt authority; plan mode stays read-only.",
+      "red_test": "Authority matrix not yet established.",
+      "fix_commits": [],
+      "focused_tests": [],
+      "broad_tests": [],
+      "evidence_paths": [],
+      "residual_risk": "Promotion apply may accept authority-shaped strings without owning a real execution.",
+      "owner": "orchestrator:codex:release-harden-20260829",
+      "updated_at": "2026-08-29T13:04:00Z"
+    },
+    {
+      "id": "REL-P1-002",
+      "severity": "P1",
+      "subsystem": "memory-reporting",
+      "title": "Truthful memory counters",
+      "status": "focused_green",
+      "reproducer": "Mixed candidate fixtures showed dry-run incrementing adjudicated, verdict counts, and changed_ids despite performing no mutation.",
+      "root_cause": "One counter served both planned operations and committed mutations, so dry-run plans were reported as state changes.",
+      "invariant": "walked equals decoded plus corrupt and every disposition has one truthful counter.",
+      "red_test": "TestAdjudicatePendingSmallCapMatrixHasNoGapsOrDuplicateMutations; TestAdjudicatePendingLimitCapsAdjudicatedNotSkipped; TestAdjudicatePendingNamesCorruptAndChangedIDs.",
+      "fix_commits": [
+        "1fe0fcdca88669d7670b823b7bb5129f9878abac"
+      ],
+      "focused_tests": [
+        "GOTOOLCHAIN=go1.26.4 go test ./internal/candidates ./internal/mem ./internal/promotedriver -count=1",
+        "GOTOOLCHAIN=go1.26.4 go test -race ./internal/candidates ./internal/mem ./internal/promotedriver -count=1"
+      ],
+      "broad_tests": [],
+      "evidence_paths": [
+        "release-evidence/runs/20260830-p0-002-p0-003-focused-green.json"
+      ],
+      "residual_risk": "Focused counter conservation and dry-run truthfulness are green; broad consumers and the canonical proof battery remain pending before closure.",
+      "owner": "orchestrator:codex:release-harden-20260829",
+      "updated_at": "2026-08-30T02:30:16Z"
+    },
+    {
+      "id": "REL-P1-003",
+      "severity": "P1",
+      "subsystem": "deterministic-time",
+      "title": "One owned clock",
+      "status": "open",
+      "reproducer": "Inject a fixed clock and search pass internals for wall-clock-dependent output or decisions.",
+      "root_cause": "Deterministic pass internals still have unverified direct time.Now calls.",
+      "invariant": "One injected clock owns all timestamps and freshness decisions within a pass.",
+      "red_test": "Fixed-clock pass determinism test not yet established.",
+      "fix_commits": [],
+      "focused_tests": [],
+      "broad_tests": [],
+      "evidence_paths": [],
+      "residual_risk": "Retries and fixtures can produce time-dependent receipts or stale classifications.",
+      "owner": "orchestrator:codex:release-harden-20260829",
+      "updated_at": "2026-08-29T13:04:00Z"
+    },
+    {
+      "id": "REL-P1-004",
+      "severity": "P1",
+      "subsystem": "promotion-locks",
+      "title": "Explicit lock outcomes",
+      "status": "open",
+      "reproducer": "Run two promotion passes and exercise live, stale, and malformed lock ownership.",
+      "root_cause": "Lock contention and stale ownership do not yet have fully proven durable outcome semantics.",
+      "invariant": "Contention records skipped_locked with owner, age, and heartbeat; stale ownership is red.",
+      "red_test": "Cross-process lock outcome suite not yet established.",
+      "fix_commits": [],
+      "focused_tests": [],
+      "broad_tests": [],
+      "evidence_paths": [],
+      "residual_risk": "A skipped or abandoned maintenance pass can appear healthy without inspectable ownership.",
+      "owner": "orchestrator:codex:release-harden-20260829",
+      "updated_at": "2026-08-29T13:04:00Z"
+    },
+    {
+      "id": "REL-P1-005",
+      "severity": "P1",
+      "subsystem": "maintenance-heartbeat",
+      "title": "Heartbeat cannot false-green",
+      "status": "open",
+      "reproducer": "Feed committed, healthy skipped_locked, malformed, partial, failed, recovery_required, timeout, and close-failure driver JSON to heartbeat.",
+      "root_cause": "Heartbeat outcome parsing has not yet been proven strict across every terminal and malformed shape.",
+      "invariant": "Only committed or explicitly healthy skipped_locked is green; every other outcome is red.",
+      "red_test": "Shell fixture matrix not yet established.",
+      "fix_commits": [],
+      "focused_tests": [],
+      "broad_tests": [],
+      "evidence_paths": [],
+      "residual_risk": "Automation can report healthy after a mutation or close failure.",
+      "owner": "orchestrator:codex:release-harden-20260829",
+      "updated_at": "2026-08-29T13:04:00Z"
+    },
+    {
+      "id": "REL-P1-006",
+      "severity": "P1",
+      "subsystem": "maintenance-authority",
+      "title": "Governed heartbeat execution",
+      "status": "open",
+      "reproducer": "Trace one heartbeat from created work through canonical execution and terminal driver receipt digest.",
+      "root_cause": "The maintenance script can create an envelope and invoke mutation outside the same authority chain.",
+      "invariant": "Heartbeat mutation executes through first-party scheduler authority and closes with the actual terminal receipt path and digest.",
+      "red_test": "End-to-end heartbeat authority-chain test not yet established.",
+      "fix_commits": [],
+      "focused_tests": [],
+      "broad_tests": [],
+      "evidence_paths": [],
+      "residual_risk": "A maintenance action can be enveloped in appearance while executed ungoverned.",
+      "owner": "orchestrator:codex:release-harden-20260829",
+      "updated_at": "2026-08-29T13:04:00Z"
+    },
+    {
+      "id": "REL-P1-007",
+      "severity": "P1",
+      "subsystem": "promotion-durability",
+      "title": "Durable receipt and state framing",
+      "status": "open",
+      "reproducer": "Inject torn trailing records, mid-log corruption, rename failure, remove failure, and parent-directory fsync failure.",
+      "root_cause": "Receipt and mutable-state framing and durability propagation are not yet fully proven.",
+      "invariant": "Torn tails are handled only when provable, mid-log corruption fails hard, and rename/remove durability errors propagate.",
+      "red_test": "Receipt framing and fsync failure matrix not yet established.",
+      "fix_commits": [],
+      "focused_tests": [],
+      "broad_tests": [],
+      "evidence_paths": [],
+      "residual_risk": "A receipt log can silently lose or misparse a terminal operation. Read-only review also reproduced two exact publication gaps to cover here: candidate replacement rename followed by directory-fsync failure can report an ordinary failure after bytes changed, and pending-state rename is not parent-directory fsynced.",
+      "owner": "orchestrator:codex:release-harden-20260829",
+      "updated_at": "2026-08-30T02:30:16Z"
+    },
+    {
+      "id": "REL-P1-008",
+      "severity": "P1",
+      "subsystem": "transcript-provenance",
+      "title": "Transcript provenance",
+      "status": "open",
+      "reproducer": "Close with readable arbitrary, stale, wrong-work, wrong-session, wrong-context, and wrong-digest transcripts.",
+      "root_cause": "Readable transcript evidence is not yet proven to bind work, session, context pack, digest, and injection provenance.",
+      "invariant": "Only exact provenance can assert ignored or consumed; mismatches produce unknown.",
+      "red_test": "Transcript provenance mismatch matrix not yet established.",
+      "fix_commits": [],
+      "focused_tests": [],
+      "broad_tests": [],
+      "evidence_paths": [],
+      "residual_risk": "Arbitrary readable text can overstate what context the executor ignored.",
+      "owner": "orchestrator:codex:release-harden-20260829",
+      "updated_at": "2026-08-29T13:04:00Z"
+    },
+    {
+      "id": "REL-P1-009",
+      "severity": "P1",
+      "subsystem": "work-close",
+      "title": "Validate exactly what is persisted",
+      "status": "open",
+      "reproducer": "Close with consumed refs outside the context pack and compare the validated object byte-for-byte with persisted receipt state.",
+      "root_cause": "Final receipt mutation can occur after validation and consumed-ref subset exactness is not yet proven.",
+      "invariant": "The fully mutated receipt validates once, consumed refs are an exact context-pack subset, and those bytes are serialized unchanged.",
+      "red_test": "Persisted-object validation and consumed-ref subset tests not yet established.",
+      "fix_commits": [],
+      "focused_tests": [],
+      "broad_tests": [],
+      "evidence_paths": [],
+      "residual_risk": "Validation can certify a predecessor of the actual persisted receipt.",
+      "owner": "orchestrator:codex:release-harden-20260829",
+      "updated_at": "2026-08-29T13:04:00Z"
+    },
+    {
+      "id": "REL-P1-010",
+      "severity": "P1",
+      "subsystem": "capability-graph",
+      "title": "Capability-graph transaction and authority",
+      "status": "open",
+      "reproducer": "Race two graph writers and compaction/import, inject every batch persistence failure, and read during the batch.",
+      "root_cause": "Unattended graph mutation does not yet have proven exact work authority, atomic or recoverable node-edge batches, and corruption-hard readers.",
+      "invariant": "Readers never observe half a batch and every unattended mutation has exact authority and terminal evidence.",
+      "red_test": "Graph writer race, recovery, and malformed-log suite not yet established.",
+      "fix_commits": [],
+      "focused_tests": [],
+      "broad_tests": [],
+      "evidence_paths": [],
+      "residual_risk": "Capability-graph autonomous mutation remains experimental until closed.",
+      "owner": "orchestrator:codex:release-harden-20260829",
+      "updated_at": "2026-08-29T13:04:00Z"
+    },
+    {
+      "id": "REL-P1-011",
+      "severity": "P1",
+      "subsystem": "release-install",
+      "title": "Atomic multi-binary installation",
+      "status": "open",
+      "reproducer": "Inject breadth-engine build failure and post-install doctor failure and compare the installed pair byte-for-byte with the predecessor.",
+      "root_cause": "Transactional installation exists, but the exact requested second-artifact build and post-install doctor failure proofs are not yet present.",
+      "invariant": "Both binaries are staged and identified by one SHA before one atomic switch, or the prior byte-identical pair remains installed.",
+      "red_test": "Second-artifact build failure and post-install doctor rollback tests not yet established.",
+      "fix_commits": [],
+      "focused_tests": [],
+      "broad_tests": [],
+      "evidence_paths": [],
+      "residual_risk": "Clean-install evidence verifies breadth executable presence but not its embedded identity.",
+      "owner": "orchestrator:codex:release-harden-20260829",
+      "updated_at": "2026-08-29T13:04:00Z"
+    },
+    {
+      "id": "REL-P1-012",
+      "severity": "P1",
+      "subsystem": "release-certifier",
+      "title": "Isolated release certifier",
+      "status": "open",
+      "reproducer": "Run the future certifier from a clean candidate with temporary install root and COMPOUND_HOME; no such command exists yet.",
+      "root_cause": "The current release workflow is tag-triggered and release-smoke is an operator-estate diagnostic, not an isolated certifier.",
+      "invariant": "One candidate-first command and PR/manual workflow prove all supported journeys and emit a machine-readable evidence manifest before tagging.",
+      "red_test": "Isolated certifier integration suite not yet established.",
+      "fix_commits": [],
+      "focused_tests": [],
+      "broad_tests": [],
+      "evidence_paths": [],
+      "residual_risk": "Correctness is currently discovered across disconnected gates, some only after a tag trigger.",
+      "owner": "orchestrator:codex:release-harden-20260829",
+      "updated_at": "2026-08-29T13:04:00Z"
+    },
+    {
+      "id": "REL-P1-013",
+      "severity": "P1",
+      "subsystem": "delegated-execution",
+      "title": "Opted-in delegate mutation TOCTOU and crash atomicity",
+      "status": "deferred",
+      "reproducer": "With --experimental-delegate-mutations enabled, race authority drift around external session create/send and inject failure between refusal event, binding, lifecycle, and RunAttempt publication.",
+      "root_cause": "The experimental delegate path spans an external session side effect plus several durable authorities without one recoverable transaction covering every post-create and post-send boundary.",
+      "invariant": "Before delegated mutation becomes supported, every external side effect is generation-bound, exactly reported, and either committed with matching authority or left with durable idempotent recovery evidence.",
+      "red_test": "Opted-in cross-process TOCTOU and every-boundary failure-injection suite not yet established.",
+      "fix_commits": [],
+      "focused_tests": [
+        "Default-off and malformed/unadmitted containment is green at 225d6969; this does not certify opted-in mutation."
+      ],
+      "broad_tests": [],
+      "evidence_paths": [
+        "release-evidence/runs/20260830-p0-001-containment-green.json"
+      ],
+      "residual_risk": "Explicitly outside the supported v0.1 contract behind --experimental-delegate-mutations. Consequence is limited to operators who opt into the experimental path; post-release milestone is v0.2 delegated-execution recovery hardening.",
+      "owner": "orchestrator:codex:release-harden-20260829",
+      "updated_at": "2026-08-30T00:11:20Z"
+    },
+    {
+      "id": "REL-P1-014",
+      "severity": "P1",
+      "subsystem": "work-proof-chain",
+      "title": "Target-scoped proof chain omits RunAttempt validation",
+      "status": "reproduced",
+      "reproducer": "GOTOOLCHAIN=go1.26.4 go test -count=1 ./internal/work -run '^TestProofChainForWorkRejectsMissingRunAttempt$' -v",
+      "root_cause": "ProofChainForWork calls proofChainItem and marks a problem-free item complete without calling checkRunAttemptProof. Commit a329dad7 added the RunAttempt proof dimension only to the whole-ledger ProofChainDoctor, so target-scoped consumers retain the pre-v0.2 behavior.",
+      "invariant": "Every target-scoped terminal proof applies the same canonical RunAttempt identity, work/action linkage, terminal status/outcome, retry-lineage, and exact terminalization checks as the whole-ledger doctor while reading only the requested work and its referenced evidence.",
+      "red_test": "TestProofChainForWorkRejectsMissingRunAttempt",
+      "fix_commits": [],
+      "focused_tests": [],
+      "broad_tests": [],
+      "evidence_paths": [
+        "release-evidence/runs/20260830-p1-014-target-proof-runattempt-repro.json"
+      ],
+      "residual_risk": "Until fixed, authority worktree-retire can plan and revalidate an operator-reviewed Git mutation from a false-green source proof whose referenced RunAttempt is missing, unreadable, invalid, cross-work/action, nonterminal, outcome-inconsistent, or terminalization-mismatched. Legacy OS-absorption work-packet auto-proof can likewise false-green, but that consumer is explicitly experimental/private. The supported v0.1 core work journey and whole-ledger proof-chain doctor are not affected.",
+      "owner": "orchestrator:codex:release-harden-20260829",
+      "updated_at": "2026-08-30T03:55:24Z"
+    },
+    {
+      "id": "REL-P2-001",
+      "severity": "P2",
+      "subsystem": "owner-result",
+      "title": "Owner-result binding",
+      "status": "open",
+      "reproducer": "Supply wrong schema, plan ID, owner, artifact, freshness, uniqueness, and domain-success facts to owner-result folding.",
+      "root_cause": "Exact owner-result binding has not yet been reconciled against the release contract.",
+      "invariant": "A result closes or files a plan only when every identity, provenance, freshness, uniqueness, and success fact matches.",
+      "red_test": "Owner-result mismatch matrix not yet established.",
+      "fix_commits": [],
+      "focused_tests": [],
+      "broad_tests": [],
+      "evidence_paths": [],
+      "residual_risk": "A semantically unrelated result can satisfy a plan-shaped record.",
+      "owner": "orchestrator:codex:release-harden-20260829",
+      "updated_at": "2026-08-29T13:04:00Z"
+    },
+    {
+      "id": "REL-P2-002",
+      "severity": "P2",
+      "subsystem": "shell-runtime",
+      "title": "Shell contract",
+      "status": "open",
+      "reproducer": "Execute adapters/_lib/lane-launcher.sh under its declared interpreter and a strict shell validator.",
+      "root_cause": "The launcher declares sh while using non-POSIX syntax.",
+      "invariant": "Every shell file executes and validates under the interpreter it declares.",
+      "red_test": "Declared-interpreter shell contract test not yet established.",
+      "fix_commits": [],
+      "focused_tests": [],
+      "broad_tests": [],
+      "evidence_paths": [],
+      "residual_risk": "The launcher can fail on systems whose sh is not a permissive shell.",
+      "owner": "orchestrator:codex:release-harden-20260829",
+      "updated_at": "2026-08-29T13:04:00Z"
+    },
+    {
+      "id": "REL-P2-003",
+      "severity": "P2",
+      "subsystem": "public-export",
+      "title": "Audit package hygiene",
+      "status": "open",
+      "reproducer": "Force-track a forbidden top-level runtime checkout in a fixture and require the public exporter to refuse it.",
+      "root_cause": "Current Git-archive export is clean, but explicit allowlist or denial coverage for stale nested runtime/source surfaces is incomplete.",
+      "invariant": "Public export includes only the supported source allowlist and cannot package nested source checkouts or runtime state.",
+      "red_test": "Forbidden tracked top-level surface export test not yet established.",
+      "fix_commits": [],
+      "focused_tests": [],
+      "broad_tests": [],
+      "evidence_paths": [],
+      "residual_risk": "A future force-tracked home or nested checkout could enter an otherwise Git-based export.",
+      "owner": "orchestrator:codex:release-harden-20260829",
+      "updated_at": "2026-08-29T13:04:00Z"
+    }
+  ]
+}

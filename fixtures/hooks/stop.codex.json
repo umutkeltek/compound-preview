@@ -1,0 +1,8 @@
+{
+  "hook": "stop",
+  "harness": "codex",
+  "session_id": "session_stop_fixture",
+  "turn_id": "turn_stop_fixture",
+  "work_id": "work_stop_fixture",
+  "stop_hook_active": true
+}

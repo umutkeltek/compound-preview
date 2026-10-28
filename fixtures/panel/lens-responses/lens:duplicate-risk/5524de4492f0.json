@@ -1,0 +1,12 @@
+{
+  "confidence": 0.62,
+  "findings": [
+    {
+      "claim": "synthetic capability observation has weak evidence and should stay parked",
+      "severity": "medium",
+      "evidence_refs": [
+        "trace://panel/synthetic"
+      ]
+    }
+  ]
+}

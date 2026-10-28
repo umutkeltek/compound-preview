@@ -1,0 +1,19 @@
+{
+  "site": "example.com",
+  "rows": [
+    {
+      "date": "2026-06-29",
+      "clicks": 30,
+      "impressions": 300,
+      "ctr": 0.1,
+      "position": 4.1
+    },
+    {
+      "date": "2026-06-30",
+      "clicks": 42,
+      "impressions": 420,
+      "ctr": 0.1,
+      "position": 3.4
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "generated": "2026-06-30T03:02:23",
+  "scanned": 3,
+  "skipped": 8,
+  "laneFails": 0,
+  "remaining": 0,
+  "proposals": [],
+  "all_misses": [
+    {
+      "skill": "production-audit",
+      "count": 1,
+      "receipts": ["2026-06-11-2db15b55"],
+      "reasons": ["Directly addresses pre-launch readiness and bug audit"],
+      "maxConf": 0.95
+    },
+    {
+      "skill": "web-design-guidelines",
+      "count": 1,
+      "receipts": ["2026-06-11-2db15b55"],
+      "reasons": ["UI/UX standards review catches design issues for app store"],
+      "maxConf": 0.9
+    }
+  ],
+  "perReceipt": [
+    {
+      "dir": "2026-06-11-2db15b55",
+      "kind": "human",
+      "lanes": "ex:sb:nvidia/minimax-m3/jd:sb:deepseek-v4-pro",
+      "real": [
+        {
+          "skill": "production-audit",
+          "confidence": 0.95,
+          "reason": "Directly addresses pre-launch readiness and bug audit"
+        },
+        {
+          "skill": "web-design-guidelines",
+          "confidence": 0.9,
+          "reason": "UI/UX standards review catches design issues for app store"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "confidence": 0.55,
+  "findings": [
+    {
+      "claim": "Jordan may intend the message as a fast informational check, but Priya appears to receive it as a request for authorization, shown by her asking about scope before answering.",
+      "severity": "medium",
+      "evidence_refs": ["I want to push the deploy this afternoon instead of waiting for the review, is that ok?", "hm, who else knows about this"]
+    },
+    {
+      "claim": "Priya may intend \"let's loop in the team\" as a neutral process step, but Jordan's reply (\"no worries, just wanted to keep things moving\") suggests it may land as mild pushback that Jordan then downplays.",
+      "severity": "medium",
+      "evidence_refs": ["let's loop in the team before you move on it", "ok, no worries, just wanted to keep things moving"]
+    },
+    {
+      "claim": "Jordan's closing \"sounds good, no rush\" may be received by Priya at face value as genuine agreement with no residual tension.",
+      "severity": "low",
+      "evidence_refs": ["sounds good, no rush"]
+    }
+  ]
+}

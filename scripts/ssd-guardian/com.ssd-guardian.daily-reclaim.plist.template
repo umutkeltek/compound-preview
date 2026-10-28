@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.ssd-guardian.daily-reclaim</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>__HOME__/.bun/bin/bun</string>
+    <string>__HOME__/Projects/systems/compound/scripts/ssd-guardian/daily_toolchain_reclaim.ts</string>
+    <string>--apply</string>
+  </array>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>PATH</key>
+    <string>/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:__HOME__/.bun/bin:__HOME__/.local/bin</string>
+    <key>SSD_GUARDIAN_GO_CACHE_CAP_GIB</key>
+    <string>20</string>
+    <key>SSD_GUARDIAN_GO_CACHE_AGE_DAYS</key>
+    <string>2</string>
+    <key>SSD_GUARDIAN_PROOF_CACHE_CAP_GIB</key>
+    <string>20</string>
+    <key>SSD_GUARDIAN_PROOF_CACHE_AGE_DAYS</key>
+    <string>2</string>
+    <key>SSD_GUARDIAN_WORK_PROOF_CACHE_CAP_GIB</key>
+    <string>80</string>
+    <key>SSD_GUARDIAN_CARGO_AGE_DAYS</key>
+    <string>30</string>
+    <key>SSD_GUARDIAN_SIM_AGE_DAYS</key>
+    <string>14</string>
+  </dict>
+  <key>StartCalendarInterval</key>
+  <dict>
+    <key>Hour</key><integer>4</integer>
+    <key>Minute</key><integer>30</integer>
+  </dict>
+  <key>RunAtLoad</key>
+  <false/>
+  <key>ProcessType</key>
+  <string>Background</string>
+  <key>LowPriorityIO</key>
+  <true/>
+  <key>StandardOutPath</key>
+  <string>__HOME__/Library/Logs/ssd-guardian-daily.out.log</string>
+  <key>StandardErrorPath</key>
+  <string>__HOME__/Library/Logs/ssd-guardian-daily.err.log</string>
+</dict>
+</plist>

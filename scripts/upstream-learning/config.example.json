@@ -1,0 +1,15 @@
+{
+  "schema_version": "compound.private.upstream_learning_config.v0.1",
+  "sources": [
+    {
+      "repo_url": "https://github.com/your-org/your-project",
+      "branch": "main",
+      "existing_compound_owner": "the-existing-capability-owner",
+      "frontier": "a concrete current problem requiring evidence",
+      "inspection_paths": ["README.md"],
+      "success_criterion": "a bounded fixture demonstrates the claimed improvement",
+      "falsifier": "the proposal duplicates existing behavior or fails its baseline",
+      "cadence": "six hours"
+    }
+  ]
+}

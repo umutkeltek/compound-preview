@@ -1,0 +1,1 @@
+{"confidence":0.88,"findings":[{"claim":"candidate uses 42 fewer tokens and 140ms less latency than baseline","severity":"low","evidence_refs":["target:cmp_candidate_better"]}]}

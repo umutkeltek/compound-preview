@@ -1,0 +1,39 @@
+schema_version: 1
+project:
+  slug: synthetic-product
+  name: Synthetic Product
+  class: product
+  status: active
+  priority: p1
+  owner: fixture
+  aliases:
+    - Synthetic Product
+    - Synthetic: Product
+source:
+  authority:
+    host: dev-host
+    path: /workspace/synthetic-product
+    repo: https://example.invalid/synthetic-product.git
+runtime:
+  authority: apps.example
+  service_names:
+    - synthetic-api
+    - synthetic-worker
+  runtime_paths:
+    - deploy/
+  urls:
+    - https://synthetic.example.invalid
+  healthchecks:
+    - https://synthetic.example.invalid/health
+  deployment:
+    method: compose
+    command: make deploy
+    rollback: make rollback
+data:
+  authority: db.example
+  classification: appdata
+  nas_paths: []
+  local_paths: []
+  databases:
+    - synthetic_db
+  external_sources: []

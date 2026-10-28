@@ -1,0 +1,158 @@
+{
+  "schema_version": "compound.release_issue_evidence.v0.1",
+  "issue_id": "REL-P0-010",
+  "status": "fixing",
+  "recorded_at": "2026-08-30T11:10:30Z",
+  "candidate_sha": "2f76a2b1181a305760a5ae90bfcc81c6aaf984ca",
+  "toolchain": "go1.26.4",
+  "inventory": {
+    "top_level_tests": 1380,
+    "top_level_parallel_tests": 514,
+    "estimated_serial_tests": 866,
+    "net_parallel_additions": 241,
+    "audit_method": "Count top-level Test functions and verify t.Parallel is the first executable statement; do not count subtest markers."
+  },
+  "fix_commits": [
+    {"sha": "5b669f1ce3125eff4d8632c43b17c73a25600218", "subject": "test(cli): parallelize isolated command suites"},
+    {"sha": "a4a45d373b8ed283611cc77a1b8071b313bcc899", "subject": "test(cli): parallelize isolated proof suites"},
+    {"sha": "ca66d0d26485b4b746a6b9755bb0bf69f30d8a11", "subject": "test(cli): parallelize proof admission cases"},
+    {"sha": "2b3b58fa2cc94940d2b71e61a4a11da2536be05f", "subject": "test(cli): parallelize Rust proof cases"},
+    {"sha": "93e4988eded955d992aba5931dbbcc2a238440dd", "subject": "test(cli): parallelize home manifest compatibility cases"},
+    {"sha": "bef8438085feb0c8f358aea02e13d1c7185dc75a", "subject": "test(cli): keep home manifest cohort minimal"},
+    {"sha": "23a52ae2b3bf7bb167a8c244e535c879218303cf", "subject": "test(cli): parallelize isolated doctor cases"},
+    {"sha": "6b0d9f469f23676d4b004cb2ebbceeabc7571ab7", "subject": "test(cli): parallelize isolated status cases"},
+    {"sha": "ee58e0d023c43070c7cc9eed006eccaa80c8aff1", "subject": "test(cli): parallelize isolated console cases"},
+    {"sha": "7ff9794a078bc4ab3831f060065e1d1a96a1b6a2", "subject": "test(cli): parallelize isolated orient session cases"},
+    {"sha": "e07c58783cc3c250214c3fae0add45507041f3b7", "subject": "test(cli): parallelize isolated rebaseline cases"},
+    {"sha": "15b8ec63da9a6b551600a09e86e99a3e7df734de", "subject": "test(cli): parallelize isolated delegate cases"},
+    {"sha": "26f8096e8cd3e44b986bccfbad3116078e469480", "subject": "test(cli): parallelize isolated execution cases"},
+    {"sha": "0362e8a410cdcd6754bdcfb9dba9646d7e58c057", "subject": "test(cli): parallelize isolated leaf cases"},
+    {"sha": "d5a5eec5307194018e51a6be3313215d769a9ac3", "subject": "test(cli): parallelize isolated work CLI cases"},
+    {"sha": "0ea1e98495a3c0085c13c9bf3fd24030681276a0", "subject": "test(cli): parallelize isolated proof checks"},
+    {"sha": "29b3d4355167f58d5710f53a79dc4537f0696cf5", "subject": "test(cli): parallelize isolated surface cases"}
+  ],
+  "recent_cohorts": [
+    {
+      "name": "execution_cli",
+      "commit": "26f8096e8cd3e44b986bccfbad3116078e469480",
+      "parallel_additions": 16,
+      "verification": "selected repeated and race green; sequential spec and quality reviews had no findings"
+    },
+    {
+      "name": "cli_leaf",
+      "commit": "0362e8a410cdcd6754bdcfb9dba9646d7e58c057",
+      "parallel_additions": 33,
+      "verification": "selected repeated and race green; sequential spec and quality reviews had no findings"
+    },
+    {
+      "name": "work_cli",
+      "commit": "d5a5eec5307194018e51a6be3313215d769a9ac3",
+      "parallel_additions": 15,
+      "verification": "selected repeated and race green; sequential spec and quality reviews had no findings"
+    },
+    {
+      "name": "proof_check",
+      "commit": "0ea1e98495a3c0085c13c9bf3fd24030681276a0",
+      "parallel_additions": 14,
+      "verification": "selected count=2 15.294s; selected race 70.630s; sequential reviews had no findings"
+    },
+    {
+      "name": "cli_surface",
+      "commit": "29b3d4355167f58d5710f53a79dc4537f0696cf5",
+      "parallel_additions": 9,
+      "verification": "selected count=2 4.134s; selected race 4.323s; sequential reviews had no findings"
+    }
+  ],
+  "exact_literal_runs": [
+    {
+      "run_attempt_id": "ratt_20260830T072016Z_47f7e909",
+      "command": "GOTOOLCHAIN=go1.26.4 go test ./cmd/compound",
+      "status": "failed",
+      "classification": "package timeout",
+      "governed_elapsed_seconds": 602.884,
+      "package_elapsed_seconds": 600.605
+    },
+    {
+      "run_attempt_id": "ratt_20260830T073525Z_9157afc8",
+      "command": "GOTOOLCHAIN=go1.26.4 go test ./cmd/compound",
+      "status": "failed",
+      "classification": "package timeout",
+      "governed_elapsed_seconds": 602.727,
+      "package_elapsed_seconds": 600.616
+    },
+    {
+      "run_attempt_id": "ratt_20260830T074816Z_797748c1",
+      "command": "GOTOOLCHAIN=go1.26.4 go test -p=5 ./cmd/compound",
+      "status": "failed",
+      "classification": "package timeout; global package cap falsifier",
+      "governed_elapsed_seconds": 603.167,
+      "package_elapsed_seconds": 600.489
+    },
+    {
+      "run_attempt_id": "ratt_20260830T085041Z_f4b0f27c",
+      "source_sha": "26f8096e8cd3e44b986bccfbad3116078e469480",
+      "command": "GOTOOLCHAIN=go1.26.4 go test ./cmd/compound",
+      "status": "failed",
+      "classification": "package timeout; serial admission still dominant",
+      "governed_elapsed_seconds": 603.722,
+      "package_elapsed_seconds": 600.706
+    },
+    {
+      "run_attempt_id": "ratt_20260830T091354Z_4d6eb7f2",
+      "source_sha": "0362e8a410cdcd6754bdcfb9dba9646d7e58c057",
+      "command": "GOTOOLCHAIN=go1.26.4 go test ./cmd/compound",
+      "status": "failed",
+      "classification": "package timeout; TestWorkCreateCLIPredictionRequiresOutcome was the serial frontier",
+      "governed_elapsed_seconds": 604.228,
+      "package_elapsed_seconds": 600.794
+    },
+    {
+      "run_attempt_id": "ratt_20260830T093739Z_92192984",
+      "source_sha": "d5a5eec5307194018e51a6be3313215d769a9ac3",
+      "command": "GOTOOLCHAIN=go1.26.4 go test ./cmd/compound",
+      "status": "failed",
+      "classification": "package timeout; serial admission completed and parallel tail remained",
+      "governed_elapsed_seconds": 603.639,
+      "package_elapsed_seconds": 600.574
+    },
+    {
+      "run_attempt_id": "ratt_20260830T100805Z_d12c2f43",
+      "source_sha": "0ea1e98495a3c0085c13c9bf3fd24030681276a0",
+      "command": "GOTOOLCHAIN=go1.26.4 go test ./cmd/compound",
+      "status": "succeeded",
+      "classification": "exact literal green with narrow package margin",
+      "governed_elapsed_seconds": 601.430,
+      "package_elapsed_seconds": 584.513,
+      "deadline_margin_seconds": 15.487
+    },
+    {
+      "run_attempt_id": "ratt_20260830T102517Z_3f4af403",
+      "source_sha": "29b3d4355167f58d5710f53a79dc4537f0696cf5",
+      "command": "GOTOOLCHAIN=go1.26.4 go test ./cmd/compound",
+      "status": "succeeded",
+      "classification": "exact literal green with non-release-grade package margin",
+      "governed_elapsed_seconds": 608.607,
+      "package_elapsed_seconds": 591.868,
+      "deadline_margin_seconds": 8.132
+    }
+  ],
+  "focused_diagnostic": {
+    "run_attempt_id": "ratt_20260830T074608Z_36796d0a",
+    "single_git_test_seconds": 1.493,
+    "five_git_tests_serial_seconds": 6.758,
+    "same_five_git_tests_parallel_seconds": 4.399,
+    "meaning": "The selected Git tests are not intrinsically hung. Serial admission and the late parallel tail both contributed across later runs."
+  },
+  "safety_boundary": {
+    "allowed": "Only tests audited to use isolated temp roots, explicit child environments, read-only shared fixtures, and synchronization-safe helpers receive t.Parallel.",
+    "forbidden": [
+      "tests using t.Setenv",
+      "tests replacing process-global standard streams or cwd",
+      "tests mutating package globals",
+      "global parallelism caps",
+      "timeout increases or hidden GOFLAGS",
+      "package exclusions or weakened assertions"
+    ]
+  },
+  "canonical_broad_status": "not release-green; the exact cmd/compound command passed twice, but worst package margin is only 8.132s and literal go test ./... has not passed"
+}

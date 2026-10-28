@@ -1,0 +1,18 @@
+{
+  "schema_version": "compound.memory_topics.v0.1",
+  "topics": [
+    {
+      "slug": "topic:technology-sector",
+      "narrows_to": ["topic:application-platforms"]
+    },
+    {
+      "slug": "topic:application-platforms",
+      "part_of": ["topic:technology-sector"],
+      "narrows_to": ["topic:workflow-automation"]
+    },
+    {
+      "slug": "topic:workflow-automation",
+      "part_of": ["topic:application-platforms"]
+    }
+  ]
+}

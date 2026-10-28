@@ -1,0 +1,24 @@
+schema_version: compound.path_authority.v0.1
+entity_ref: project:sample-mobile-app
+entity_kind: project
+aliases:
+  - SampleMobileApp
+authoritative_source: fixture-project-contract
+precedence_rank: 3
+source_bindings:
+  - kind: git_remote
+    value: https://example.invalid/sample-mobile-app.git
+  - kind: bundle
+    value: com.example.samplemobile
+path_bindings:
+  - path: /workspace/old/sample-mobile-app
+    host: macbook
+    status: stale
+  - path: /workspace/new/sample-mobile-app
+    host: macbook
+    status: active
+host_bindings:
+  - host: macbook
+    status: active
+evidence_refs:
+  - fixture:path-authority

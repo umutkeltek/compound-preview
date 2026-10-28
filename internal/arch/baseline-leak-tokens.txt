@@ -1,0 +1,18 @@
+# Baseline leak-token list — TRACKED public core, armed by DEFAULT.
+# Obvious secret-credential shapes that must never appear in a tracked public file.
+# The doc-leak gate embeds this list (go:embed), so a fresh clone/worktree is armed
+# even without the gitignored operator overlay — it never fails closed.
+# Matching is case-insensitive + substring; one token per line; '#' lines are ignored.
+# Operator-SPECIFIC private tool/product names are deliberately NOT here (shipping them
+# in public core would itself leak them) — they load additively from the gitignored
+# docs_private/leak-tokens.txt overlay in the operator home.
+-----begin
+ghp_
+gho_
+ghs_
+github_pat_
+xoxb-
+xoxp-
+sk-ant-api0
+aws_secret_access_key
+aizasy

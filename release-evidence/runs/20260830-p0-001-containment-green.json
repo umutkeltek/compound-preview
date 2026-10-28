@@ -1,0 +1,131 @@
+{
+  "schema_version": "compound.release_run_evidence.v0.1",
+  "issue_id": "REL-P0-001",
+  "captured_at": "2026-08-30T00:11:20Z",
+  "source_head_before_commits": "e0d197f809f914e8e943ae56dd8295d987ac0b37",
+  "candidate_head": "225d69697fff127a54d6c937dbe5895a26bbc045",
+  "fix_commits": [
+    "bc7c1494945e15e4146355aad0bd1621f6750ce4",
+    "5dfec9f7bb566b3181a7d94b5cb0d0ecdc4266e0",
+    "49b54682dbbb852f309182ce441796501f24e715",
+    "225d69697fff127a54d6c937dbe5895a26bbc045"
+  ],
+  "toolchain": "go1.26.4",
+  "red_proofs": [
+    {
+      "command": "GOTOOLCHAIN=go1.26.4 go test ./cmd/compound -run '^TestWorkDelegateStatusDoesNotRunPreSpawnSweep$' -count=1",
+      "exit_code": 1,
+      "violation": "delegate status changed an unrelated stale RunAttempt from pending to abandoned"
+    },
+    {
+      "command": "GOTOOLCHAIN=go1.26.4 go test ./cmd/compound -run '^TestWorkDelegateCommandsNeverImplicitlySweepRunAttempts$' -count=1",
+      "exit_code": 1,
+      "duration_seconds": 22.347,
+      "violation": "a parse-valid but semantically refused opted-in delegate changed an unrelated stale RunAttempt from pending to abandoned",
+      "incidental_fixture_correction": "dry-run exits 1 on an unready harness; the table initially expected 0 and was corrected without changing the invariant"
+    }
+  ],
+  "governed_execution": {
+    "work_id": "work_6d6f6656b89c",
+    "running_action_intent_id": "act_127f7df18a20",
+    "running_policy_decision_id": "pol_f069f81604b8",
+    "verifying_action_intent_id": "act_43f6db4d04b8",
+    "verifying_policy_decision_id": "pol_72b8e2513400",
+    "run_attempt_id": "ratt_20260829T224927Z_a4fa7174",
+    "status": "succeeded",
+    "exit_code": 0,
+    "duration_ms": 143222,
+    "transcript_relpath": "run_attempts/ratt_20260829T224927Z_a4fa7174.transcript",
+    "transcript_sha256": "f8e4f401d577cda7475edb7a27f53dfed98e61143973071b92d5a33f49049aca"
+  },
+  "pre_candidate_green_matrix_head": "5dfec9f7bb566b3181a7d94b5cb0d0ecdc4266e0",
+  "pre_candidate_green_matrix": [
+    {
+      "command": "go test ./cmd/compound -run '(Delegate|PreSpawn|NoImplicitSweep|DoctorFlagsWorktreeLock|DoctorWorktreeLockSection|RouteExperimentPlan|ExperimentalDelegateMutation)' -count=1",
+      "result": "pass",
+      "package_duration_seconds": 9.759
+    },
+    {
+      "command": "go test ./internal/work -run 'Delegate' -count=1",
+      "result": "pass",
+      "package_duration_seconds": 31.984
+    },
+    {
+      "command": "go test ./internal/routeevidence -run '^TestPlanRouteExperiment' -count=1",
+      "result": "pass",
+      "package_duration_seconds": 0.477
+    },
+    {
+      "command": "go test ./internal/arch -run '^TestPublicAlphaSupportedScopeContract' -count=1",
+      "result": "pass",
+      "package_duration_seconds": 0.286
+    },
+    {
+      "command": "go test -race ./cmd/compound -run '^(TestWorkDelegateCommandsNeverImplicitlySweepRunAttempts|TestWorkDelegateMutationCLIGateDefaultsOffWithoutSideEffects)$' -count=1",
+      "result": "pass",
+      "package_duration_seconds": 5.358
+    },
+    {
+      "command": "go test -race ./internal/work -run '^(TestDelegateMutationPackageGateDefaultsOff|TestDelegateFrozenCloseFencesPreMintRefusalPublications|TestDelegateFrozenCloseFencesPreMintSessionCleanup|TestDelegateRefusalPublicationRechecksConcurrentFrozenClose|TestDelegateFrozenCloseDryRunRemainsReadOnly)$' -count=1",
+      "result": "pass",
+      "package_duration_seconds": 4.788
+    },
+    {
+      "command": "go vet ./internal/work ./cmd/compound ./internal/routeevidence ./internal/arch",
+      "result": "pass"
+    },
+    {
+      "command": "bun node_modules/next/dist/bin/next build",
+      "working_directory": "console",
+      "result": "pass",
+      "compiled_seconds": 8.0,
+      "static_pages": 7
+    },
+    {
+      "command": "GOTOOLCHAIN=go1.26.4 go test -race ./internal/work -run '^TestCloseNonWholeSecondPersistsOneExactTimestamp$' -count=1",
+      "result": "pass",
+      "package_duration_seconds": 10.091
+    }
+  ],
+  "candidate_green_matrix": [
+    {
+      "command": "GOTOOLCHAIN=go1.26.4 go test ./internal/work -run '^(TestCloseNonWholeSecondPersistsOneExactTimestamp|TestCloseCrashAfterFirstEnvelopeWithNoPreparedAttemptsUsesOneGeneration|TestCloseResumesLegacyPreparedActionIdentityAfterUpgrade|TestCrashGapReconcileMapsEveryWorkCloseOutcome)$' -count=1",
+      "result": "pass",
+      "package_duration_seconds": 2.493
+    },
+    {
+      "command": "GOTOOLCHAIN=go1.26.4 go test -race ./internal/work -run '^(TestCloseNonWholeSecondPersistsOneExactTimestamp|TestCloseCrashAfterFirstEnvelopeWithNoPreparedAttemptsUsesOneGeneration|TestCloseResumesLegacyPreparedActionIdentityAfterUpgrade|TestCrashGapReconcileMapsEveryWorkCloseOutcome)$' -count=1",
+      "result": "pass",
+      "package_duration_seconds": 3.853
+    },
+    {
+      "command": "GOTOOLCHAIN=go1.26.4 go test ./cmd/compound -run '^(TestWorkDelegate.*|TestExperimentalDelegateMutationEnablementHasOneProductionOwner)$' -count=1",
+      "result": "pass",
+      "package_duration_seconds": 13.483
+    },
+    {
+      "command": "GOTOOLCHAIN=go1.26.4 go test ./internal/work -run '^(TestDelegateMutationPackageGateDefaultsOff|TestDelegateFrozenClose.*|TestDelegateRefusalPublicationRechecksConcurrentFrozenClose|TestDelegateDryRunNeverSpawnsOrPersists|TestDelegateRefusesFrozenCloseBeforeMint|TestOpenReadOnlyRefusesLifecycleMutationOnPreparedHome)$' -count=1",
+      "result": "pass",
+      "package_duration_seconds": 5.916
+    },
+    {
+      "command": "GOTOOLCHAIN=go1.26.4 go test -race ./cmd/compound -run '^(TestWorkDelegate.*|TestExperimentalDelegateMutationEnablementHasOneProductionOwner)$' -count=1",
+      "result": "pass",
+      "package_duration_seconds": 17.971
+    },
+    {
+      "command": "GOTOOLCHAIN=go1.26.4 go test -race ./internal/work -run '^(TestDelegateMutationPackageGateDefaultsOff|TestDelegateFrozenClose.*|TestDelegateRefusalPublicationRechecksConcurrentFrozenClose|TestDelegateDryRunNeverSpawnsOrPersists|TestDelegateRefusesFrozenCloseBeforeMint|TestOpenReadOnlyRefusesLifecycleMutationOnPreparedHome)$' -count=1",
+      "result": "pass",
+      "package_duration_seconds": 6.556
+    }
+  ],
+  "containment": {
+    "delegate_mutation_default": "disabled",
+    "required_flag": "--experimental-delegate-mutations",
+    "supported_v0_1": false,
+    "implicit_pre_spawn_sweep_removed": true,
+    "explicit_cleanup_owner": "compound run-attempt sweep",
+    "public_support_boundary_ratchet": true
+  },
+  "remaining_gate": "REL-P0-001 stays fixing until current main is integrated and the full affected packages plus canonical broad battery pass; opted-in delegate TOCTOU remains deferred as REL-P1-013 outside the v0.1 support contract."
+}

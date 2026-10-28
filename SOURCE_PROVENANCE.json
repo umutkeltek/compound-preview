@@ -1,0 +1,27 @@
+{
+  "schema_version": "compound.source_preview_provenance.v0.1",
+  "base_source_commit": "7a617d720cd2c510dfcb074378a97671fad7b447",
+  "base_source_tree": "f45603c6d89dd91f2684f5b3933e74485eab73d0",
+  "base_archive_sha256": "567287f1b62eb848d52f1a8cf667270f78c95ba5b512409bcae0aad18613ef49",
+  "H10_tested_binary_source": "83fbadc452fd7bcc61fd7e464313fcf8902f329f",
+  "binary_evidence_applies_to_combined_snapshot": false,
+  "native_inference": false,
+  "distribution": "source-only developer preview; no private Git history or signed binary release",
+  "overlay_files": [
+    "README.md",
+    "SOURCE_PREVIEW_SECURITY.md",
+    "UPSTREAM_README.md",
+    "case-study/CASE_STUDY.md",
+    "case-study/experiment-results.json",
+    "examples/synthetic-lifecycle/CASE_STUDY.md",
+    "examples/synthetic-lifecycle/README.md",
+    "examples/synthetic-lifecycle/evidence.schema.json",
+    "examples/synthetic-lifecycle/reproduce.mjs",
+    "examples/synthetic-lifecycle/sample-evidence.json"
+  ],
+  "case_evidence": "case-study/experiment-results.json",
+  "base_raw_git_archive_sha256": "5c480189a1a4f9ac6ec59c53f52e74619098f35963be3abc2cfa8147b2b26f34",
+  "base_source_file_count": 3521,
+  "base_source_changed_files_from_H10": 16,
+  "public_snapshot_file_count": 3531
+}

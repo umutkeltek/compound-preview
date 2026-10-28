@@ -1,0 +1,26 @@
+{
+  "schema_version": "compound.release_reproducer.v0.1",
+  "issue_id": "REL-P1-014",
+  "observed_at": "2026-08-30T03:55:24Z",
+  "source_sha": "d7f77a3e25888f1f906114d857e79dadaa1ac78d",
+  "source_tree": "07ee2144aa75f21a643562a6ebe26b291cadfd56",
+  "method": "disposable go -overlay test against the exact source SHA; no tracked source or live home mutation",
+  "proposed_red_test": "TestProofChainForWorkRejectsMissingRunAttempt",
+  "command": "GOTOOLCHAIN=go1.26.4 go test -count=1 ./internal/work -run '^TestProofChainForWorkRejectsMissingRunAttempt$' -v",
+  "exit_code": 1,
+  "fixture": {
+    "terminal_work": "synthetic temporary-home work with valid Receipt and Transition",
+    "corruption": "append one syntactically canonical but missing ratt_ reference to the terminal WorkEnvelope"
+  },
+  "whole_ledger_doctor": {
+    "status": "failed",
+    "problem": "missing_run_attempt"
+  },
+  "target_scoped_proof": {
+    "proof_complete": true,
+    "problems": [],
+    "failure": "false-green despite the same missing RunAttempt reference"
+  },
+  "root_cause": "ProofChainForWork stops after proofChainItem and never invokes checkRunAttemptProof, unlike ProofChainDoctor.",
+  "support_classification": "P1 while authority worktree-retire and legacy OS absorption remain outside the supported v0.1 journey"
+}

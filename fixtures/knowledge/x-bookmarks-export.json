@@ -1,0 +1,37 @@
+{
+  "schema_version": "compound.knowledge_export.v0.1",
+  "source": {
+    "kind": "x_bookmarks",
+    "ref": "fixture-batch:synthetic-bookmarks",
+    "captured_at": "2026-07-06T09:30:00Z"
+  },
+  "producer": {
+    "kind": "edge-script",
+    "name": "synthetic-bookmarks-capture",
+    "version": "0.1"
+  },
+  "items": [
+    {
+      "ref": "x-bookmark:synthetic-001",
+      "url": "https://example.invalid/bookmarks/synthetic-design-reference",
+      "author_handle": "@synthetic_designer",
+      "bookmarked_at": "2026-07-05T16:20:00Z",
+      "captured_at": "2026-07-06T09:30:00Z",
+      "media_refs": ["artifact_sha256:synthetic-media-001"],
+      "operator_note": "Synthetic note: inspect as a design taste example.",
+      "content": "Synthetic bookmark text about a compact interface pattern with clear visual hierarchy and reusable interaction details.",
+      "lang": "en"
+    },
+    {
+      "ref": "x-bookmark:synthetic-002",
+      "url": "https://example.invalid/bookmarks/synthetic-market-note",
+      "author_handle": "@synthetic_operator",
+      "bookmarked_at": "2026-07-05T18:45:00Z",
+      "captured_at": "2026-07-06T09:30:00Z",
+      "media_refs": ["artifact_sha256:synthetic-media-002"],
+      "operator_note": "Synthetic note: treat this as a product idea and market take.",
+      "content": "Synthetic bookmark text about a repeated workflow pain that could become a bounded product experiment after review.",
+      "lang": "en"
+    }
+  ]
+}

@@ -1,0 +1,124 @@
+schema_version: compound.skill_manifest.v0.1
+id: instruction_rules_seed_fixture
+adapter_id: fixture.instruction-rules
+source_system: compound-instructions
+observed_at: "2026-07-06T00:00:00Z"
+source_ref:
+  path: fixtures/skills/instruction-rules.yaml
+  kind: authority_fixture
+  owner: capability-graph
+  source_class: source
+  revision: instruction-rules-seed-v1
+evidence_refs:
+  - AGENTS.md
+  - CLAUDE.md
+skills:
+  - id: instruction_rule:memory-recall-adjudication
+    kind: instruction_rule
+    name: Memory Recall Adjudication Rule
+    status: active
+    triggers:
+      - memory recall
+      - adjudicated memory
+    when:
+      - kind: task-class
+        values: [memory, recall]
+      - kind: repo-kind
+        values: [control-plane]
+    read:
+      - docs/architecture/contracts/README.md
+      - docs/architecture/runtime.md
+    route:
+      - output: learning
+        destination: compound://owners/extract-approach
+      - output: memory_candidate
+        destination: compound://memory/candidate-door
+    boundary:
+      - no promoted claim mutation without adjudication
+      - no raw corpus or rented index becomes truth authority
+    tier: 1
+    weight: 2
+
+  - id: instruction_rule:public-boundary-redact
+    kind: instruction_rule
+    name: Public Boundary Redact Rule
+    status: active
+    triggers:
+      - public boundary
+      - redact
+      - docs
+      - push
+      - remote
+      - publish
+      - release
+      - ship
+      - leak
+      - secret
+      - credential
+    when:
+      - kind: task-class
+        values: [public, private, redact, docs, push, publish, release]
+    read:
+      - docs/BOUNDARIES.md
+    route:
+      - output: public_fixture
+        destination: compound://public-core/synthetic-fixtures
+      - output: leak_scan
+        destination: compound://checks/redact
+    boundary:
+      - no personal path credential account real product or private body in tracked files
+    tier: 1
+
+  - id: instruction_rule:go-control-plane-depth-test
+    kind: instruction_rule
+    name: Go Control Plane Depth Test Rule
+    status: active
+    triggers:
+      - go
+      - golang
+      - control-plane
+    when:
+      - kind: task-class
+        values: [go, golang]
+      - kind: repo-kind
+        values: [control-plane]
+      - kind: phase
+        values: [execute]
+    read:
+      - AGENTS.md
+      - docs/architecture/status.md
+    route:
+      - output: verification
+        destination: compound://checks/proof-check
+      - output: test_learning
+        destination: compound://owners/extract-approach
+    boundary:
+      - no new internal package without internal arch classification
+      - no happy-path-only test for behavior changes
+    tier: 1
+
+  - id: instruction_rule:instruction-generation-offers-only
+    kind: instruction_rule
+    name: Instruction Generation Offers Only Rule
+    status: active
+    triggers:
+      - instruction generation
+      - instruction rule
+      - context pack
+    when:
+      - kind: task-class
+        values: [instruction, instructions, context pack]
+      - kind: repo-kind
+        values: [control-plane]
+    read:
+      - docs/architecture/runtime.md
+      - docs/architecture/contracts/README.md
+    route:
+      - output: instruction_rule
+        destination: compound://registries/capability-graph
+      - output: generated_instruction
+        destination: compound://harness/generated-contract
+    boundary:
+      - auto-surface never auto-execute
+      - constrain output routing and irreversible actions, not reasoning
+    tier: 1

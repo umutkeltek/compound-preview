@@ -1,0 +1,22 @@
+{
+  "schema_version": "compound.review_finding_record.v0.1",
+  "id": "rvf_sample0001",
+  "created_at": "2026-07-11T04:38:00Z",
+  "status": "recorded",
+  "work_id": "work_sample00000001",
+  "capability": "review.finding",
+  "summary": "Phantom save: banner reports the note was filed but the sample-app store never received it",
+  "target_path": "findings/rec-pf1-sample-false-completion.json",
+  "artifact_path": "findings/rec-pf1-sample-false-completion.json",
+  "source_artifacts": [
+    {
+      "path": "findings/pf1-sample-false-completion.json",
+      "artifact_path": "findings/pf1-sample-false-completion.json",
+      "hash": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+    }
+  ],
+  "evidence_refs": [
+    "findings/pf1-sample-false-completion.json",
+    "work_sample00000001"
+  ]
+}

@@ -1,0 +1,75 @@
+{
+  "schema_version": "compound.receipt.v0.1",
+  "id": "rec_distill_fixture",
+  "created_at": "2026-06-29T12:00:00Z",
+  "producer": {
+    "kind": "fixture",
+    "name": "compound"
+  },
+  "ids": {
+    "work_id": "work_distill_fixture",
+    "context_pack_id": "ctx_distill_fixture"
+  },
+  "scope": {
+    "entity_id": "system:compound",
+    "surface": "distiller"
+  },
+  "authority": {
+    "source_class": "runtime",
+    "status": "current"
+  },
+  "privacy": "private",
+  "risk": "tier1",
+  "evidence_refs": [
+    "artifact_distiller_request"
+  ],
+  "uncertainty": {
+    "level": "known"
+  },
+  "outcome": "completed",
+  "move_type": "memory_delta",
+  "state_delta": {
+    "changed": true,
+    "summary": "distiller request packet generated from bounded spine artifacts",
+    "files_changed": [],
+    "artifacts": [
+      "artifact_distiller_request"
+    ],
+    "verification": [
+      "go test ./internal/distiller"
+    ]
+  },
+  "cost": {
+    "model_calls": []
+  },
+  "skills": {
+    "application_method": "explicit_declaration",
+    "used": [
+      "capability://skill:golang-testing"
+    ],
+    "missed": [
+      "capability://skill:distiller-request-packet"
+    ],
+    "false_triggered": [
+      "capability://skill:generic-copy"
+    ],
+    "candidate": [
+      "capability://skill:offered-only"
+    ]
+  },
+  "memory": {
+    "candidates": [
+      "cand_method"
+    ],
+    "promoted": [],
+    "parked": [
+      "cand_method"
+    ]
+  },
+  "next": {
+    "suggested_work": [
+      "add offline eval runner"
+    ],
+    "review_trigger": "method debt > 0"
+  }
+}

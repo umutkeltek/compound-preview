@@ -1,0 +1,14 @@
+{
+  "schema_version": "compound.distiller.llm_extraction.v0.1",
+  "trace_ref": "trace_reject_ungrounded_evidence",
+  "source_refs": ["raw_trace:trace_reject_ungrounded_evidence"],
+  "candidates": [
+    {
+      "kind": "skill",
+      "subject": "skill:invented",
+      "statement": "model cited evidence not present in the request packet",
+      "confidence": 0.82,
+      "evidence_refs": ["made_up:source"]
+    }
+  ]
+}

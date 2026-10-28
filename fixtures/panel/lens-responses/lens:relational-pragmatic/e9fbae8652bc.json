@@ -1,0 +1,30 @@
+{
+  "confidence": 0.55,
+  "findings": [
+    {
+      "claim": "\"no pressure\" may function as a face-saving hedge that pre-absorbs a rejection before it happens, lowering Sam's cost of declining.",
+      "severity": "medium",
+      "evidence_refs": ["we should grab coffee sometime, no pressure"]
+    },
+    {
+      "claim": "\"no pressure\" may instead function as a literal, low-stakes framing with no defensive intent, consistent with genuinely casual contact.",
+      "severity": "low",
+      "evidence_refs": ["we should grab coffee sometime, no pressure"]
+    },
+    {
+      "claim": "\"if it works out\" may function as a soft decline that avoids a direct no while still not committing to anything.",
+      "severity": "medium",
+      "evidence_refs": ["sure, if it works out. I'm pretty busy this week"]
+    },
+    {
+      "claim": "\"it's whatever\" may function as Alex matching Sam's low-commitment register to avoid appearing more invested than Sam.",
+      "severity": "medium",
+      "evidence_refs": ["same, it's whatever, just figured I'd mention it"]
+    },
+    {
+      "claim": "\"let me know if you're around\" shifts the burden of initiating a concrete plan onto Alex, without Sam offering any availability.",
+      "severity": "low",
+      "evidence_refs": ["yeah totally. let me know if you're around"]
+    }
+  ]
+}

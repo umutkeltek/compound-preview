@@ -1,0 +1,6 @@
+{
+  "decision": "promote",
+  "confidence": 0.86,
+  "rationale": "The candidate is scoped, traceable, non-sensitive, and not contradicted by supplied refs.",
+  "dissent": []
+}

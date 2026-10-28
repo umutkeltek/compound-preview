@@ -1,0 +1,12 @@
+{
+  "mode": "closure_over_expansion",
+  "current_priority": "prove policy authority consumption",
+  "needs_me": [],
+  "blocked": [],
+  "autonomy_lever": {
+    "level": "L1",
+    "set_at": "2026-06-30T12:00:00Z",
+    "set_by": "fixture",
+    "meaning": "synthetic ceiling for policy tests"
+  }
+}

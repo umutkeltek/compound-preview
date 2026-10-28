@@ -1,0 +1,35 @@
+{
+  "schema_version": "compound.execution_route_evidence.v0.1",
+  "id": "route_external_fixture",
+  "created_at": "2026-06-29T12:00:00Z",
+  "request_id": "gateway:req_fixture",
+  "work_id": "work_gateway_fixture",
+  "client_profile": "gateway.ingress",
+  "protocol": "openai-chat-completions",
+  "selected_target": {
+    "provider": "fixture-provider",
+    "model": "fixture-model",
+    "protocol": "openai-chat-completions"
+  },
+  "rejected": [
+    {
+      "target": {
+        "provider": "fixture-provider",
+        "model": "too-small-model",
+        "protocol": "openai-chat-completions"
+      },
+      "reason": "capability_below_required"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 12,
+    "completion_tokens": 5,
+    "total_tokens": 17
+  },
+  "cost_micros": 42,
+  "latency_ms": 31,
+  "status": "completed",
+  "evidence_refs": [
+    "gateway:trace_fixture"
+  ]
+}

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>ai.compound.asc-daily</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/zsh</string>
+    <string>-lc</string>
+    <string>mkdir -p "${HOME}/Library/Logs" &amp;&amp; cd "${COMPOUND_REPO:?set COMPOUND_REPO}" &amp;&amp; bun tools/asc_daily_signals.ts --config "${COMPOUND_ASC_PRODUCTS:?set COMPOUND_ASC_PRODUCTS}" --asc-command "${COMPOUND_ASC_DAILY_COMMAND:?set COMPOUND_ASC_DAILY_COMMAND}" --date "$(date -v-1d +%F)" --out-dir "${COMPOUND_HOME:-${HOME}/.compound}/state/asc-daily-signals" --apply --json &gt;&gt;"${HOME}/Library/Logs/ai.compound.asc-daily.out.log" 2&gt;&gt;"${HOME}/Library/Logs/ai.compound.asc-daily.err.log"</string>
+  </array>
+  <key>StartCalendarInterval</key>
+  <dict>
+    <key>Hour</key>
+    <integer>8</integer>
+    <key>Minute</key>
+    <integer>15</integer>
+  </dict>
+</dict>
+</plist>

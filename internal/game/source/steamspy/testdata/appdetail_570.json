@@ -1,0 +1,20 @@
+{
+  "appid": "570",
+  "name": "Dota 2",
+  "developer": "Valve",
+  "publisher": "Valve",
+  "owners": "50,000,000 .. 100,000,000",
+  "owners_variance": "1234567",
+  "players_forever": "180000000",
+  "players_2_weeks": "980000",
+  "average_forever": "24000",
+  "average_2_weeks": "1500",
+  "median_forever": "320",
+  "median_2_weeks": "90",
+  "ccu": "8000",
+  "price": "0",
+  "score_rank": "",
+  "positive": "1500000",
+  "negative": "50000",
+  "tags": "Action,Free to Play,Strategy,MOBA"
+}

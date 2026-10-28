@@ -1,0 +1,32 @@
+{
+  "schema_version": "compound.observation_batch.v0.1",
+  "source": {
+    "kind": "app_store_connect",
+    "ref": "app-store:fixture-app",
+    "captured_at": "2026-07-04T12:00:00Z",
+    "collector": "fixture-asc-edge",
+    "privacy": "synthetic"
+  },
+  "subject": {
+    "kind": "product",
+    "id": "product:focus-notes",
+    "surface": "app-store-page",
+    "channel": "app_store"
+  },
+  "observations": [
+    {
+      "id": "obs_fixture_asc_conversion",
+      "observed_at": "2026-07-04T00:00:00Z",
+      "kind": "metric",
+      "metric": "product_page_conversion_rate",
+      "value": 0.052,
+      "window": {
+        "start": "2026-07-01",
+        "end": "2026-07-03"
+      },
+      "raw_ref": "asc-row:fixture-conversion",
+      "confidence": 1,
+      "evidence_refs": ["fixture:asc:conversion"]
+    }
+  ]
+}

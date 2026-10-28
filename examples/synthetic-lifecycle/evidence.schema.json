@@ -1,0 +1,187 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Compound synthetic lifecycle reproduction evidence",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "status",
+    "native_inference",
+    "synthetic",
+    "platform",
+    "architecture",
+    "binary",
+    "work_id",
+    "run_attempt_id",
+    "state_delta",
+    "checks",
+    "result_sha256",
+    "limits",
+    "steps",
+    "receipt_id",
+    "transition_id",
+    "execution_policy_decision_id"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "compound.synthetic_reproduction.v0.1"
+    },
+    "status": {
+      "const": "passed"
+    },
+    "native_inference": {
+      "const": false
+    },
+    "synthetic": {
+      "const": true
+    },
+    "platform": {
+      "enum": [
+        "darwin",
+        "linux",
+        "win32"
+      ]
+    },
+    "architecture": {
+      "type": "string"
+    },
+    "binary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "version",
+        "build_sha",
+        "sha256"
+      ],
+      "properties": {
+        "version": {
+          "type": "string"
+        },
+        "build_sha": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    },
+    "work_id": {
+      "const": "work_synthetic_reproduction"
+    },
+    "run_attempt_id": {
+      "type": "string",
+      "pattern": "^ratt_"
+    },
+    "state_delta": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "initial",
+        "claimed",
+        "rejected_adapter",
+        "executed",
+        "accepted"
+      ],
+      "properties": {
+        "initial": {
+          "const": "ready"
+        },
+        "claimed": {
+          "const": "claimed"
+        },
+        "rejected_adapter": {
+          "const": "claimed"
+        },
+        "executed": {
+          "const": "verifying"
+        },
+        "accepted": {
+          "const": "completed"
+        }
+      }
+    },
+    "checks": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "refusal_nonzero",
+        "refusal_work_unchanged",
+        "refusal_attempts_unchanged",
+        "exact_output_accepted",
+        "attempt_succeeded",
+        "attempt_forward_linked",
+        "closed_completed",
+        "proof_chain_doctor_passed"
+      ],
+      "properties": {
+        "refusal_nonzero": {
+          "const": true
+        },
+        "refusal_work_unchanged": {
+          "const": true
+        },
+        "refusal_attempts_unchanged": {
+          "const": true
+        },
+        "exact_output_accepted": {
+          "const": true
+        },
+        "attempt_succeeded": {
+          "const": true
+        },
+        "attempt_forward_linked": {
+          "const": true
+        },
+        "closed_completed": {
+          "const": true
+        },
+        "proof_chain_doctor_passed": {
+          "const": true
+        }
+      }
+    },
+    "result_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "limits": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "steps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "status"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "status": {
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "receipt_id": {
+      "type": "string",
+      "pattern": "^rec_"
+    },
+    "transition_id": {
+      "type": "string",
+      "pattern": "^tr_"
+    },
+    "execution_policy_decision_id": {
+      "type": "string",
+      "pattern": "^pol_"
+    }
+  }
+}

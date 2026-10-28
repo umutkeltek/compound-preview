@@ -1,0 +1,121 @@
+{
+  "schema_version": "compound.release.run-evidence.v0.1",
+  "recorded_at": "2026-08-30T03:48:09Z",
+  "issues": [
+    "REL-P0-007"
+  ],
+  "source_head": "d7f77a3e25888f1f906114d857e79dadaa1ac78d",
+  "source_tree": "07ee2144aa75f21a643562a6ebe26b291cadfd56",
+  "fix_commits": [
+    "871e7441eb757a9b778c81fdc61de8550e17cf25",
+    "c7af2fb028dd052b5b09b2ead57c820325d1f234"
+  ],
+  "clarification_commit": "d7f77a3e25888f1f906114d857e79dadaa1ac78d",
+  "red": [
+    {
+      "production_base_head": "c73ac31ee3bf24954942b3732b803bc2d5028854",
+      "production_base_tree": "c3a1c63861157ba6082c17db80c739f87fa55a12",
+      "command": "GOTOOLCHAIN=go1.26.4 go test -count=1 ./cmd/compound -run '^TestWorkAdvanceExecuteFailureAfterSweptClaimReservationClosesFailed$'",
+      "exit_code": 1,
+      "package_seconds": 3.736,
+      "failure": "terminal runattempt <swept-claim> status abandoned contradicts close outcome failed (want failed); work never reported failed/audit_only"
+    },
+    {
+      "production_base_head": "c73ac31ee3bf24954942b3732b803bc2d5028854",
+      "condition": "close publication accepted replaced claim but proof projection still used the completed-only exception",
+      "command": "GOTOOLCHAIN=go1.26.4 go test -count=1 ./cmd/compound -run '^TestWorkAdvanceExecuteFailureAfterSweptClaimReservationClosesFailed$'",
+      "exit_code": 1,
+      "failure": "ProofChainDoctor reported run_attempt_outcome_mismatch for the swept reservation on terminal failed work"
+    },
+    {
+      "production_base_head": "871e7441eb757a9b778c81fdc61de8550e17cf25",
+      "production_base_tree": "84f3f41e2e9483505b38e040ac5179a66f18c662",
+      "command": "GOTOOLCHAIN=go1.26.4 go test -count=1 ./internal/work -run '^(TestClose|TestRunAttempt|TestSupersededReservation)'",
+      "exit_code": 1,
+      "package_seconds": 57.536,
+      "failure": "TestCloseCompletedRejectsOriginOnlyHarnessAsClaimReplacement: origin-only harness evidence was incorrectly accepted as a real claim replacement"
+    },
+    {
+      "production_base_head": "871e7441eb757a9b778c81fdc61de8550e17cf25",
+      "condition": "scratch predicate restored the former executed-only replacement rule",
+      "command": "GOTOOLCHAIN=go1.26.4 go test -count=1 ./cmd/compound -run '^TestWorkAdvanceExecuteStartErrorAfterSweptClaimReservationClosesFailed$'",
+      "exit_code": 1,
+      "package_seconds": 3.716,
+      "failure": "exact rooted start_error attempt did not replace the swept claim, reproducing the abandoned-versus-failed contradiction"
+    }
+  ],
+  "green": [
+    {
+      "command": "GOTOOLCHAIN=go1.26.4 go test -count=1 ./cmd/compound -run '^(TestWorkAdvanceExecuteFailureAfterSweptClaimReservationClosesFailed|TestWorkAdvanceExecuteStartErrorAfterSweptClaimReservationClosesFailed)$'",
+      "exit_code": 0,
+      "package_seconds": 3.544
+    },
+    {
+      "command": "GOTOOLCHAIN=go1.26.4 go test -race -count=1 ./cmd/compound -run '^(TestWorkAdvanceExecuteFailureAfterSweptClaimReservationClosesFailed|TestWorkAdvanceExecuteStartErrorAfterSweptClaimReservationClosesFailed)$'",
+      "exit_code": 0,
+      "package_seconds": 5.884
+    },
+    {
+      "command": "GOTOOLCHAIN=go1.26.4 go test -count=1 ./internal/work -run '^(TestClose|TestRunAttempt|TestSupersededReservation)'",
+      "exit_code": 0,
+      "package_seconds": 66.549
+    },
+    {
+      "command": "GOTOOLCHAIN=go1.26.4 go test -race -count=1 ./internal/work -run '^(TestRunAttemptOwnsHarnessOutcomeRequiresExecutedOrExactStartError|TestCloseCompletedRejectsOriginOnlyHarnessAsClaimReplacement|TestCloseFailedRejectsSweptSideEffectFreeReservation)$'",
+      "exit_code": 0,
+      "package_seconds": 2.973
+    },
+    {
+      "command": "GOTOOLCHAIN=go1.26.4 go test -count=1 ./internal/work -run '^TestProofChain(Doctor|ForWork)'",
+      "exit_code": 0,
+      "package_seconds": 22.112
+    },
+    {
+      "command": "GOTOOLCHAIN=go1.26.4 go test -count=1 ./internal/actuator",
+      "exit_code": 0,
+      "package_seconds": 5.624
+    },
+    {
+      "command": "GOTOOLCHAIN=go1.26.4 go vet ./internal/work ./internal/actuator ./cmd/compound",
+      "exit_code": 0
+    },
+    {
+      "command": "git diff --check",
+      "exit_code": 0
+    }
+  ],
+  "properties": [
+    "a swept side-effect-free claim reservation is outcome-neutral only after a later authoritative harness result owns the work outcome",
+    "a committed launch and an exact rooted prepared+start_error lifecycle are accepted result-ownership shapes",
+    "origin-only, prepared-only, mismatched start_error, and conflicting committed+start_error shapes remain rejected",
+    "failed finalization forward-links the actual RunAttempt, publishes failed/audit_only Receipt and Transition evidence, and leaves sweep evidence immutable",
+    "the canonical full ProofChainDoctor accepts the terminal chain",
+    "retry against terminal failed work mints no RunAttempt and changes no terminal authority"
+  ],
+  "governed_execution": {
+    "work_id": "work_6290fe7b4f4f",
+    "work_state_after_execution": "verifying",
+    "running_action_intent_id": "act_124c27100c20",
+    "running_policy_decision_id": "pol_c2b32feff009",
+    "running_policy_outcome": "allow_with_obligations",
+    "finalization_action_intent_id": "act_cab0c8157f04",
+    "finalization_policy_decision_id": "pol_3fc18aa5a90f",
+    "claim_reservation_run_attempt_id": "ratt_20260830T032148Z_8e4a9daa",
+    "claim_reservation_final_status": "superseded",
+    "run_attempt_id": "ratt_20260830T032804Z_fdb8371e",
+    "run_attempt_origin": "harness_execution",
+    "run_attempt_status": "succeeded",
+    "launch_disposition": "committed",
+    "duration_ms": 1181266,
+    "transcript_ref": "$COMPOUND_HOME/run_attempts/ratt_20260830T032804Z_fdb8371e.transcript",
+    "transcript_sha256": "60315dc267fe97dbca81b61eb7319cd0a917f1e1218ef56f950eb219c66b4660",
+    "transcript_bytes": 42,
+    "transcript_result": "ok compound/cmd/compound 2.409s"
+  },
+  "status": "focused_green",
+  "closure_blockers": [
+    "canonical broad proof-check remains blocked by REL-P0-008",
+    "the reproduced close-freeze versus run-attempt-sweep convergence defect is tracked as REL-P0-009",
+    "ProofChainForWork omits RunAttempt validation and is tracked separately while its worktree-retirement consumer remains experimental"
+  ]
+}

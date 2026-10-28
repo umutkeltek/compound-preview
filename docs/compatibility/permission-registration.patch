@@ -1,0 +1,15 @@
+diff --git a/spine/permission-registration.ts b/spine/permission-registration.ts
+index 04b9fc2..7daa085 100644
+--- a/spine/permission-registration.ts
++++ b/spine/permission-registration.ts
+@@ -41,3 +41,3 @@ export const PERMISSION_POLICY: PermissionPolicy = {
+   defaultMode: "auto",
+-  allow: ["Bash", "Skill", "Task", "mcp__*", "Agent(*)"],
++  allow: ["Bash", "Skill", "Task", "Agent(*)"],
+   // Catastrophe guard — unambiguous, irreversible, non-recoverable. Hard-stop (no prompt), so it adds
+@@ -76,1 +76,5 @@
++if (PERMISSION_POLICY.allow.includes("mcp__*")) {
++  throw new Error("bare mcp__* permission rules are unsupported; use literal-server rules");
++}
++
+ interface PermissionDrift {

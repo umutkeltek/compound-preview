@@ -1,0 +1,33 @@
+schema_version: compound.skill_manifest.v0.1
+id: skill_manifest_harness_split_fixture
+adapter_id: fixture.skill-manifest
+source_system: fixture-os
+observed_at: "2026-06-29T00:00:00Z"
+source_ref:
+  path: fixtures/skills/harness-split.yaml
+  kind: generated_view
+  owner: capability-fixture
+  source_class: generated
+  revision: rev_fixture
+evidence_refs:
+  - artifact_sha256:harness-split-fixture
+skills:
+  - id: skill:codex-pricing
+    name: Codex Pricing
+    status: active
+    triggers:
+      - pricing
+    compatible_harnesses:
+      - codex
+  - id: skill:claude-pricing
+    name: Claude Pricing
+    status: active
+    triggers:
+      - pricing
+    compatible_harnesses:
+      - claude_code
+  - id: skill:generic-pricing
+    name: Generic Pricing
+    status: active
+    triggers:
+      - pricing

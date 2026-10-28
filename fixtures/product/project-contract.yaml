@@ -1,0 +1,31 @@
+schema_version: 1
+project:
+  slug: source-contract-demo
+  name: Source Contract Demo
+  class: product
+  status: active
+  priority: p1
+  owner: fixture
+  aliases:
+    - Source Contract Demo
+  notes: "Demo app whose product identity is read from source-in-place project and release contracts."
+source:
+  authority:
+    host: dev-host
+    path: /workspace/source-contract-demo
+    repo: https://example.invalid/source-contract-demo.git
+runtime:
+  authority: fixture-runtime
+  service_names:
+    - source-contract-demo-api
+  urls:
+    - https://source-contract-demo.example.invalid
+  healthchecks:
+    - https://source-contract-demo.example.invalid/health
+data:
+  authority: local
+  classification: local_first_demo_data
+  local_paths:
+    - Application Support/SourceContractDemo/state.json
+  external_sources:
+    - app_store_connect

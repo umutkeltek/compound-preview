@@ -1,0 +1,43 @@
+{
+  "surfaces": [
+    {
+      "id": "3DEA84F6-C869-40B3-B5D0-EB9D25F7F7FE",
+      "type": "agent-session",
+      "focused": true,
+      "window_id": "EE8977A7-E933-4FC9-956E-9C9169D4954E",
+      "workspace_id": "6CA3D8DB-78D0-4AC9-BC59-C76524F77DFA",
+      "pane_id": "DDFFC97D-C57C-4B60-98F8-27FF074B0136",
+      "pane_ref": "pane:37",
+      "requested_working_directory": "/Users/example/projects/example",
+      "index": 0,
+      "index_in_pane": 0,
+      "initial_command": "/bin/zsh '/tmp/something.zsh'",
+      "resume_binding": {
+        "approval_policy": "auto",
+        "auto_resume": true,
+        "checkpoint_id": "39062616-b020-4b55-940f-f92317302237",
+        "kind": "agent-hook",
+        "name": "Claude Code",
+        "cwd": "/Users/example/projects/example",
+        "command": "cd -- '/Users/example/projects/example' && printf claude --resume",
+        "environment": {
+          "ANTHROPIC_BASE_URL": "http://127.0.0.1:18781",
+          "CLAUDE_CONFIG_DIR": "/Users/example/.config/claude",
+          "PATH": "/usr/local/bin:/usr/bin:/bin"
+        }
+      }
+    },
+    {
+      "id": "5E289DA8-0CB7-45E3-8940-5FAF9B3EDF33",
+      "type": "terminal",
+      "focused": false,
+      "window_id": "EE8977A7-E933-4FC9-956E-9C9169D4954E",
+      "workspace_id": "6CA3D8DB-78D0-4AC9-BC59-C76524F77DFA",
+      "pane_id": "DDFFC97D-C57C-4B60-98F8-27FF074B0136",
+      "pane_ref": "pane:37",
+      "requested_working_directory": "/Users/example/projects/example",
+      "initial_command": "/bin/zsh",
+      "resume_binding": null
+    }
+  ]
+}

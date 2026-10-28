@@ -1,0 +1,28 @@
+{
+  "schema_version": "compound.observation_batch.v0.1",
+  "source": {
+    "kind": "support_inbox",
+    "ref": "inbox:fixture-support",
+    "captured_at": "2026-07-04T12:00:00Z",
+    "collector": "fixture-support-edge",
+    "privacy": "synthetic"
+  },
+  "subject": {
+    "kind": "product",
+    "id": "product:focus-notes",
+    "surface": "support",
+    "channel": "email"
+  },
+  "observations": [
+    {
+      "id": "obs_fixture_support_comment",
+      "observed_at": "2026-07-04T09:00:00Z",
+      "kind": "support_message",
+      "title": "Fixture support message",
+      "content": "Synthetic support note says onboarding wording is unclear.",
+      "raw_ref": "support-message:fixture-001",
+      "confidence": 0.8,
+      "evidence_refs": ["fixture:support:message"]
+    }
+  ]
+}

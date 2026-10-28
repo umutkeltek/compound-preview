@@ -1,0 +1,33 @@
+{
+  "schema_version": "compound.observation_batch.v0.1",
+  "source": {
+    "kind": "web_capture",
+    "ref": "https://example.invalid/research/observation-intake",
+    "captured_at": "2026-07-04T12:00:00Z",
+    "collector": "fixture-content-edge",
+    "privacy": "synthetic"
+  },
+  "subject": {
+    "kind": "research_note",
+    "id": "note:observation-intake",
+    "surface": "knowledge",
+    "channel": "web"
+  },
+  "observations": [
+    {
+      "id": "obs_fixture_content_knowledge",
+      "observed_at": "2026-07-04T12:00:00Z",
+      "kind": "content",
+      "title": "Observation intake keeps payloads as evidence",
+      "content": "External payloads should become citable evidence before any memory claim or decision is promoted.",
+      "url": "https://example.invalid/research/observation-intake",
+      "raw_ref": "web-row:observation-intake",
+      "confidence": 0.92,
+      "dimensions": {
+        "topic": "observation_intake",
+        "domain": "knowledge"
+      },
+      "evidence_refs": ["artifact_sha256:fixture-content"]
+    }
+  ]
+}

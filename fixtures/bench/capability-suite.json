@@ -1,0 +1,85 @@
+{
+  "suite": "capability-suite",
+  "cases": [
+    {
+      "id": "cap-pricing",
+      "kind": "capability",
+      "task": "pricing paywall monetization",
+      "expected": ["skill:pricing"],
+      "lane": "exact",
+      "split": "held_in"
+    },
+    {
+      "id": "cap-paywall",
+      "kind": "capability",
+      "task": "paywall upgrade subscription",
+      "expected": ["skill:paywall"],
+      "lane": "paraphrase",
+      "split": "held_in"
+    },
+    {
+      "id": "cap-subscription",
+      "kind": "capability",
+      "task": "subscription receipt entitlement",
+      "expected": ["tool:revenuecat"],
+      "lane": "graph",
+      "split": "held_in"
+    },
+    {
+      "id": "cap-migration",
+      "kind": "capability",
+      "task": "migration schema rollback",
+      "expected": ["procedure:migration"],
+      "lane": "exact",
+      "split": "held_in"
+    },
+    {
+      "id": "cap-security",
+      "kind": "capability",
+      "task": "review auth for injection security",
+      "expected": ["skill:security-review"],
+      "lane": "paraphrase",
+      "split": "held_in"
+    },
+    {
+      "id": "cap-browser",
+      "kind": "capability",
+      "task": "browser automation to scrape a site",
+      "expected": ["tool:agent-browser"],
+      "lane": "casual",
+      "split": "held_out"
+    },
+    {
+      "id": "cap-swift",
+      "kind": "capability",
+      "task": "swift concurrency actor isolation",
+      "expected": ["skill:ios-concurrency"],
+      "lane": "exact",
+      "split": "held_out"
+    },
+    {
+      "id": "cap-release",
+      "kind": "capability",
+      "task": "prepare release submission to the store",
+      "expected": ["procedure:release"],
+      "lane": "paraphrase",
+      "split": "held_out"
+    },
+    {
+      "id": "cap-reasoning",
+      "kind": "capability",
+      "task": "inversion tradeoff for a decision",
+      "expected": ["lens:reasoning"],
+      "lane": "graph",
+      "split": "held_out"
+    },
+    {
+      "id": "cap-cost",
+      "kind": "capability",
+      "task": "improve margin and cac",
+      "expected": ["lens:cost"],
+      "lane": "casual",
+      "split": "held_out"
+    }
+  ]
+}

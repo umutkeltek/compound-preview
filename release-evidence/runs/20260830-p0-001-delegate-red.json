@@ -1,0 +1,25 @@
+{
+  "schema_version": "compound.release_run_evidence.v0.1",
+  "issue_id": "REL-P0-001",
+  "captured_at": "2026-08-29T22:38:18Z",
+  "source_sha": "e0d197f809f914e8e943ae56dd8295d987ac0b37",
+  "source_tree_clean": true,
+  "fixture_revision": "legal frozen-close delegate fixtures",
+  "toolchain": "go1.26.4",
+  "command": "GOTOOLCHAIN=go1.26.4 go test ./internal/work -run 'TestDelegateFrozenCloseFencesPreMintRefusalPublications|TestDelegateFrozenCloseFencesPreMintSessionCleanup|TestDelegateRefusalPublicationRechecksConcurrentFrozenClose' -count=1",
+  "exit_code": 1,
+  "duration_seconds": 13.640841209,
+  "failing_tests": [
+    "TestDelegateFrozenCloseFencesPreMintRefusalPublications",
+    "TestDelegateFrozenCloseFencesPreMintSessionCleanup",
+    "TestDelegateRefusalPublicationRechecksConcurrentFrozenClose"
+  ],
+  "violations": [
+    "ordinary delegated refusal won after close authority froze; expected authority_changed",
+    "dead-binding sweep won after close authority froze; expected authority_changed",
+    "recorded-exit cleanup killed and removed runner state after close authority froze",
+    "concurrent refusal publication did not recheck the frozen close boundary"
+  ],
+  "expected_invariant": "Once exact close publication is frozen, delegated mutation and refusal publication cannot change work, lease, attempts, events, or runner state and must report authority_changed.",
+  "legacy_full_log": "release-evidence/runs/20260829-p0-001-delegate-red.log"
+}

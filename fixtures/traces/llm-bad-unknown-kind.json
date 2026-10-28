@@ -1,0 +1,14 @@
+{
+  "schema_version": "compound.distiller.llm_extraction.v0.1",
+  "trace_ref": "trace_reject_unknown_kind",
+  "source_refs": ["raw:turn_1"],
+  "candidates": [
+    {
+      "kind": "../../evil",
+      "subject": "path-like model output",
+      "statement": "model attempted to invent a candidate kind",
+      "confidence": 0.8,
+      "evidence_refs": ["raw_trace:trace_reject_unknown_kind"]
+    }
+  ]
+}

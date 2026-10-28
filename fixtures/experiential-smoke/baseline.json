@@ -1,0 +1,11 @@
+{
+ "schema_version": "compound.experiential_smoke_baseline.v0.1",
+ "seed_profile": "baseline-persona",
+ "generated_at": "2026-07-12T14:30:15Z",
+ "metrics": {
+  "interaction_cost": 2,
+  "belief_ledger_diff": 0,
+  "comprehension_misses": 0
+ },
+ "note": "regenerate with `compound experiential-smoke --write-baseline`; metrics are timestamp-independent counts"
+}

@@ -1,0 +1,10 @@
+schema_version: compound.product_source_issue_review.v0.1
+id: source_issue_review_focus_asc_export_20260713
+product_id: product:focus-notes
+issue_id: nop_cc3ef10d360dc01f
+result: resolved
+rationale: "Unsupported ASC export field was reviewed as a source-contract issue; route remains no-promote until the source/export contract is deliberately updated."
+reviewed_at: "2026-07-13T13:00:00Z"
+evidence_refs:
+  - fixture:asc-export:unsupported-field-reviewed
+  - fixture:source-contract-review

@@ -1,0 +1,1 @@
+{"confidence":0.7,"findings":[{"claim":"neither answer had a machine-checkable contract in the input, so fidelity is inconclusive","severity":"medium","evidence_refs":["target:cmp_inconclusive"]}]}

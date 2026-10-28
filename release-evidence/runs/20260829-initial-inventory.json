@@ -1,0 +1,66 @@
+{
+  "schema_version": "compound.release_inventory.v0.1",
+  "recorded_at": "2026-08-29T13:04:00Z",
+  "base_sha": "e5ecfd350e07286c8022b2efe5f86b8b9a7b2d3f",
+  "branch": "release/harden-20260829",
+  "clean": true,
+  "go_version": "go version go1.26.4 darwin/arm64",
+  "governance": {
+    "campaign_work_id": "work_20f4987b379f",
+    "setup_run_attempt_id": "ratt_20260829T125746Z_e0fb0e12",
+    "ledger_work_id": "work_7ffaaf2ac080",
+    "failed_predecessor_work_id": "work_636ee2a7ad41",
+    "failed_predecessor_run_attempt_id": "ratt_20260829T130119Z_becef4cc",
+    "failed_predecessor_reason": "Codex adapter returned HTTP 401 before any file mutation"
+  },
+  "checks": [
+    {
+      "command": "git status --porcelain=v1",
+      "exit_code": 0,
+      "duration_ms": 0.002333,
+      "stdout": ""
+    },
+    {
+      "command": "git rev-parse HEAD",
+      "exit_code": 0,
+      "duration_ms": 0.002542,
+      "stdout": "e5ecfd350e07286c8022b2efe5f86b8b9a7b2d3f"
+    },
+    {
+      "command": "git branch --show-current",
+      "exit_code": 0,
+      "duration_ms": 0.003834,
+      "stdout": "release/harden-20260829"
+    },
+    {
+      "command": "git diff --check",
+      "exit_code": 0,
+      "duration_ms": 0.00275,
+      "stdout": ""
+    },
+    {
+      "command": "GOTOOLCHAIN=go1.26.4 go version",
+      "exit_code": 0,
+      "duration_ms": 0.004792,
+      "stdout": "go version go1.26.4 darwin/arm64"
+    },
+    {
+      "command": "rg -n 'leaseHolderCloseGate\\(w, actor, in, now\\)' internal/work/work.go",
+      "exit_code": 0,
+      "duration_ms": 0.003125,
+      "stdout": "3099: if err := s.leaseHolderCloseGate(w, actor, in, now); err != nil {\n3129: if err := s.leaseHolderCloseGate(w, actor, in, now); err != nil {"
+    }
+  ],
+  "observations": [
+    {
+      "id": "REL-P0-001",
+      "status": "reproduced",
+      "evidence": "Two mutating close-gate calls exist before terminal WorkEnvelope publication."
+    },
+    {
+      "id": "PACKAGE-CLAIM",
+      "status": "waiting",
+      "evidence": "An active external lane owns internal/work; no overlapping release edit was made."
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "schema_version": "compound.work.v0.1",
+  "id": "work_demo",
+  "created_at": "2026-06-28T00:00:00Z",
+  "producer": { "kind": "cli", "name": "compound", "version": "0" },
+  "ids": {},
+  "scope": { "entity_id": "system:compound", "surface": "repo:internal/envelope" },
+  "authority": { "source_class": "runtime", "status": "current" },
+  "privacy": "private",
+  "risk": "tier1",
+  "evidence_refs": [],
+  "uncertainty": { "level": "known" },
+  "owner": "compound",
+  "canonical_surface": "repo:internal/envelope",
+  "state": "ready",
+  "desired_outcome": "the envelope schemas validate end to end",
+  "success_predicate": "compound envelope validate exits 0 on this fixture",
+  "non_goals": ["no memory ingestion yet"],
+  "run_ids": [],
+  "artifact_ids": [],
+  "verification_ids": [],
+  "memory_candidate_ids": []
+}

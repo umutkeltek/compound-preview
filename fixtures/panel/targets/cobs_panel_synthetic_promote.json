@@ -1,0 +1,13 @@
+{
+  "id": "cobs_panel_synthetic_promote",
+  "kind": "capability_observation",
+  "subject": "skill:panel-capability-promote",
+  "statement": "panel promote context",
+  "detail": "missed_when",
+  "confidence": 0.88,
+  "derivation": "synthetic_panel_fixture",
+  "evidence_refs": [
+    "trace://panel/capability-promote"
+  ],
+  "policy_version": "fixture-v1"
+}

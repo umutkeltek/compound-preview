@@ -1,0 +1,89 @@
+schema_version: compound.skill_manifest.v0.1
+id: codex_first_skill_v1
+adapter_id: external.agent-scripts-codex-first
+source_system: agent-scripts
+observed_at: "2026-07-08T00:00:00Z"
+# Externally-sourced skill (steipete/agent-scripts), operator-promoted through the
+# import-skills graph boundary. The source_ref is honest external provenance; compound
+# is the authority once imported. It operationalizes AGENTS.md Law 2 ("own the spine,
+# rent the executors") + the route-evidence doctrine as a surfaceable, claude_code-only
+# delegation capability — it does not retire anything, it fills the gap the baseline
+# surface proved (no codex-delegation offer on implementation tasks).
+source_ref:
+  path: https://github.com/steipete/agent-scripts/tree/main/skills/codex-first
+  kind: external_skill
+  owner: capability-graph
+  source_class: external
+  revision: agent-scripts:skills/codex-first@main-2026-07-08
+# The skill body is installed to the local skill corpus (~/.agents/skills/codex-first),
+# auto-loaded by Claude Code on description match — agents get it natively, not by URL.
+# The GitHub tree URL above is provenance only, never a runtime read pointer.
+evidence_refs:
+  - AGENTS.md
+skills:
+  # 1) The surfaceable delegation skill: offered on hands-on implementation tasks,
+  #    Claude Code only. Codex/other harnesses never see it (never self-delegate).
+  - id: skill:codex-first
+    kind: skill
+    name: Codex First
+    status: active
+    triggers:
+      - codex first
+      - delegate to codex
+      - route to codex
+      - implement from spec
+      - implementation from a frozen spec
+      - mechanical migration
+      - refactor
+      - bug fix with known repro
+      - test writing
+      - coverage fill
+      - dependency bump
+      - bulk codebase exploration
+      - boilerplate
+      - scaffold
+    capabilities:
+      - execution-routing
+      - delegation
+      - code-implementation
+    compatible_harnesses:
+      - claude_code
+    specializes:
+      - doctrine:epistemics-route-evidence-not-success
+    weight: 2
+
+  # 2) The routing RULE that encodes the delegation decision + boundary. Same shape
+  #    as the operator-judgment instruction_rule nodes: when/read/route/boundary/tier.
+  - id: instruction_rule:codex-first-route
+    kind: instruction_rule
+    name: Codex First Delegation Route
+    status: active
+    triggers:
+      - codex first
+      - codex delegation
+      - route execution to codex
+      - who writes this code
+    capabilities:
+      - execution-routing
+    compatible_harnesses:
+      - claude_code
+    when:
+      - kind: harness
+        values: [claude_code]
+      - kind: task-class
+        values: [implementation, refactor, migration, bug-fix, test-writing, tooling, coverage]
+    read:
+      - AGENTS.md
+    route:
+      - output: implementation
+        destination: compound://executors/codex
+      - output: verification
+        destination: compound://checks/proof-check
+    boundary:
+      - keep design, API/architecture decisions, naming, and spec-writing in Claude (writing the spec IS the work)
+      - never delegate review of Codex output, and never skip it
+      - never delegate destructive or irreversible ops (releases, pushes, GitHub mutations) — Claude-side per git rules
+      - tiny edits (~<20 lines, single obvious change) stay in Claude — delegation overhead loses
+      - Codex claims are advisory; Claude verifies with a real diff + focused tests before ship (route evidence is not task success)
+    tier: 1
+    weight: 2

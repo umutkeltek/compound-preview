@@ -1,0 +1,40 @@
+{
+  "schema_version": "compound.observation_batch.v0.1",
+  "source": {
+    "kind": "route_gateway",
+    "ref": "compound://routes/synthetic-provider-call",
+    "captured_at": "2026-07-04T12:00:00Z",
+    "collector": "fixture-route-edge",
+    "privacy": "synthetic"
+  },
+  "subject": {
+    "kind": "execution_route",
+    "id": "route:auto/extract",
+    "surface": "routing",
+    "channel": "model_gateway"
+  },
+  "observations": [
+    {
+      "id": "obs_fixture_route_evidence",
+      "observed_at": "2026-07-04T12:00:00Z",
+      "kind": "route",
+      "raw_ref": "provider-ledger-row:fixture-route",
+      "confidence": 1,
+      "dimensions": {
+        "request_id": "req_fixture_observation_route",
+        "work_id": "work_fixture_route",
+        "client_profile": "observation.fixture",
+        "protocol": "openai-compatible",
+        "provider": "fixture-provider",
+        "model": "fixture-model",
+        "prompt_tokens": "120",
+        "completion_tokens": "30",
+        "total_tokens": "150",
+        "cost_micros": "2400",
+        "latency_ms": "87",
+        "status": "ok"
+      },
+      "evidence_refs": ["artifact_sha256:fixture-route"]
+    }
+  ]
+}

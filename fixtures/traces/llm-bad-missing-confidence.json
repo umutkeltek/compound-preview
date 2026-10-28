@@ -1,0 +1,13 @@
+{
+  "schema_version": "compound.distiller.llm_extraction.v0.1",
+  "trace_ref": "trace_reject_missing_confidence",
+  "source_refs": ["raw:turn_1"],
+  "candidates": [
+    {
+      "kind": "memory",
+      "entity": "project:compound",
+      "predicate": "distiller_gate",
+      "object": "model omitted confidence"
+    }
+  ]
+}

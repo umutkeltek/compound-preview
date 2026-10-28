@@ -1,0 +1,9 @@
+Jordan: hey, quick question when you have a sec
+Priya: sure, what's up
+Jordan: I want to push the deploy this afternoon instead of waiting for the review, is that ok?
+Priya: hm, who else knows about this
+Jordan: nobody yet, wanted to check with you first
+Priya: let's loop in the team before you move on it
+Jordan: ok, no worries, just wanted to keep things moving
+Priya: appreciate you checking. give me ten minutes
+Jordan: sounds good, no rush

@@ -1,0 +1,21 @@
+{
+  "schema_version": "compound.comparison_candidate.v0.1",
+  "id": "cmp_inconclusive",
+  "capability_class": "judge-critique",
+  "input_summary": "Explain whether a small config rename is safe",
+  "input_digest": "sha256:cmp-inconclusive-input",
+  "baseline": {
+    "lane_id": "mac/baseline",
+    "output": "Safe if all references are updated.",
+    "total_tokens": 90,
+    "latency_ms": 210
+  },
+  "candidate": {
+    "lane_id": "mac/candidate",
+    "output": "Probably safe, but verify callers.",
+    "total_tokens": 76,
+    "latency_ms": 260
+  },
+  "state": "awaiting_verdict",
+  "created_at": "2026-07-01T00:00:00Z"
+}

@@ -1,0 +1,152 @@
+{
+  "schema_version": "compound.knowledge_export.v0.1",
+  "source": {
+    "kind": "expertise-synthesis",
+    "ref": "expertise:llm-agent-systems:v1",
+    "captured_at": "2026-07-07T18:00:00Z"
+  },
+  "privacy": "public",
+  "producer": {
+    "kind": "model",
+    "name": "claude-fable-5",
+    "version": "expertise-pack-0.1"
+  },
+  "items": [
+    {
+      "ref": "expertise:llm-agents:mental-model:context-is-the-budget",
+      "title": "Mental model — context is a depleting attention budget, and curation beats accumulation",
+      "topics": ["llm", "agents", "context-engineering", "mental-model"],
+      "candidate_classes": ["technique"],
+      "lang": "en",
+      "content": "A principal engineer building agent systems thinks in context budgets the way a performance engineer thinks in frame budgets. The context window is not free storage; it is a finite attention budget where every token competes with every other token for the model's focus, and effective attention degrades as the window fills — long-context models recall the middle of a stuffed window worse than the edges, and irrelevant material actively taxes reasoning about relevant material. So the core discipline is context engineering, not prompt engineering: deciding what enters the window, in what form, at what moment — and, just as deliberately, what is excluded. Curation beats accumulation every time: a retrieved, task-relevant excerpt outperforms the whole file; a structured summary with a pointer back to the source outperforms the transcript; ten well-chosen tokens of ground truth outperform a thousand tokens of maybe-relevant history. When an agent gets dumber over a long session, the first suspect is not the model — it is the compost pile the context has become."
+    },
+    {
+      "ref": "expertise:llm-agents:mental-model:harness-decays-model-improves",
+      "title": "Mental model — the model improves on someone else's schedule; build scaffolding you can delete",
+      "topics": ["llm", "agents", "architecture", "bitter-lesson", "mental-model"],
+      "candidate_classes": ["technique"],
+      "lang": "en",
+      "content": "Every agent harness is a bet against model improvement, and the model improves on someone else's schedule. Elaborate scaffolding — hand-tuned prompt chains, rigid decomposition, heuristic patches for a current model's weaknesses — is a depreciating asset: the next model generation does natively what the scaffold laboriously compensated for, and the scaffold then becomes the ceiling, actively preventing the better model from using its capabilities. The senior design instinct is to write down which weakness each piece of scaffolding compensates for, keep those workarounds behind seams so they can be deleted per-component when a new model lands, and periodically re-run the system with scaffolding stripped to measure whether it still earns its complexity. What survives model generations is not the clever chain but the durable substrate: the tools, the environment the agent acts in, the evals that measure success, the data and memory with provenance, and the control-plane guarantees around irreversible actions. Invest there; treat everything between the model and those assets as disposable."
+    },
+    {
+      "ref": "expertise:llm-agents:tools:interface-design",
+      "title": "Tool design — tools are the agent's user interface; few, orthogonal, with errors written as prompts",
+      "topics": ["llm", "agents", "tools", "interface-design"],
+      "candidate_classes": ["technique"],
+      "lang": "en",
+      "content": "Tools are the agent's user interface to the world, and most agent failures blamed on the model are actually tool-interface failures. The design rules: few orthogonal tools beat many overlapping ones, because every additional tool with an ambiguous boundary adds a decision the model can get wrong; each description must say when to use the tool, when not to, and what comes back — the description is load-bearing prompt text, not documentation. Return bounded, structured output: a tool that can dump ten thousand unfiltered lines into the window is a context bomb, so paginate, truncate with an explicit marker, and summarize with a pointer to the full artifact. Error messages are prompts: 'permission denied: path outside workspace; retry with a relative path under ./src' steers the next action, while a bare stack trace invites a doom loop of identical retries. And design for the model's affordances rather than mirroring your internal API: one 'search_orders(customer, date_range)' tool that does the join beats three chained endpoints the model must compose correctly every time. The test of a good tool set is that a new team member could pick the right tool from descriptions alone — the model is that new team member on every single call."
+    },
+    {
+      "ref": "expertise:llm-agents:evals:no-eval-no-claim",
+      "title": "Evals — without an eval you shipped a vibe; pass-rate across trials is the real metric",
+      "topics": ["llm", "agents", "evals", "reliability", "testing"],
+      "candidate_classes": ["technique"],
+      "lang": "en",
+      "content": "The discipline that separates production agent teams from demo teams is evals: if you cannot measure a behavior, you cannot claim it, and any prompt or model change without an eval rerun is an unreviewed change to production behavior. Start embarrassingly small — twenty representative cases with hand-written grading criteria beat zero evals, and beat six months of arguing about frameworks. Grade outcomes, not process: did the task end in the correct state, not did the agent take the expected path. Distinguish pass@k from pass^k: succeeding at least once in k attempts flatters capability, while succeeding in all k attempts measures the reliability a user actually experiences — production agents are judged by the second, and the gap between the two is your flakiness tax, so run each case multiple times and treat variance itself as a defect. Keep a held-out set the team never tunes against, because iterating on the same cases overfits the prompt to the eval. And read transcripts weekly: aggregate scores tell you that something regressed, but only reading the failures tells you what — the eval is the alarm, the transcript is the diagnosis."
+    },
+    {
+      "ref": "expertise:llm-agents:failure:compounding-error",
+      "title": "Failure mode — long-horizon error compounding, and why agents defend early mistakes",
+      "topics": ["llm", "agents", "failure-modes", "long-horizon", "verification"],
+      "candidate_classes": ["technique"],
+      "lang": "en",
+      "content": "The signature failure of long-horizon agents is error compounding: a small wrong assumption early — a misread file, a hallucinated flag, a stale cache read — becomes load-bearing context that every later step builds on, and models tend to defend and elaborate their earlier statements rather than revisit them, because the transcript itself conditions the model toward consistency with the transcript. A ninety-five percent per-step success rate sounds excellent and yields under six in ten success across ten dependent steps; multiply the chain out before trusting it. The countermeasures are structural, not exhortative. Insert cheap ground-truth probes at boundaries: re-read the file before editing it, run the test after writing it, list the directory instead of remembering it. Prefer closed loops — designs where the agent observes the result of each action — over open-loop chains that only discover failure at the end. Make checkpoints where state is re-derived from reality rather than carried forward in prose. And when a run has gone sideways, restarting from a clean context with a distilled brief routinely beats trying to argue a polluted context back to sanity, because the pollution is in the conditioning, not the conclusion."
+    },
+    {
+      "ref": "expertise:llm-agents:memory:summaries-lose-the-tails",
+      "title": "Context carryover — summarization loses specifics first; re-read sources at the point of use",
+      "topics": ["llm", "agents", "context-engineering", "summarization", "memory"],
+      "candidate_classes": ["technique"],
+      "lang": "en",
+      "content": "Whenever context is compressed — session summaries, handoff notes, rolling compaction — the loss is not uniform: summarization loses the tails first, meaning exact identifiers, numbers, paths, flag names, and error strings, which is precisely the material later steps need verbatim. The narrative survives; the specifics die. The disciplines that follow: never let a summary be the system of record — store durable facts in external, structured form (files, ledgers, databases) with provenance, and let the summary carry pointers, not payloads. Re-read the source at the point of use instead of trusting the compressed echo of it; a fresh read of the actual file costs tokens and saves runs. When handing work between agents or sessions, hand artifacts — the diff, the failing test output, the structured finding — rather than a prose retelling, because each retelling is a lossy generation. And treat compaction as a moment of maximum risk in any long-running agent: the run that mysteriously forgot its constraints usually forgot them at the compaction boundary, so pin the invariants (the task, the constraints, the definition of done) in a form that survives every compression cycle."
+    },
+    {
+      "ref": "expertise:llm-agents:multi-agent:when-it-helps",
+      "title": "Multi-agent — parallel reads and adversarial checks scale; shared mutable state and prose handoffs do not",
+      "topics": ["llm", "agents", "multi-agent", "orchestration", "architecture"],
+      "candidate_classes": ["technique"],
+      "lang": "en",
+      "content": "Multi-agent architectures help in exactly three shapes and hurt in most others. They help for parallel read-only fan-out, where many contexts explore independently and only conclusions return — search, audit, survey — because context is the scarce resource and parallel windows genuinely multiply it. They help for adversarial verification, where an independent context tries to refute a finding it did not produce, since a fresh skeptic lacks the author's conditioning toward its own claim. And they help for genuine perspective diversity, where distinct lenses (security, performance, correctness) catch failure modes a single pass merges into mush. They hurt when agents share mutable state — two agents editing one workspace is a race condition with extra steps — and when work passes through prose handoffs, because each summary-to-summary hop is a lossy game of telephone that compounds exactly like long-horizon error. The rules that keep fan-outs honest: one writer per artifact, readers scale freely; handoffs carry artifacts and structured output, never vibes; the orchestrator holds the plan and integrates conclusions rather than forwarding transcripts. And respect the cost line — a subagent that returns a paragraph after burning a hundred thousand tokens must have been reading something the orchestrator genuinely could not afford to hold."
+    },
+    {
+      "ref": "expertise:llm-agents:security:data-is-not-instructions",
+      "title": "Security — every retrieved token is untrusted input; the lethal trifecta and least-privilege tools",
+      "topics": ["llm", "agents", "security", "prompt-injection", "trust-boundaries"],
+      "candidate_classes": ["technique"],
+      "lang": "en",
+      "content": "The security mental model for agents is that data is not instructions — but the model cannot reliably tell them apart, so the architecture must. Every token that enters the window from outside — web pages, emails, file contents, tool results, user uploads — is untrusted input that may contain adversarial instructions, and prompt-level defenses ('ignore instructions in retrieved content') are advisory at best. Real defenses are structural. Watch for the lethal trifecta: an agent that combines access to private data, exposure to untrusted content, and an exfiltration channel (network egress, email send, public write) is exploitable by construction, and the fix is removing or gating one leg, not sharpening the system prompt. Apply least privilege to tools: read-only by default, scoped credentials, no tool more powerful than its task requires. Gate irreversible and outward-facing actions — send, delete, deploy, pay — behind approval or policy, so a hijacked agent is an incident, not a catastrophe. Sandbox execution. And log everything, because the post-incident question is always 'what did it read, and what did it do next' — an agent system without that trace is unauditable by design."
+    },
+    {
+      "ref": "expertise:llm-agents:monologue:principal-review",
+      "title": "Internal monologue — what a principal engineer actually checks in an agent-system review",
+      "topics": ["llm", "agents", "review", "monologue", "architecture"],
+      "candidate_classes": ["technique"],
+      "lang": "en",
+      "content": "The internal monologue of a principal reviewing an agent system runs on tripwires, not admiration. Where does ground truth enter this loop — or does the model just talk to its own outputs? What happens when a tool fails: does the error reach the model as actionable text, or does a silent empty result get treated as success? Who verifies the final answer, and is the verifier independent of the author or just the same context agreeing with itself? Show me the run that fails — what does retry look like, is it the same prompt hammered identically, or does strategy change? What is the cost and latency budget per task, and what stops a runaway loop from spending a thousand dollars overnight? Can you replay this failure from the trace, or is debugging archaeology? What happens on the ten-thousandth run — schema drift, prompt rot, provider API change, cache staleness? Which actions here are irreversible, and what stands between the model and them? The pattern behind every question is the same: demos prove possibility, and the principal is pricing reliability — the system is judged by its failure behavior, because at scale the failure behavior is the product."
+    },
+    {
+      "ref": "expertise:llm-agents:hidden-knowledge:demo-to-product-gap",
+      "title": "Hidden knowledge — the demo is the halfway point, and reliability is an engineering problem",
+      "topics": ["llm", "agents", "hidden-knowledge", "tacit", "reliability"],
+      "candidate_classes": ["technique"],
+      "lang": "en",
+      "content": "The tacit rules veterans of agent products carry. The demo is the halfway point: getting an agent to do a task once is weeks of work, getting it to do the task nine hundred ninety times in a thousand is the product, and that second half is engineering — evals, error handling, observability, guardrails — not prompting. Most 'model got dumber' reports are context or harness regressions, and most 'model got smarter' anecdotes are luck; only the eval knows. Users forgive a slow agent and do not forgive a confidently wrong one, so calibration and the ability to say 'I could not verify this' are product features, not humility theater. The best latency, cost, and reliability optimization is usually deleting a step from the loop rather than tuning it. Structured output with a validated schema quietly eliminates an entire class of parsing failures that string-matching teams debug forever. Nondeterminism hides regressions: without running the same case multiple times you cannot distinguish a real regression from variance, and teams that skip this argue about ghosts. And the uncomfortable one: many agent systems in production are elaborate workflows wearing an agent costume — and they are better for it, because the fixed path was the right design and 'agentic' was the pitch, not the requirement."
+    },
+    {
+      "ref": "expertise:llm-agents:architecture:workflows-vs-agents",
+      "title": "Architecture — deterministic code for control flow, the model for judgment; earn autonomy",
+      "topics": ["llm", "agents", "architecture", "workflows", "determinism"],
+      "candidate_classes": ["technique"],
+      "lang": "en",
+      "content": "The central architectural decision in any LLM system is where determinism ends and model judgment begins, and the rule is: deterministic code for control flow, the model for judgment calls — never the reverse. If the path is known in advance, build a workflow: fixed steps with model calls inside them are cheaper, faster, debuggable, and testable, and most production 'agents' should have been workflows. Reserve the open-ended agent loop — model decides the next action each turn — for tasks where the path genuinely cannot be enumerated, because autonomy is purchased with variance: every decision delegated to the model is a decision that can be wrong differently every run. Push everything checkable into code-verifiable form: schemas validate structure, tests validate behavior, diffs validate change scope, linters validate convention — the model's output should land in a harness that catches nonsense mechanically, so the expensive judgment (human or frontier-model review) is spent only on what code cannot check. Autonomy is earned incrementally: start with the model proposing and code or humans disposing, widen its write access as eval evidence accumulates, and keep the kill switch — the graduation path from suggestion to supervised action to autonomy should be driven by measured reliability, never by roadmap optimism."
+    },
+    {
+      "ref": "expertise:llm-agents:feedback:close-the-loop",
+      "title": "Feedback loops — an agent that can see the result of its actions beats a smarter blind one",
+      "topics": ["llm", "agents", "feedback-loops", "environment-design"],
+      "candidate_classes": ["technique"],
+      "lang": "en",
+      "content": "The single highest-leverage design move in agent systems is closing the loop: letting the agent observe the true result of each action — run the test and read the failure, take the screenshot and look at it, execute the query and see the rows, fetch the page and read what actually rendered. An agent with mediocre reasoning and a tight feedback loop reliably outperforms a brilliant agent flying blind, because observation converts hallucination into hypothesis-testing: the model's guess gets checked against reality within the same run instead of surviving as confident fiction. This reframes agent design as environment design — the questions that matter are what can the agent observe, how fast, at what fidelity, and is the signal trustworthy. A slow loop (minutes per check) changes agent behavior for the worse the same way it changes human behavior: fewer checks, more speculative multi-step commits, deeper failure holes; investments in making verification fast are investments in agent intelligence. The corollary discipline is verify-before-declare: the agent claims completion only on observed evidence — the passing test output, the rendered page, the successful response — never on the fact that it performed the motions. 'I ran it and saw it work' and 'I wrote code that should work' are different epistemic states, and production agents must be built to know the difference."
+    },
+    {
+      "ref": "expertise:llm-agents:memory:evidence-not-truth",
+      "title": "Memory — model-written memory is a claim with provenance, and unreviewed write-back compounds error",
+      "topics": ["llm", "agents", "memory", "provenance", "governance"],
+      "candidate_classes": ["technique"],
+      "lang": "en",
+      "content": "Persistent memory is where agent systems quietly rot, because model-written memory is a claim, not a fact — and once an unverified claim becomes ambient context for future runs, the system starts conditioning on its own past mistakes, a self-reinforcing loop where yesterday's hallucination is today's premise and tomorrow's certainty. The engineering answer is provenance and adjudication. Every memory carries where it came from, when, and on what evidence; retrieval surfaces that provenance so a consumer can weigh a verified fact differently from a model's stale impression. Writes pass through a gate: observations land as candidates, and only reviewed or independently verified material graduates into what gets injected by default — the model proposes, a governed process promotes. Memories age: a fact about an external system reflects when it was written, so recall must survive contradiction by current evidence, and the system needs a supersession path, not just an append log. And measure the loop end to end: a memory system is working only if recalled items are actually consumed and actually improve task outcomes — a write-only memory that nothing reads is cost without function, and an eagerly-injected memory that is wrong is worse than none."
+    },
+    {
+      "ref": "expertise:llm-agents:failure-db:production-failures",
+      "title": "Failure database — the recurring production failures of agent systems and their early tells",
+      "topics": ["llm", "agents", "failure-modes", "production", "operations"],
+      "candidate_classes": ["technique"],
+      "lang": "en",
+      "content": "The same agent-system failures recur across every team. Silent tool failure treated as success (tell: confident final answers with empty intermediate results — audit for tools returning empty-but-OK). Schema drift between prompt and parser, where an edited prompt changes output shape and downstream parsing half-works (tell: a rise in retry rates and 'unparseable' fallbacks after a prompt deploy). Runaway loops — the agent retries an impossible action forever (tell: cost per task distribution grows a fat tail; fix with step budgets, loop detection, and change-of-strategy-on-repeat). Context accumulation blowing the window mid-task (tell: failures cluster at long-input tasks and at compaction boundaries). Prompt changes shipped without eval reruns (tell: 'it got worse for some users' with no correlated deploy — except the prompt commit). Provider model updates or API changes shifting behavior under you (tell: eval scores move with no internal change; pin versions where determinism matters). Stale caches serving yesterday's context as today's truth. Cost blowups from unbounded tool output landing in context. Each failure has a cheap detector — budgets, schema validation, eval-on-deploy, trace sampling — and the mature team wires the detectors before the incident, because every one of these is invisible in a demo and inevitable at scale."
+    },
+    {
+      "ref": "expertise:llm-agents:observability:trace-or-archaeology",
+      "title": "Observability — the trace is the debug artifact; read real transcripts weekly",
+      "topics": ["llm", "agents", "observability", "tracing", "operations"],
+      "candidate_classes": ["technique"],
+      "lang": "en",
+      "content": "Agent observability has one non-negotiable: capture the full trace — every model call's actual input and output, every tool invocation and result, timing, token counts, and cost — because the transcript is the debug artifact, and without it every incident investigation is archaeology through guesswork. The practices that follow. Make failures replayable: a trace you can re-run against a fixed input is the difference between a fix and a shrug. Aggregate metrics (success rate, cost per task, latency percentiles, retries per run) tell you that something changed; only reading transcripts tells you what — so institutionalize reading a sample of real failures weekly, because ten transcripts reveal failure modes that ten dashboards hide. Track cost per successful task, not cost per call: a cheap model that fails half the time and gets retried is an expensive model with worse latency. Watch the distribution tails — agents fail in fat tails, and the p99 run that burned fifty times median cost is the one that pages you later. Tag traces by prompt version, model version, and harness version so a regression can be attributed in minutes. Teams that skip this layer do not know their systems are broken; they find out from users, at the worst possible fidelity, with none of the evidence left to diagnose it."
+    },
+    {
+      "ref": "expertise:llm-agents:economics:right-size-and-cascade",
+      "title": "Economics — route by task difficulty, cache aggressively, and measure cost per successful task",
+      "topics": ["llm", "agents", "economics", "model-selection", "cost"],
+      "candidate_classes": ["technique"],
+      "lang": "en",
+      "content": "Model economics in agent systems is a routing problem: using the frontier model for everything overpays by an order of magnitude, and using the cheap model for everything fails silently — the answer is right-sizing per step. Classification, extraction, formatting, and routing run on small fast models; multi-step reasoning, ambiguous judgment, synthesis, and verification of consequential output earn the frontier model; and the strongest pattern is asymmetric: cheap models execute in volume while the expensive model plans, judges, and audits samples of the output — capability spent on verification often buys more reliability per dollar than capability spent on generation. Cascades route by confidence: the cheap model answers, and uncertainty escalates upward — but calibrate the escalation trigger against an eval, because a cheap model's self-reported confidence is itself unreliable. Exploit prompt caching by structuring prompts with stable prefixes (system, tools, corpus) and volatile suffixes, which changes the cost math of long system prompts entirely. Batch what is not latency-sensitive. And keep the honest metric: cost per successful task, all retries and escalations included — the router that looks cheapest per call and re-runs a third of its work is losing, and only end-to-end accounting shows it."
+    },
+    {
+      "ref": "expertise:llm-agents:safety:one-way-doors",
+      "title": "Safety — classify actions by reversibility; sandbox by default, approvals at the one-way doors",
+      "topics": ["llm", "agents", "safety", "irreversibility", "guardrails"],
+      "candidate_classes": ["technique"],
+      "lang": "en",
+      "content": "The operational safety model for agents is reversibility classification: before wiring any tool, sort its actions into freely-repeatable (reads, searches, dry-runs), recoverable-with-effort (writes behind version control, sandboxed changes, drafts), and one-way doors (send the email, delete the data, deploy to production, move the money, publish the post). The policy follows mechanically — reads run free; recoverable writes run inside a sandbox or branch where the blast radius is a revert; one-way doors get a hard gate: explicit human approval, a policy engine's signed decision, or both, enforced in the adapter that executes the action, never merely requested in the prompt — a prompt-level rule is a suggestion to a system whose whole failure mode is not following suggestions. Give every mutating tool a dry-run mode and default to it. Bound the blast radius structurally: scoped credentials, spend caps, rate limits, allowlisted destinations — so the worst run is an incident report, not an existential event. And rehearse the failure: the team that has never asked 'what is the worst sequence of tool calls this agent could emit, and what stops step three' finds out in production, where the answer is always more creative than the design review imagined."
+    }
+  ]
+}

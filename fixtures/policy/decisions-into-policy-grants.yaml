@@ -1,0 +1,8 @@
+generated_at: "2026-07-03T12:00:00Z"
+grants:
+  - grant_id: grant_local_doc_edit
+    capabilities:
+      - doc.edit
+      - doc.write
+    target_scope: docs/**
+    reversibility_ceiling: reversible

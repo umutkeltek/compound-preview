@@ -1,0 +1,16 @@
+{
+  "id": "mcand_example_api_clean",
+  "entity": "service:example-api",
+  "predicate": "uses_runtime",
+  "object": "go-http",
+  "claim_type": "architecture",
+  "confidence": 0.91,
+  "promotion_basis": "runtime_proof",
+  "state": "parked",
+  "visibility": "contextual",
+  "derivation": "deterministic",
+  "qualifiers": {"domain": "runtime"},
+  "source_trace_ref": "trace://synthetic-clean",
+  "snippet_hash": "sha256:clean",
+  "created_at": "2026-07-01T10:00:00Z"
+}

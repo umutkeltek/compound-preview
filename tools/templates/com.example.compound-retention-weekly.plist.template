@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Template only. Replace every PLACEHOLDER value before installing.
+
+WHY THIS EXISTS
+  The retention surface today only plans; this template wires the governed
+  `compound retention apply` and `compound retention empty-trash` verbs into a
+  weekly launchd job so the 19.7 GB of home growth identified on 2026-08-23
+  gets a bounded future without operator attention.
+
+  Safety floors (hard-coded in compound, not configurable here):
+    - DRY-RUN IS THE DEFAULT in compound. --yes is what flips the verb to
+      mutate; this template always passes --yes.
+    - apply refuses to touch ledger/, work/, run_attempts/, events/work.jsonl,
+      contracts/, registries/, anything < 7 days old, and anything outside
+      the four apply classes listed below.
+    - The classes here are conservative: events-segments 30d, context-packs
+      30d, tool-output 14d, and an explicit empty-trash that unlinks trash
+      older than 30d. Adding new classes here requires the same packet + lane
+      ceremony as any other retention change.
+
+  Receipts:
+    Each apply appends one JSONL line per file moved to
+    $COMPOUND_HOME/state/retention-receipts/apply.jsonl .
+    Each empty-trash appends one JSONL line per date directory unlinked to
+    $COMPOUND_HOME/state/retention-receipts/empty-trash.jsonl .
+    Both logs survive trashing — that is the operator's audit trail.
+
+  Install example:
+    mkdir -p "${HOME}/Library/LaunchAgents"
+    sed "s|PLACEHOLDER_BIN|<absolute path to compound binary>|g; \
+         s|PLACEHOLDER_HOME|<absolute path to your COMPOUND_HOME>|g; \
+         s|PLACEHOLDER_LOG_DIR|<absolute path to log dir>|g" \
+       tools/templates/com.example.compound-retention-weekly.plist.template \
+       > "${HOME}/Library/LaunchAgents/com.example.compound-retention-weekly.plist"
+    launchctl bootstrap "gui/$(id -u)" \
+       "${HOME}/Library/LaunchAgents/com.example.compound-retention-weekly.plist"
+
+  Verify it is actually running (do not trust the install alone):
+    launchctl print "gui/$(id -u)/com.example.compound-retention-weekly" | head
+    ls -la "$(compound --help 2>/dev/null && dirname $(which compound))/../"  # binary path sanity
+    tail "${HOME}/Library/Logs/com.example.compound-retention-weekly.out.log"
+
+  Unload example:
+    launchctl bootout "gui/$(id -u)" \
+       "${HOME}/Library/LaunchAgents/com.example.compound-retention-weekly.plist"
+
+  Rollback / pause:
+    The verb itself is dry-run by default, so loading this plist with the
+    wrong placeholder values cannot delete data — it will only fail with a
+    truthful error and exit non-zero. To PAUSE without unloading, set
+    <key>Disabled</key><true/> in the installed plist and rerun
+    `launchctl bootstrap` to refresh.
+-->
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.example.compound-retention-weekly</string>
+  <key>ProgramArguments</key>
+  <array>
+    <!-- absolute path to the compound binary -->
+    <string>PLACEHOLDER_BIN</string>
+    <string>retention</string>
+    <string>apply</string>
+    <string>--class</string>
+    <string>events-segments</string>
+    <string>--class</string>
+    <string>context-packs</string>
+    <string>--class</string>
+    <string>tool-output</string>
+    <string>--older-than</string>
+    <string>30d</string>
+    <!-- DRY-RUN IS THE DEFAULT in compound; --yes is required to actually rename. -->
+    <string>--yes</string>
+  </array>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>COMPOUND_HOME</key>
+    <string>PLACEHOLDER_HOME</string>
+  </dict>
+  <!--
+    Weekly Sunday 03:15 local. Picked far enough from the 03:15 daily backup
+    window (com.example.compound-home-backup) to avoid resource contention
+    on a machine that runs both. Adjust to taste; this is not a load-bearing
+    schedule.
+  -->
+  <key>StartCalendarInterval</key>
+  <dict>
+    <key>Weekday</key>
+    <integer>0</integer>
+    <key>Hour</key>
+    <integer>3</integer>
+    <key>Minute</key>
+    <integer>15</integer>
+  </dict>
+  <key>StandardOutPath</key>
+  <string>PLACEHOLDER_LOG_DIR/com.example.compound-retention-weekly.out.log</string>
+  <key>StandardErrorPath</key>
+  <string>PLACEHOLDER_LOG_DIR/com.example.compound-retention-weekly.err.log</string>
+</dict>
+</plist>

@@ -1,0 +1,9 @@
+{
+  "decision": "needs_human",
+  "confidence": 0.72,
+  "rationale": "The literal and pragmatic lenses agree Jordan's ask was reframed as a scope/authorization question rather than answered directly, but lenses disagree on whether this is a genuinely quick, well-handled check-in or an unresolved status negotiation Jordan is treating as settled; the systemic lens's probe is the cleanest way to resolve this without asserting either party's state as fact.",
+  "dissent": [
+    {"lens_ref": "lens:relational-systemic", "position": "park", "note": "The loop reading shows a real risk of divergent beliefs about approval status; recommends parking until the probe (an explicit approved/blocked/pending statement) is run rather than treating either side's account as settled."},
+    {"lens_ref": "lens:relational-literal", "position": "promote", "note": "The observable sequence shows Priya's process step was followed by an explicit ten-minute commitment, which on its own reads as a normal, resolving check-in worth promoting as the primary account."}
+  ]
+}

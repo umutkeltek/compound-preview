@@ -1,0 +1,61 @@
+{
+  "mode": "list",
+  "counts": {
+    "ok": 1,
+    "auth": 1,
+    "offline": 0,
+    "error": 0
+  },
+  "servers": [
+    {
+      "name": "context7",
+      "status": "ok",
+      "durationMs": 42,
+      "transport": "STDIO npx -y @upstash/context7-mcp",
+      "source": {
+        "kind": "import",
+        "path": "fixtures/mcp/codex-config.toml",
+        "importKind": "codex"
+      },
+      "sources": [
+        {
+          "kind": "import",
+          "path": "fixtures/mcp/codex-config.toml",
+          "importKind": "codex"
+        }
+      ],
+      "tools": [
+        {
+          "name": "resolve-library-id",
+          "description": "Resolve package names before loading documentation."
+        },
+        {
+          "name": "get-library-docs",
+          "description": "Fetch current library documentation for implementation tasks."
+        }
+      ]
+    },
+    {
+      "name": "cloudflare-api",
+      "status": "auth",
+      "durationMs": 19,
+      "transport": "HTTP https://mcp.example.invalid/mcp",
+      "source": {
+        "kind": "local",
+        "path": "fixtures/mcp/mcporter.json"
+      },
+      "sources": [
+        {
+          "kind": "local",
+          "path": "fixtures/mcp/mcporter.json"
+        }
+      ],
+      "issue": {
+        "kind": "auth",
+        "statusCode": 401
+      },
+      "authCommand": "mcporter auth cloudflare-api",
+      "error": "auth required"
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+# SYNTHETIC host-reachability probe bundle — the public shape of what a real
+# operator keeps privately at $COMPOUND_HOME/runtime/lan-hosts.yaml (never
+# committed). Every target here is documentation-only: 127.0.0.1 (loopback) and
+# names under the reserved .invalid TLD (RFC 6761), which never resolve. A
+# host-reachability topology node binds to one of these probes via its `target`
+# field, e.g. "runtime/lan-hosts-demo.yaml#hub" (per-host) or
+# "runtime/lan-hosts-demo.yaml" (aggregate). Status is computed live by
+# `compound system map --json`; a passing TCP probe renders "live", anything
+# else "divergent".
+runtime_binding:
+  service_id: service:demo-lan-hosts
+  owner_entity: infra:demo-lan
+  host_binding: host:demo-hub
+  deployment_binding: process:demo-reachability-probe
+  data_bindings:
+    - registry:compound://registries/services
+  health_check_refs:
+    - tcp:127.0.0.1:22
+  risk_tier: tier1
+  evidence_refs:
+    - fixture:host-reachability
+  status: active
+
+service_contract:
+  service_id: service:demo-lan-hosts
+  interface_refs:
+    - tcp:ssh:22
+  dependencies:
+    - static-dhcp-reservations
+  owner_entity: infra:demo-lan
+  risk_tier: tier1
+  evidence_refs:
+    - fixture:host-reachability
+  status: active
+
+runtime_probes:
+  # An always-on hub — points at loopback so the shape is demonstrable locally.
+  - id: hub
+    kind: tcp
+    target: 127.0.0.1:22
+    timeout_ms: 2000
+  # A powered-off worker — a reserved .invalid name never resolves, so this probe
+  # is the deliberate observed-divergence example.
+  - id: worker
+    kind: tcp
+    target: demo-worker.invalid:22
+    timeout_ms: 2000

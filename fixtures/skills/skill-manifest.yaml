@@ -1,0 +1,47 @@
+schema_version: compound.skill_manifest.v0.1
+id: skill_manifest_fixture
+adapter_id: fixture.skill-manifest
+source_system: fixture-os
+observed_at: "2026-06-29T00:00:00Z"
+source_ref:
+  path: fixtures/skills/skill-manifest.yaml
+  kind: generated_view
+  owner: capability-fixture
+  source_class: generated
+  revision: rev_fixture
+evidence_refs:
+  - artifact_sha256:skill-fixture
+skills:
+  - id: skill:pricing
+    name: Pricing
+    status: active
+    triggers:
+      - pricing
+      - paywall
+    capabilities:
+      - monetization
+    compatible_harnesses:
+      - codex
+      - claude_code
+    requires:
+      - tool:analytics
+    validated_by:
+      - eval:pricing-copy
+    weight: 2
+  - id: lens:paywall-risk
+    kind: lens
+    name: Paywall Risk Lens
+    status: active
+    triggers:
+      - paywall
+    specializes:
+      - skill:pricing
+    conflicts_with:
+      - skill:old-paywall
+    replacement_for:
+      - skill:old-paywall
+  - id: skill:old-paywall
+    name: Old Paywall
+    status: retired
+    triggers:
+      - paywall

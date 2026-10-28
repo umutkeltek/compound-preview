@@ -1,0 +1,27 @@
+# gitleaks config for compound CI (.woodpecker.yml).
+#
+# This is the portable, CI-side secret scan. It COMPLEMENTS — it does not replace — the local
+# `redact` push-floor (redact also does PII / private-path / private-tool-name detection that a
+# generic secret scanner does not; see docs/BOUNDARIES.md and skills/compound-land). gitleaks runs
+# in CI because the `redact` binary is a local tool that isn't installed on a fresh CI runner.
+# Identity-leak shapes (generic email addresses, boundary-guarded absolute /Users|/home paths)
+# are gitleaks' blind spot too — those are covered separately, in the same CI run, by
+# `architecture doctor --strict`'s doc-leak gate (internal/arch), armed by default over every
+# tracked text file with no operator overlay required.
+title = "compound"
+
+[extend]
+# Start from gitleaks' built-in rule set (AWS keys, private keys, generic high-entropy tokens, …).
+useDefault = true
+
+[[allowlists]]
+description = "by-design secret-shaped fixtures and the gitignored private overlay (absent in a public clone)"
+# internal/arch/baseline-leak-tokens.txt is a tracked file of GENERIC secret-SHAPE tokens on
+# purpose — it arms the architecture-doctor doc-leak gate. fixtures/ hold synthetic example data.
+# docs_private/ is gitignored and never in a public clone, but is allowlisted defensively.
+paths = [
+  '''internal/arch/baseline-leak-tokens\.txt''',
+  '''(^|/)fixtures/''',
+  '''(^|/)docs_private/''',
+  '''(^|/)\.git/''',
+]

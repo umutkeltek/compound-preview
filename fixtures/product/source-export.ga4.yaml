@@ -1,0 +1,29 @@
+schema_version: compound.product_signal_export.v0.1
+source:
+  kind: google_analytics
+  ref: ga4:property:app.example:engagement:2026-07-01
+signal_id: sig_example_ga4_active_users_20260701
+product_id: product:example-app
+surface: web-app
+change_event: "Google Analytics metric snapshot observed."
+metric:
+  name: active_users
+  before:
+    value: 42
+    period: "2026-06-01/2026-06-30"
+    ref: fixture:ga4:active-users:before
+  after:
+    value: 42
+    period: "2026-06-01/2026-06-30"
+    ref: fixture:ga4:active-users:after
+window: "neutral snapshot 2026-07-01"
+confidence: 0.5
+confounders:
+  - neutral provider snapshot; no causal movement implied
+interpretations:
+  - lens: provider_snapshot
+    claim: records Google Analytics metric observation only
+next_action: "Review alongside product context before taking action."
+evidence_refs:
+  - fixture:ga4:app.example:2026-07-01
+observed_at: "2026-07-01T00:00:00Z"

@@ -1,0 +1,49 @@
+schema_version: compound.skill_manifest.v0.1
+id: recurring_work_as_capability_fixture
+adapter_id: fixture.recurring-work-as-capability
+source_system: compound-docs
+observed_at: "2026-07-03T00:00:00Z"
+source_ref:
+  path: docs/architecture/recurring-work-as-capability.md
+  kind: architecture_contract
+  owner: architecture-doctor
+  source_class: source
+  revision: docs-architecture-recurring-work-v1
+evidence_refs:
+  - docs/architecture/recurring-work-as-capability.md
+skills:
+  # The doctrine itself, on the spine (surfaced by orient, not just prose).
+  - id: doctrine:recurring-work-as-capability
+    kind: doctrine
+    name: Recurring Work Is A Capability Node
+    status: active
+    triggers:
+      - recurring prompt
+      - deep work prompt
+      - audit my harness
+      - where does this fit
+      - without segmentation
+      - new capability
+    capabilities:
+      - capability-graph
+    weight: 1
+  # The proven slice: a repeated decision becomes standing policy (rule_delta).
+  - id: workflow:decisions-into-policy
+    kind: workflow
+    name: Decisions Into Policy
+    status: active
+    triggers:
+      - turn repeated decisions into policy
+      - standing policy
+      - stop re-litigating
+      - decisions into policy
+      - autopilot rule
+    capabilities:
+      - decisions
+      - policy
+    compatible_harnesses:
+      - codex
+      - claude_code
+    specializes:
+      - doctrine:recurring-work-as-capability
+    weight: 1.25

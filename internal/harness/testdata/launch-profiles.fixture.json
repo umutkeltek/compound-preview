@@ -1,0 +1,71 @@
+{
+  "schema": "switchback/launch-profiles@1",
+  "launch_profiles": {
+    "claude-zai-full": {
+      "harness": "claude-code",
+      "provider_lane": "fixture-zai",
+      "harness_preset": "fixture-rich-zai",
+      "wrappers": ["claude-zai-full"]
+    },
+    "claude-qwen": {
+      "harness": "claude-code",
+      "provider_lane": "fixture-qwen",
+      "harness_preset": "fixture-rich-qwen",
+      "wrappers": ["claude-qwen"]
+    },
+    "claude-minimax": {
+      "harness": "claude-code",
+      "provider_lane": "fixture-minimax",
+      "harness_preset": "fixture-minimax",
+      "wrappers": ["claude-minimax"]
+    },
+    "claude-neuralwatt": {
+      "harness": "claude-code",
+      "provider_lane": "fixture-neuralwatt",
+      "harness_preset": "fixture-neuralwatt",
+      "wrappers": ["claude-neuralwatt"]
+    },
+    "claude-gpt56-sol-wpcom": {
+      "harness": "claude-code",
+      "provider_lane": "fixture-gpt56-sol-wpcom",
+      "harness_preset": "fixture-gpt56-sol-wpcom",
+      "wrappers": ["claude-gpt56-sol-wpcom"]
+    },
+    "claude-gpt56-sol-wpcom-headroom": {
+      "harness": "claude-code",
+      "provider_lane": "fixture-gpt56-sol-wpcom-headroom",
+      "harness_preset": "fixture-gpt56-sol-wpcom",
+      "wrappers": ["claude-gpt56-sol-wpcom-headroom"]
+    },
+    "claude-gpt": {
+      "harness": "claude-code",
+      "provider_lane": "fixture-gpt56-sol-codex",
+      "harness_preset": "fixture-gpt",
+      "wrappers": ["claude-gpt"]
+    },
+    "claude-kimi": {
+      "harness": "claude-code",
+      "provider_lane": "fixture-kimi",
+      "harness_preset": "fixture-rich-kimi",
+      "wrappers": ["claude-kimi"]
+    },
+    "claude-deepseek-flash-api": {
+      "harness": "claude-code",
+      "provider_lane": "fixture-deepseek-flash-api",
+      "harness_preset": "fixture-deepseek-flash-api",
+      "wrappers": ["claude-deepseek-flash-api"]
+    },
+    "claude-deepseek-flash-nvidia": {
+      "harness": "claude-code",
+      "provider_lane": "fixture-deepseek-flash-nvidia",
+      "harness_preset": "fixture-deepseek-flash-nvidia",
+      "wrappers": ["claude-deepseek-flash-nvidia"]
+    },
+    "prime-minimax": {
+      "harness": "prime-agent",
+      "provider_lane": "fixture-minimax",
+      "harness_preset": "fixture-prime",
+      "wrappers": ["prime-minimax"]
+    }
+  }
+}

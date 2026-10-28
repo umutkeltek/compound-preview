@@ -1,0 +1,102 @@
+# Synthetic OS-shaped model-router fixture.
+version: 1
+purpose: "Fixture model capability authority for route planning tests."
+rules:
+  - "Every routed packet records lane_justification: routing_defaults rule + capability claim it relied on."
+  - "Privacy-sensitive packets route only to local-batch lanes."
+  - "Free lanes never judge; they may object as tripwires only."
+capability_classes:
+  - classify-extract
+  - judge-critique
+models:
+  auto/extract:
+    lane: "auto/extract (switchback adaptive profile)"
+    harness: "switchback"
+    provider_route: "auto/extract"
+    resolution:
+      mode: adaptive
+    effort_default: low
+    cost_class: free
+    tier: free
+    packet_ceiling: single-file
+    capabilities:
+      classify-extract:
+        level: primary
+        evidence: "fixture: free extraction pool selected by route preview"
+  auto/judge:
+    lane: "auto/judge (switchback adaptive profile)"
+    harness: "switchback"
+    provider_route: "auto/judge"
+    resolution:
+      mode: adaptive
+    effort_default: high
+    cost_class: api-marginal
+    tier: cheap
+    packet_ceiling: multi-file
+    capabilities:
+      judge-critique:
+        level: primary
+        evidence: "fixture: cheap paid judge leads critique route"
+  deepseek/deepseek-v4-pro:
+    lane: "deepseek paid judge (fixture)"
+    harness: "switchback"
+    provider_route: "deepseek/deepseek-v4-pro"
+    resolution:
+      mode: direct
+      targets:
+        - provider: deepseek
+          model: deepseek/deepseek-v4-pro
+    effort_default: high
+    cost_class: api-marginal
+    tier: cheap
+    packet_ceiling: multi-file
+    capabilities:
+      judge-critique:
+        level: primary
+        evidence: "fixture: resolved paid model identity is decision-eligible"
+  scout/chat:
+    lane: "scout/chat (switchback)"
+    harness: "switchback"
+    provider_route: "scout/chat"
+    resolution:
+      mode: direct
+      targets:
+        - provider: scout
+          model: scout/chat
+    effort_default: low
+    cost_class: free
+    tier: free
+    packet_ceiling: single-file
+    capabilities:
+      classify-extract:
+        level: capable
+        evidence: "fixture: free extraction fallback"
+      judge-critique:
+        level: capable
+        evidence: "fixture: tripwire only; free lanes do not gate verdicts"
+  mac/qwen-fixture:
+    lane: "local/mac-fast (fixture)"
+    harness: "local"
+    provider_route: "direct"
+    resolution:
+      mode: direct
+      targets:
+        - provider: lmstudio
+          model: qwen-fixture-served
+    effort_default: medium
+    cost_class: local
+    tier: local-batch
+    packet_ceiling: single-file
+    capabilities:
+      classify-extract:
+        level: assumed
+        evidence: "fixture: local privacy lane requires supervised promotion"
+routing_defaults:
+  classify-extract:
+    - auto/extract
+    - scout/chat
+    - mac/qwen-fixture
+  judge-critique:
+    - auto/judge
+    - deepseek/deepseek-v4-pro
+    - scout/chat

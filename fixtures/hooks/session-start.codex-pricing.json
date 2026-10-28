@@ -1,0 +1,8 @@
+{
+  "hook": "session-start",
+  "harness": "codex",
+  "cwd": "/repo/productX",
+  "task": "improve pricing",
+  "repo_kind": "product",
+  "prompt": "DO NOT LEAK RAW PROMPT BODY"
+}

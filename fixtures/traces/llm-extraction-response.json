@@ -1,0 +1,50 @@
+{
+  "schema_version": "compound.distiller.llm_extraction.v0.1",
+  "trace_ref": "session_2026-06-29_llm_fixture",
+  "extractor": "fixture-critic",
+  "model": "fixture-small-model",
+  "source_refs": [
+    "raw_trace:trace_fixture",
+    "work:work_distill_fixture",
+    "context_pack:ctx_distill_fixture",
+    "receipt:rec_distill_fixture",
+    "hook_event:hook_distill_fixture"
+  ],
+  "candidates": [
+    {
+      "kind": "memory",
+      "entity": "project:compound",
+      "predicate": "distiller_shape",
+      "object": "llm_response_adapter",
+      "confidence": 0.94,
+      "evidence_refs": ["raw_trace:trace_fixture"]
+    },
+    {
+      "kind": "method_upgrade",
+      "subject": "distill.llm_extractor",
+      "statement": "reject model supplied promotion_basis before adjudication",
+      "confidence": 0.86,
+      "evidence_refs": ["raw_trace:trace_fixture"]
+    },
+    {
+      "kind": "capability_observation",
+      "subject": "distiller:llm_extractor",
+      "statement": "provider-neutral fixture response can enter candidate pipeline",
+      "detail": "adapter_ready",
+      "confidence": 0.82,
+      "evidence_refs": ["work:work_distill_fixture"]
+    },
+    {
+      "kind": "capability_observation",
+      "subject": "skill:generic-copy",
+      "statement": "distiller request packet generated bounded spine artifacts",
+      "detail": "false_triggered_by",
+      "confidence": 0.8,
+      "evidence_refs": ["receipt:rec_distill_fixture"]
+    }
+  ],
+  "critique": [
+    "memory candidate is intentionally unpromoted; code adjudication decides",
+    "method change remains review debt"
+  ]
+}

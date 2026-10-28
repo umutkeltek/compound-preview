@@ -1,0 +1,17 @@
+schema_version: compound.memory_bakeoff_queries.v0.1
+queries:
+  - id: exact-memory-spine
+    lane: exact
+    query: "memory spine compound ledger"
+    expected_claim_ids:
+      - claim_memory_spine
+  - id: paraphrase-reference-engine
+    lane: paraphrase
+    query: "which baseline checks engine answers"
+    expected_claim_ids:
+      - claim_reference_engine
+  - id: casual-no-mutation
+    lane: casual
+    query: "does recall mess with the real memory truth"
+    expected_claim_ids:
+      - claim_no_mutation

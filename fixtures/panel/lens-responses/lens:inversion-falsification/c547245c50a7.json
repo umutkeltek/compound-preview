@@ -1,0 +1,4 @@
+{
+  "confidence": 0.81,
+  "findings": [{"claim": "The claim can be falsified by rerunning the runtime inspection that produced the trace.", "severity": "low", "evidence_refs": ["trace://synthetic-clean"]}]
+}

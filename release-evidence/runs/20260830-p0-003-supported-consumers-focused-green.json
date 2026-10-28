@@ -1,0 +1,103 @@
+{
+  "schema_version": "compound.release.run-evidence.v0.1",
+  "recorded_at": "2026-08-30T03:16:22Z",
+  "issues": [
+    "REL-P0-003"
+  ],
+  "work_id": "work_4e8fb076fd35",
+  "run_attempt_id": "ratt_20260830T023522Z_12a7db8b",
+  "run_attempt_status": "succeeded",
+  "work_state_after_execution": "verifying",
+  "source_head": "02ef09767c66726053dab530f8e73b4a3e932a4a",
+  "source_tree": "c155e5f4b9d9ce4489e3f3440ce6a28f0aac7c41",
+  "fix_commit": "02ef09767c66726053dab530f8e73b4a3e932a4a",
+  "red": [
+    {
+      "base_head": "21306cb4899f2ab2d4c406d42ab26ba7624aed17",
+      "command": "GOTOOLCHAIN=go1.26.4 go test ./internal/work -run '^(TestWorkbenchRejectsCorruptMemoryCandidateArtifactReferences|TestWorkbenchKeepsLaterValidMemoryCandidateCardAfterCorruptPanel|TestWorkbenchReportsCorruptMemoryCandidateWithoutReviewEligibility)$' -count=1",
+      "exit_code": 1,
+      "failure": "unsafe artifact candidate IDs entered summaries/tags, the first corrupt panel masked a later valid card, and corruption without a zero-promotion summary vanished"
+    },
+    {
+      "base_head": "21306cb4899f2ab2d4c406d42ab26ba7624aed17",
+      "condition": "pre-fix source inspection and the former TestPendingMetadataIgnoresNonCandidateEntries contract",
+      "failure": "pending-state census and metadata intentionally skipped noncanonical filenames before evaluating the rooted custody outcome"
+    }
+  ],
+  "green": [
+    {
+      "command": "GOTOOLCHAIN=go1.26.4 go test -count=1 ./internal/candidates ./internal/mem ./internal/negatives ./internal/projection ./internal/sourceobs ./internal/decisions ./internal/contract",
+      "exit_code": 0,
+      "package_seconds": {
+        "compound/internal/candidates": 4.603,
+        "compound/internal/mem": 28.153,
+        "compound/internal/negatives": 0.808,
+        "compound/internal/projection": 4.432,
+        "compound/internal/sourceobs": 22.066,
+        "compound/internal/decisions": 7.348,
+        "compound/internal/contract": 25.77
+      }
+    },
+    {
+      "command": "GOTOOLCHAIN=go1.26.4 go test -race -count=1 ./internal/candidates ./internal/mem ./internal/negatives ./internal/projection ./internal/sourceobs ./internal/decisions ./internal/contract",
+      "exit_code": 0,
+      "package_seconds": {
+        "compound/internal/candidates": 21.927,
+        "compound/internal/mem": 29.548,
+        "compound/internal/negatives": 1.663,
+        "compound/internal/projection": 4.443,
+        "compound/internal/sourceobs": 22.898,
+        "compound/internal/decisions": 8.31,
+        "compound/internal/contract": 27.05
+      }
+    },
+    {
+      "command": "GOTOOLCHAIN=go1.26.4 go test -race ./internal/work -run '^(TestWorkbenchRejectsCorruptMemoryCandidateArtifactReferences|TestWorkbenchKeepsLaterValidMemoryCandidateCardAfterCorruptPanel|TestWorkbenchReportsCorruptMemoryCandidateWithoutReviewEligibility|TestWorkbenchRejectsCorruptMemoryCandidateIDsFromRunArtifacts|TestWorkbenchSurfacesRunArtifactsForHeldWork)$' -count=1",
+      "exit_code": 0,
+      "package_seconds": 2.984
+    },
+    {
+      "command": "GOTOOLCHAIN=go1.26.4 go test -race ./cmd/compound -run '^(TestOrientOperatorReportMatchesRawHomeState|TestOrientOperatorUsesMemoryCandidateAuthorityForNeedsMe|TestOrientOperatorCarriesReviewedCapabilityFeedbackImpact|TestOrientOperatorTreatsConsumedSurfacingFeedbackReportTerminal|TestCandidateInboxSummaryNeverCountsCustodyCorruptionAsActionable|TestOrientOperatorSurfacesMemoryReviewCardsFromHeldRunArtifacts|TestOrientOperatorSurfacesWorkbenchCandidateIntegrity)$' -count=1",
+      "exit_code": 0,
+      "package_seconds": 8.056
+    },
+    {
+      "command": "GOTOOLCHAIN=go1.26.4 go vet ./internal/candidates ./internal/mem ./internal/negatives ./internal/projection ./internal/sourceobs ./internal/decisions ./internal/contract ./internal/work ./cmd/compound",
+      "exit_code": 0
+    },
+    {
+      "command": "git diff --check",
+      "exit_code": 0
+    }
+  ],
+  "supported_consumers": [
+    "memory candidate list, mutation snapshot, pending-state census, and stable import reuse",
+    "base ContextPack negative-card projection",
+    "Workbench review cards, memory candidate summaries, coordination, and operator orient",
+    "decision standing-law conflicts",
+    "memory lineage projection",
+    "source-observation projection"
+  ],
+  "properties": [
+    "invalid filename, blank ID, ID mismatch, symlink, nonregular, traversal, absolute, and whitespace aliases never become supported actions, cards, summaries, or tags",
+    "corruption is named while a later valid sibling remains visible on read-only projections",
+    "decision and mutation snapshots fail closed on any candidate-root corruption",
+    "stable candidate reuse is atomic and refuses unsafe existing objects",
+    "provider-facing negative exclusions aggregate corruption without injecting operator-controlled filenames",
+    "fresh homes with absent candidate-kind directories remain empty and healthy"
+  ],
+  "residual_experimental_bypasses": [
+    "internal/panel target enumeration and reads",
+    "internal/product hypothesis and content-draft enumeration",
+    "internal/capgraph capability-observation consumption",
+    "internal/routeevidence route-observation enumeration",
+    "internal/home archive candidate compaction",
+    "internal/store legacy migration fallback"
+  ],
+  "status": "focused_green",
+  "closure_blockers": [
+    "canonical broad proof-check has not run on this commit",
+    "raw candidate readers outside the initial v0.1 journey must remain gated or be migrated before their support claim expands",
+    "post-rename directory-fsync ambiguity remains tracked under REL-P1-007"
+  ]
+}

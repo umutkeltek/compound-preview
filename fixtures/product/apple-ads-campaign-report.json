@@ -1,0 +1,45 @@
+{
+  "data": {
+    "reportingDataResponse": {
+      "row": [
+        {
+          "metadata": {
+            "campaignId": 900000001,
+            "campaignName": "Focus Notes US — Search Results",
+            "campaignStatus": "ENABLED",
+            "app": { "appName": "Focus Notes", "adamId": 123456789 }
+          },
+          "granularity": [
+            { "date": "2026-09-01", "impressions": 1200, "taps": 40, "totalInstalls": 9, "localSpend": { "amount": "12.50", "currency": "USD" } },
+            { "date": "2026-09-02", "impressions": 1310, "taps": 44, "totalInstalls": 11, "localSpend": { "amount": "13.10", "currency": "USD" } },
+            { "date": "2026-09-03", "impressions": 990, "taps": 31, "totalInstalls": 6, "localSpend": { "amount": "9.80", "currency": "USD" } }
+          ]
+        },
+        {
+          "metadata": {
+            "campaignId": 900000002,
+            "campaignName": "Focus Notes DE — Search Results",
+            "campaignStatus": "ENABLED",
+            "app": { "appName": "Focus Notes", "adamId": 123456789 }
+          },
+          "granularity": [
+            { "date": "2026-09-01", "impressions": 300, "taps": 7, "totalInstalls": 2, "localSpend": { "amount": "2.00", "currency": "USD" } },
+            { "date": "2026-09-02", "impressions": 280, "taps": 5, "totalInstalls": 1, "localSpend": { "amount": "1.75", "currency": "USD" } },
+            { "date": "2026-09-03", "impressions": 0, "taps": 0, "totalInstalls": 0, "localSpend": { "amount": "0", "currency": "USD" } }
+          ]
+        },
+        {
+          "metadata": {
+            "campaignId": 900000003,
+            "campaignName": "Unmapped App Try",
+            "campaignStatus": "PAUSED",
+            "app": { "appName": "Other App", "adamId": 999999999 }
+          },
+          "granularity": [
+            { "date": "2026-09-01", "impressions": 10, "taps": 0, "totalInstalls": 0, "localSpend": { "amount": "0", "currency": "USD" } }
+          ]
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,234 @@
+# Inactive in this repository since 2026-10-16; retained as a test reference.
+# Active owned-CI and maintainer publication procedure: docs/release.md.
+name: Proof
+
+# Fresh-clone-portable subset (proof-check --ci) plus the console/TS subset
+# (proof-check --ci-console) for every push and pull_request. The 5 gates
+# that genuinely need operator state (launchd plist, populated COMPOUND_HOME,
+# installed profiles, vendor-only redact CLI, codex harness) are NOT run
+# here; they are explicitly listed in the hostBoundGates allowlist at
+# internal/work/proof_ci_membership.go with a one-line reason each, and the
+# CI subset membership test pins the rule. Run a fresh checkout, no overlays
+# copied, so this is what a downstream re-runner will see.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: proof-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  proof-ci:
+    name: proof-check --ci
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff
+        with:
+          go-version-file: go.mod
+          cache: true
+
+      - name: Run canonical CI subset (proof-check --ci)
+        shell: bash
+        run: |
+          set -euo pipefail
+          unset HTTPS_PROXY HTTP_PROXY ALL_PROXY || true
+          tool_root="$RUNNER_TEMP/proof-tools"
+          mkdir -p "$tool_root"
+          go build -o "$tool_root/compound" ./cmd/compound
+          report="$RUNNER_TEMP/ci.json"
+          stdout_log="$RUNNER_TEMP/ci.stdout"
+          # The battery prints its FINAL verdict line to stdout (the --out
+          # report is pure JSON by design — a background notification tail
+          # carries the stdout verdict), so capture stdout to check it below.
+          set +e
+          "$tool_root/compound" proof-check --ci --json --base origin/main --out "$report" | tee "$stdout_log"
+          rc=${PIPESTATUS[0]}
+          set -e
+          # Belt-and-braces: refuse to mark the job green on anything other
+          # than the proof-check verdict line. A `--json --out` run exits 1 on
+          # failed gates and 0 on ok, but exit codes from CI runners get
+          # rounded; the FINAL 'battery:' line is the load-bearing signal.
+          if [ "$rc" -ne 0 ] || ! tail -n 1 "$stdout_log" | grep -q '^battery: ok '; then
+            echo "::error::compound proof-check --ci did not end with 'battery: ok ' (exit $rc)"
+            tail -n 5 "$stdout_log" >&2
+            exit 1
+          fi
+
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: proof-ci-report
+          # Only proof-owned output from the disposable CI run, never a home,
+          # environment dump or checkout. Retain the logs referenced by ci.json.
+          path: |
+            ${{ runner.temp }}/ci.json
+            ${{ runner.temp }}/ci.stdout
+            ${{ runner.temp }}/ci.json.gates/
+          if-no-files-found: warn
+          retention-days: 14
+
+  installed-release:
+    name: native installed release acceptance
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff
+        with:
+          go-version-file: go.mod
+          cache: true
+      - name: Build exact candidate and prior accepted generation
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(uname -m)" = x86_64
+          node --test scripts/installed-release-acceptance.test.mjs
+          tools="$RUNNER_TEMP/release-tools"
+          mkdir -p "$tools"
+          GOBIN="$tools" go install github.com/CycloneDX/cyclonedx-gomod/cmd/cyclonedx-gomod@v1.10.0
+          candidate="$(git rev-parse HEAD)"
+          prior=066593602dc773a6e9591433a769135b770c1b8f
+          make release-artifacts VERSION=0.1.0 DIST="$RUNNER_TEMP/candidate-a" SBOM_TOOL="$tools/cyclonedx-gomod"
+          make release-artifacts VERSION=0.1.0 DIST="$RUNNER_TEMP/candidate-b" SBOM_TOOL="$tools/cyclonedx-gomod"
+          diff -rq "$RUNNER_TEMP/candidate-a" "$RUNNER_TEMP/candidate-b"
+          # The SBOM Git reader requires a standalone checkout, not a
+          # linked-worktree .git file. Neither checkout publishes anything.
+          git clone --no-hardlinks --no-checkout . "$RUNNER_TEMP/prior-source"
+          git -C "$RUNNER_TEMP/prior-source" switch --detach "$prior"
+          make -C "$RUNNER_TEMP/prior-source" release-artifacts VERSION=0.1.0 DIST="$RUNNER_TEMP/prior-bundle" SBOM_TOOL="$tools/cyclonedx-gomod"
+          printf '%s\n' "$candidate" > "$RUNNER_TEMP/candidate-commit"
+          go version > "$RUNNER_TEMP/release-toolchain.txt"
+          "$tools/cyclonedx-gomod" version >> "$RUNNER_TEMP/release-toolchain.txt"
+      - name: Accept actual installed files in disposable homes
+        shell: bash
+        run: |
+          set -euo pipefail
+          node scripts/installed-release-acceptance.mjs \
+            "$RUNNER_TEMP/candidate-a" "$(cat "$RUNNER_TEMP/candidate-commit")" \
+            "$RUNNER_TEMP/installed-acceptance" "$RUNNER_TEMP/prior-bundle" \
+            066593602dc773a6e9591433a769135b770c1b8f
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: proof-installed-release-evidence
+          path: |
+            ${{ runner.temp }}/candidate-a/
+            ${{ runner.temp }}/prior-bundle/
+            ${{ runner.temp }}/candidate-commit
+            ${{ runner.temp }}/release-toolchain.txt
+            ${{ runner.temp }}/installed-acceptance/
+          if-no-files-found: warn
+          retention-days: 14
+
+  proof-ci-console:
+    name: proof-check --ci-console
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff
+        with:
+          go-version-file: go.mod
+          cache: true
+
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6
+        with:
+          bun-version: latest
+
+      - name: Run console subset (proof-check --ci-console)
+        shell: bash
+        run: |
+          set -euo pipefail
+          unset HTTPS_PROXY HTTP_PROXY ALL_PROXY || true
+          # Workaround for ciConsoleSteps' uncovered --ci-console: install
+          # console/node_modules BEFORE running, so the smoke scripts can
+          # resolve extensionless @/ imports under bun. We do not run the
+          # full `bun install` because the console gate skips anything whose
+          # required executable is missing; populating node_modules is the
+          # minimum work for a tsc-shaped subset to even compile.
+          (cd console && bun install --frozen-lockfile)
+          tool_root="$RUNNER_TEMP/proof-tools"
+          mkdir -p "$tool_root"
+          go build -o "$tool_root/compound" ./cmd/compound
+          # Expose the binary we just built to the console gates that shell out
+          # to it. Without this the job was green while asserting less than it
+          # looked: console-projection-doors-smoke reported "skipped — required
+          # executable compound not found" (the gate's SkipIfMissing does a
+          # plain PATH lookup) and console-standing-law-smoke silently dropped
+          # its CLI->mapper e2e layer because COMPOUND_BIN was unset.
+          export PATH="$tool_root:$PATH"
+          export COMPOUND_BIN="$tool_root/compound"
+          # A disposable home, initialized by the real verb, created fresh for
+          # this run under RUNNER_TEMP. Never an operator home: the door smoke
+          # only needs a well-formed home to read, and an empty projection is a
+          # valid one, so there is nothing to seed.
+          export COMPOUND_HOME="$RUNNER_TEMP/proof-home"
+          mkdir -p "$COMPOUND_HOME"
+          "$tool_root/compound" home init
+          # Turn "no CLI -> skip" into "no CLI -> red" for the console smokes,
+          # in this job only. Host-bound and local runs keep the skip, which is
+          # the honest answer there (a stale installed binary reds for the wrong
+          # reason); here the binary is built two lines up, so a skip can only
+          # mean the wiring above regressed.
+          export CONSOLE_SMOKE_REQUIRE_CLI=1
+          report="$RUNNER_TEMP/ci-console.json"
+          stdout_log="$RUNNER_TEMP/ci-console.stdout"
+          # The battery prints its final verdict line to stdout (the --out
+          # report is pure JSON by design), so capture stdout to check it.
+          set +e
+          "$tool_root/compound" proof-check --ci-console --json --base origin/main --out "$report" | tee "$stdout_log"
+          rc=${PIPESTATUS[0]}
+          set -e
+          if [ "$rc" -ne 0 ] || ! tail -n 1 "$stdout_log" | grep -q '^battery: ok '; then
+            echo "::error::compound proof-check --ci-console did not end with 'battery: ok ' (exit $rc)"
+            tail -n 5 "$stdout_log" >&2
+            exit 1
+          fi
+          # A green battery does not mean the CLI-backed gates ran: a skipped
+          # gate and a silently-skipped layer both count as ok. Assert from the
+          # report that both actually executed, so this wiring cannot rot back
+          # into a green-but-empty job without anyone noticing.
+          doors_status=$(jq -r '(.steps[] | select(.name == "console-projection-doors-smoke") | .status) // "<absent>"' "$report")
+          if [ "$doors_status" != "ok" ]; then
+            echo "::error::console-projection-doors-smoke must RUN in CI, got status '$doors_status'"
+            jq -r '.steps[] | select(.name == "console-projection-doors-smoke")' "$report" >&2
+            exit 1
+          fi
+          if ! jq -e --arg marker 'standing-law e2e ok:' \
+            'any(.steps[]; .name == "console-standing-law-smoke" and (.output_tail // "" | contains($marker)))' \
+            "$report" >/dev/null; then
+            echo "::error::console-standing-law-smoke ran without its CLI->mapper e2e layer (no 'standing-law e2e ok:' in its output)"
+            jq -r '.steps[] | select(.name == "console-standing-law-smoke") | .output_tail // "<no output>"' "$report" >&2
+            exit 1
+          fi
+          echo "ci-console: projection-doors gate ran (status ok) and standing-law e2e layer executed"
+
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: proof-ci-console-report
+          path: |
+            ${{ runner.temp }}/ci-console.json
+            ${{ runner.temp }}/ci-console.stdout
+            ${{ runner.temp }}/ci-console.json.gates/
+          if-no-files-found: warn
+          retention-days: 14

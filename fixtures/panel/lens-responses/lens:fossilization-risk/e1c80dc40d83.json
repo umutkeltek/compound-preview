@@ -1,0 +1,12 @@
+{
+  "confidence": 0.86,
+  "findings": [
+    {
+      "claim": "synthetic capability observation is specific enough to operationalize",
+      "severity": "low",
+      "evidence_refs": [
+        "trace://panel/synthetic"
+      ]
+    }
+  ]
+}

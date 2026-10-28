@@ -1,0 +1,21 @@
+{
+  "suite": "memory-suite",
+  "cases": [
+    {
+      "id": "mem-widget",
+      "kind": "memory",
+      "task": "synthetic widget calibration sensor drift",
+      "expected": ["claim_8da6b2fff02d"],
+      "lane": "exact",
+      "split": "held_in"
+    },
+    {
+      "id": "mem-fibonacci",
+      "kind": "memory",
+      "task": "fibonacci cache eviction memoized recompute",
+      "expected": ["claim_0048d12170af"],
+      "lane": "paraphrase",
+      "split": "held_out"
+    }
+  ]
+}

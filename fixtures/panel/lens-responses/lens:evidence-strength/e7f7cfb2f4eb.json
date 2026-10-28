@@ -1,0 +1,4 @@
+{
+  "confidence": 0.78,
+  "findings": [{"claim": "The candidate has a deterministic import basis but only one trace ref.", "severity": "medium", "evidence_refs": ["trace://synthetic-dissent"]}]
+}

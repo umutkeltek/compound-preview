@@ -1,0 +1,46 @@
+{
+  "schema_version": "compound.knowledge_export.v0.1",
+  "source": {
+    "kind": "arxiv",
+    "ref": "arxiv:cs.AI+cs.CL",
+    "captured_at": "2026-07-02T12:00:00Z"
+  },
+  "privacy": "public",
+  "producer": {
+    "kind": "edge-script",
+    "name": "arxiv-capture",
+    "version": "0.1"
+  },
+  "items": [
+    {
+      "ref": "arxiv:2506.12345v1",
+      "url": "https://arxiv.org/abs/2506.12345",
+      "title": "Synthetic Agents Learn Evidence Discipline",
+      "authors": ["A. Researcher", "B. Builder"],
+      "published_at": "2026-06-30",
+      "topics": ["cs.AI", "cs.CL"],
+      "content": "We introduce a synthetic benchmark for agent memory intake where captured artifacts become evidence before any memory claim is promoted.",
+      "lang": "en"
+    },
+    {
+      "ref": "arxiv:2506.23456v1",
+      "url": "https://arxiv.org/abs/2506.23456",
+      "title": "Append Only Ledgers for Tool Traces",
+      "authors": ["C. Systems"],
+      "published_at": "2026-06-29",
+      "topics": ["cs.SE"],
+      "content": "This paper studies append-only ledgers for tool traces and evaluates anti-echo folding across repeated captures.",
+      "lang": "en"
+    },
+    {
+      "ref": "arxiv:2506.34567v2",
+      "url": "https://arxiv.org/abs/2506.34567",
+      "title": "Routing Evidence Without Promoting Truth",
+      "authors": ["D. Routing", "E. Evidence"],
+      "published_at": "2026-06-28",
+      "topics": ["cs.AI"],
+      "content": "We describe a route-evidence workflow that records observations separately from durable adjudicated truth.",
+      "lang": "en"
+    }
+  ]
+}

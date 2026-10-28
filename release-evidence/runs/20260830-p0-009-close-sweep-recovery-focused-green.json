@@ -1,0 +1,98 @@
+{
+  "schema_version": "compound.release_issue_evidence.v0.1",
+  "issue_id": "REL-P0-009",
+  "status": "focused_green",
+  "recorded_at": "2026-08-30T04:21:59Z",
+  "pre_fix_sha": "c1d6199a38a38bc804df073ee1286c2bbb260161",
+  "fix_sha": "64756a5f4417bdd6202cf5cefada5bfc5fe1a5af",
+  "fix_tree": "02d66f31f4b071236102327ecb9bacab3d6a4288",
+  "red": {
+    "test": "TestCloseConvergesWhenSweepWinsBeforePrepare",
+    "command": "GOTOOLCHAIN=go1.26.4 go test -count=1 -v ./internal/work -run '^TestCloseConvergesWhenSweepWinsBeforePrepare$'",
+    "exit_code": 1,
+    "first_relevant_error": "exact frozen close did not converge after sweep: close recovery_required: close failed after authority preparation: runattempt prepare terminalization already terminal (abandoned)",
+    "meaning": "The exact retry remained wedged on the swept pending snapshot before the production repair was added."
+  },
+  "fix_invariant": {
+    "ownership_boundary": "work.close durable close-pending frame recovery",
+    "allowed_rebuild": "one exact pending claim reservation changed only to canonical abandoned/side_effect_free while a later authority-bound harness execution owns the failed outcome",
+    "forbidden_rebuilds": [
+      "source WorkEnvelope or lease drift",
+      "any close event or close proof envelope already published",
+      "any prepared terminalization intent or close-owned terminal proof",
+      "more than one changed frozen plan",
+      "noncanonical sweep delta",
+      "missing later failed harness execution authority"
+    ],
+    "publication": "re-seal, validate, and exact-preimage RootedFileCAS replacement",
+    "runattempt_rule": "never rewrite either the swept claim reservation or the actual execution"
+  },
+  "focused_verification": [
+    {
+      "command": "GOTOOLCHAIN=go1.26.4 go test -count=1 -v ./internal/work -run '^(TestCloseConvergesWhenSweepWinsBeforePrepare|TestCloseDoesNotRebuildSweptPlanAfterEarlierPrepare)$'",
+      "exit_code": 0,
+      "duration_seconds": 1.705
+    },
+    {
+      "command": "GOTOOLCHAIN=go1.26.4 go test -count=1 ./internal/work ./internal/runattempt -run 'ClosePending|Close.*RunAttempt|Sweep.*Close|Close.*Sweep|Terminalization'",
+      "exit_code": 0,
+      "package_durations_seconds": {
+        "compound/internal/work": 24.206,
+        "compound/internal/runattempt": 1.504
+      }
+    },
+    {
+      "command": "GOTOOLCHAIN=go1.26.4 go test -race -count=1 ./internal/work -run 'ClosePending|Close.*RunAttempt|Sweep.*Close|Close.*Sweep|Terminalization'",
+      "exit_code": 0,
+      "duration_seconds": 27.479
+    },
+    {
+      "command": "GOTOOLCHAIN=go1.26.4 go test -race -count=1 ./internal/runattempt -run 'Sweep|Terminalization'",
+      "exit_code": 0,
+      "duration_seconds": 4.893
+    },
+    {
+      "command": "GOTOOLCHAIN=go1.26.4 go test -count=1 ./internal/actuator",
+      "exit_code": 0,
+      "duration_seconds": 2.562
+    },
+    {
+      "command": "GOTOOLCHAIN=go1.26.4 go vet ./internal/work ./internal/runattempt ./internal/actuator",
+      "exit_code": 0
+    },
+    {
+      "command": "git diff --check",
+      "exit_code": 0
+    }
+  ],
+  "governed_verification": {
+    "work_id": "work_0964cebaa990",
+    "work_state": "verifying",
+    "running_action_intent_id": "act_88c8c434e69f",
+    "running_policy_decision_id": "pol_1bc1e890ca50",
+    "verification_action_intent_id": "act_352b0b7d9662",
+    "verification_policy_decision_id": "pol_9cfc724e42ff",
+    "run_attempt_id": "ratt_20260830T040042Z_3bacc0f3",
+    "run_attempt_status": "succeeded",
+    "harness": "os-harness-entrypoints",
+    "verified_source_sha": "64756a5f4417bdd6202cf5cefada5bfc5fe1a5af",
+    "command": "GOTOOLCHAIN=go1.26.4 go test -count=1 ./internal/work -run 'SweepWinsBeforePrepare'",
+    "exit_code": 0,
+    "duration_ms": 1253317,
+    "transcript_sha256": "54bff917437df09193939feb513f3b14d9551e5fb0ad649cd71e04fc195f078c"
+  },
+  "assertions": [
+    "the first prepare loss leaves running work plus a durable recovery_required frame",
+    "an injected frame-stage failure preserves the original frame and both RunAttempt byte sequences",
+    "the exact retry publishes the frozen ActionIntent, PolicyDecision, Receipt, and Transition objects",
+    "the swept claim stays byte-identical and has no stale terminalization digest",
+    "a previously prepared sibling plan prevents unsafe frame rebuilding",
+    "successful convergence removes the frame and lease and a third close is idempotent"
+  ],
+  "review": {
+    "result": "approved",
+    "blocking_findings": 0,
+    "scope": "authority, concurrency, exact-preimage CAS, multi-plan recovery"
+  },
+  "canonical_broad_status": "pending REL-P0-008 proof-runtime remediation; issue remains focused_green rather than closed"
+}

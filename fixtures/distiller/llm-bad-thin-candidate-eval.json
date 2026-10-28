@@ -1,0 +1,16 @@
+{
+  "schema_version": "compound.distiller.eval_case.v0.1",
+  "id": "eval_rejects_llm_thin_candidate",
+  "request": {
+    "trace_ref": "trace_reject_thin_candidate",
+    "raw": "../traces/raw-distill-session.txt"
+  },
+  "response": "../traces/llm-bad-thin-candidate.json",
+  "expect": {
+    "source_refs": ["raw_trace:trace_reject_thin_candidate"],
+    "decisions": [],
+    "current_claims": 0,
+    "live_model_calls": 0,
+    "error_contains": "skill requires statement"
+  }
+}

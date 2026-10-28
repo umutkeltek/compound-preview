@@ -1,0 +1,87 @@
+{
+  "feed": {
+    "author": {
+      "name": { "label": "iTunes Store" },
+      "uri": { "label": "https://www.apple.com/itunes/" }
+    },
+    "id": {
+      "label": "https://mzstoreservices.itunes.apple.com/us/rss/customerreviews/id=0000000001/sortby=mostrecent/json"
+    },
+    "entry": [
+      {
+        "im:name": { "label": "Sample App" },
+        "im:image": [
+          { "label": "https://example.invalid/icon.png", "attributes": { "height": "53" } }
+        ],
+        "id": {
+          "label": "https://itunes.apple.com/us/app/sample-app/id0000000001?uo=2",
+          "attributes": { "im:id": "0000000001" }
+        },
+        "title": { "label": "Sample App - Test Fixture" },
+        "content": { "label": "Synthetic app header entry (not a review).", "attributes": { "type": "text" } }
+      },
+      {
+        "author": {
+          "uri": { "label": "https://itunes.apple.com/us/reviews/id1001" },
+          "name": { "label": "TestUserOne" },
+          "label": ""
+        },
+        "im:version": { "label": "1.0.0" },
+        "im:rating": { "label": "5" },
+        "id": { "label": "1001" },
+        "title": { "label": "Love it" },
+        "content": {
+          "label": "This synthetic app is great for exercising observation batches.",
+          "attributes": { "type": "text" }
+        },
+        "im:voteSum": { "label": "3" },
+        "im:voteCount": { "label": "4" },
+        "link": {
+          "attributes": {
+            "rel": "related",
+            "href": "https://itunes.apple.com/us/review?id=0000000001&type=Purple+Software"
+          }
+        }
+      },
+      {
+        "author": {
+          "uri": { "label": "https://itunes.apple.com/us/reviews/id1002" },
+          "name": { "label": "TestUserTwo" },
+          "label": ""
+        },
+        "im:version": { "label": "1.0.1" },
+        "im:rating": { "label": "2" },
+        "id": { "label": "1002" },
+        "title": { "label": "Needs work" },
+        "content": {
+          "label": "Crashes on the sample screen sometimes and loses my place.",
+          "attributes": { "type": "text" }
+        },
+        "im:voteSum": { "label": "1" },
+        "im:voteCount": { "label": "2" }
+      },
+      {
+        "author": {
+          "uri": { "label": "https://itunes.apple.com/us/reviews/id1003" },
+          "name": { "label": "TestUserThree" },
+          "label": ""
+        },
+        "im:version": { "label": "1.1.0" },
+        "im:rating": { "label": "4" },
+        "id": { "label": "1003" },
+        "title": { "label": "Solid" },
+        "content": {
+          "label": "Does what it says and the last update helped a lot.",
+          "attributes": { "type": "text" }
+        },
+        "im:voteSum": { "label": "0" },
+        "im:voteCount": { "label": "0" }
+      },
+      {
+        "author": { "name": { "label": "TestUserMalformed" } },
+        "im:rating": { "label": "3" },
+        "title": { "label": "Broken entry with missing fields" }
+      }
+    ]
+  }
+}

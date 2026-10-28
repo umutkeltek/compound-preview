@@ -1,0 +1,38 @@
+{
+  "schema_version": "compound.route.evcard.v0.1",
+  "capability_class": "judge-critique",
+  "policy_line": {
+    "lane_id": "lane_policy_a",
+    "ev": 0.5,
+    "cost_per_attempt": 0.25,
+    "posterior": 0.5,
+    "attempts": 20,
+    "completions": 10,
+    "inputs": {
+      "belief_refs": [
+        "belief_a"
+      ],
+      "ledger_window": "receipts:200"
+    }
+  },
+  "deviation": {
+    "lane_id": "lane_dev_y",
+    "posterior": 0.25,
+    "attempts": 3,
+    "completions": 1,
+    "inputs": {
+      "belief_refs": [
+        "belief_b",
+        "belief_c"
+      ]
+    }
+  },
+  "verdict": "unpriceable",
+  "risk_grade": "gate",
+  "prediction_required": false,
+  "route_plan_ref": "rp_test_unpriceable",
+  "computed_from_revision": "rev_test_unpriceable",
+  "missing_inputs": [
+    "deviation.cost_per_attempt"
+  ]
+}

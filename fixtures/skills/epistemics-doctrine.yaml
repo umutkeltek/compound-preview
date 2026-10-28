@@ -1,0 +1,111 @@
+schema_version: compound.skill_manifest.v0.1
+id: epistemics_doctrine_fixture
+adapter_id: fixture.epistemics-doctrine
+source_system: compound-docs
+observed_at: "2026-07-03T00:00:00Z"
+source_ref:
+  path: docs/architecture/epistemics.md
+  kind: architecture_contract
+  owner: architecture-doctor
+  source_class: source
+  revision: docs-architecture-epistemics-v2
+evidence_refs:
+  - docs/architecture/epistemics.md
+skills:
+  - id: doctrine:epistemics-contract-before-execution
+    kind: doctrine
+    name: Expectations Become Contracts
+    status: active
+    triggers:
+      - epistemics
+      - effective contract
+      - included excluded context
+      - expectation contract
+    capabilities:
+      - architecture-doctor
+    weight: 1
+  - id: doctrine:epistemics-one-work-root
+    kind: doctrine
+    name: One Work Root
+    status: active
+    triggers:
+      - epistemics
+      - work envelope
+      - receipt transition proof
+      - completion proof
+    capabilities:
+      - workbench
+    weight: 1
+  - id: doctrine:epistemics-contradiction-reopens-review
+    kind: doctrine
+    name: Contradiction Reopens Review
+    status: active
+    triggers:
+      - epistemics
+      - contradiction
+      - needs review
+      - promoted claim
+    capabilities:
+      - memory-synthesis
+    weight: 1
+  - id: doctrine:epistemics-capability-offers-only
+    kind: doctrine
+    name: Capability Offers Never Execute
+    status: active
+    triggers:
+      - epistemics
+      - capability surface
+      - auto surface never execute
+      - panel review
+    capabilities:
+      - capability-graph
+    weight: 1
+  - id: doctrine:epistemics-route-evidence-not-success
+    kind: doctrine
+    name: Route Evidence Is Not Task Success
+    status: active
+    triggers:
+      - epistemics
+      - route evidence
+      - task success
+      - receipt state delta
+    capabilities:
+      - route-evidence
+    weight: 1
+  - id: doctrine:epistemics-evidence-before-truth
+    kind: doctrine
+    name: Evidence Before Truth
+    status: active
+    triggers:
+      - epistemics
+      - evidence
+      - adjudicated claims
+      - ambient recall
+    capabilities:
+      - memory
+    weight: 1
+  - id: doctrine:epistemics-public-core-gated-intake
+    kind: doctrine
+    name: Public Core Gated Intake
+    status: active
+    triggers:
+      - epistemics
+      - public core
+      - gated intake
+      - external capability
+    capabilities:
+      - architecture-doctor
+    weight: 1
+  - id: doctrine:epistemics-evidence-gated-autonomy
+    kind: doctrine
+    name: Suggested Work Requires Evidence-Gated Admission
+    status: active
+    triggers:
+      - epistemics
+      - suggested work
+      - standing autonomy grant
+      - evidence threshold
+    capabilities:
+      - director-propose
+      - route-evidence
+    weight: 1

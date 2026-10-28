@@ -1,0 +1,4 @@
+{
+  "confidence": 0.92,
+  "findings": [{"claim": "The target uses synthetic service identifiers and contains no private material.", "severity": "low", "evidence_refs": ["trace://synthetic-clean"]}]
+}

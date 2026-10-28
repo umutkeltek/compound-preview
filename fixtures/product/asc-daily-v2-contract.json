@@ -1,0 +1,28 @@
+{
+  "schema_version": "compound.asc_app_daily.v2",
+  "observed_populations": {
+    "first_time_downloads": "published_first_time_download_counts",
+    "redownloads": "published_redownload_counts",
+    "updates": "published_download_update_counts",
+    "impressions": "published_impression_counts",
+    "product_page_views": "published_product_page_view_counts",
+    "web_preview_impressions": "published_web_preview_impression_counts",
+    "web_preview_page_views": "published_web_preview_product_page_view_counts",
+    "sales_usd": "published_sales_usd",
+    "proceeds_usd": "published_proceeds_usd"
+  },
+  "unknown_reasons": [
+    "missing_report", "incomplete_snapshot", "missing_metric",
+    "suppressed_or_invalid", "unsupported_population", "unmatched_population"
+  ],
+  "conversion_population": "unmatched_first_time_downloads_to_product_page_views",
+  "notes": [
+    "Expected segment IDs are stable provider-declared IDs, never synthetic filename identities.",
+    "Observed requires matched_rows >= 1 and exactly one complete selected source.",
+    "Counts are published dimensional event counts, never unique users or unsuppressed population totals.",
+    "Event counts are nonnegative. Explicit USD money can be finite and negative.",
+    "A complete transfer cannot prove an absent event was zero.",
+    "The legacy complete_funnel flag is false for v2. Consumers validate selected metric evidence.",
+    "All retained metrics are nullable. Unsupported identity populations remain unknown."
+  ]
+}

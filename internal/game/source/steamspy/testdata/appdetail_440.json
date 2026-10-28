@@ -1,0 +1,20 @@
+{
+  "appid": "440",
+  "name": "Team Fortress 2",
+  "developer": "Valve",
+  "publisher": "Valve",
+  "owners": "100,000,000 .. 200,000,000",
+  "owners_variance": "1818507",
+  "players_forever": "240694889",
+  "players_2_weeks": "1416780",
+  "average_forever": "28425",
+  "average_2_weeks": "1685",
+  "median_forever": "470",
+  "median_2_weeks": "120",
+  "ccu": "12784",
+  "price": "0",
+  "score_rank": "",
+  "positive": "1438745",
+  "negative": "37428",
+  "tags": "Action,Free to Play,Multiplayer,FPS,Co-op"
+}

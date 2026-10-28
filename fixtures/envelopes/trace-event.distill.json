@@ -1,0 +1,58 @@
+{
+  "schema_version": "compound.trace_envelope.v0.1",
+  "id": "trace_os_event_distill",
+  "created_at": "2026-06-29T12:00:00Z",
+  "producer": {
+    "kind": "fixture",
+    "name": "compound"
+  },
+  "ids": {
+    "run_id": "daily-snapshot"
+  },
+  "scope": {
+    "project_id": "control",
+    "surface": "/workspace/snapshots/daily.json"
+  },
+  "authority": {
+    "source_class": "runtime",
+    "status": "current"
+  },
+  "privacy": "private",
+  "risk": "tier0",
+  "evidence_refs": [
+    "os_event:evt_20260629T010000Z_alpha",
+    "path:/workspace/snapshots/daily.json"
+  ],
+  "uncertainty": {
+    "level": "known"
+  },
+  "source": {
+    "system": "os-event-source",
+    "stream": "control-events",
+    "source_id": "evt_20260629T010000Z_alpha",
+    "source_kind": "snapshot.generated",
+    "event_class": "snapshot",
+    "raw_ref": "fixtures/events/os-events.ndjson",
+    "line": 1,
+    "quality": "complete",
+    "mutation_raw": "read_only"
+  },
+  "actor": "scheduler",
+  "started_at": "2026-06-29T01:00:00Z",
+  "ended_at": "2026-06-29T01:00:00Z",
+  "mutation_class": "read",
+  "summary": "Generated deterministic daily snapshot.",
+  "tools_models_used": [],
+  "files_touched": [
+    "/workspace/snapshots/daily.json"
+  ],
+  "outputs": [
+    "/workspace/snapshots/daily.json"
+  ],
+  "cost": {
+    "tokens_in": 0,
+    "tokens_out": 0,
+    "api_usd": 0,
+    "wall_ms": 0
+  }
+}

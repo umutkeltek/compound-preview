@@ -1,0 +1,17 @@
+{
+  "schema_version": "compound.distiller.eval_case.v0.1",
+  "id": "eval_rejects_llm_ungrounded_evidence",
+  "request": {
+    "trace_ref": "trace_reject_ungrounded_evidence",
+    "raw": "../traces/raw-distill-session.txt"
+  },
+  "response": "../traces/llm-bad-ungrounded-evidence.json",
+  "expect": {
+    "source_refs": ["raw_trace:trace_reject_ungrounded_evidence"],
+    "decisions": [],
+    "current_claims": 0,
+    "claims_ledger_exists": false,
+    "live_model_calls": 0,
+    "error_contains": "not present in request source_refs"
+  }
+}

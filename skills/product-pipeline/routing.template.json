@@ -1,0 +1,953 @@
+{
+  "schema_version": "compound.skill_manifest.v0.1",
+  "id": "product-lifecycle-public-v1",
+  "adapter_id": "compound-public-product-pipeline",
+  "source_system": "compound-public-skills",
+  "observed_at": "1970-01-01T00:00:00Z",
+  "source_ref": {
+    "path": "README.md",
+    "kind": "original_public_skill_bundle",
+    "owner": "compound-public-skills",
+    "source_class": "evidence",
+    "revision": "generated-from-bundle"
+  },
+  "evidence_refs": [
+    "README.md",
+    "SOURCES.md"
+  ],
+  "skills": [
+    {
+      "id": "skill:product-pipeline",
+      "kind": "skill",
+      "name": "product-pipeline",
+      "status": "active",
+      "weight": 1,
+      "skill_path": ".",
+      "triggers": [
+        "lifecycle",
+        "interconnected",
+        "branching"
+      ],
+      "when": [
+        {
+          "kind": "task-class",
+          "values": [
+            "product",
+            "app",
+            "business"
+          ]
+        },
+        {
+          "kind": "task-class",
+          "values": [
+            "lifecycle",
+            "interconnected",
+            "branching"
+          ]
+        },
+        {
+          "kind": "task-class",
+          "values": [
+            "design",
+            "connect",
+            "build",
+            "automate",
+            "revise",
+            "plan",
+            "full",
+            "whole",
+            "interconnected",
+            "branching"
+          ]
+        }
+      ],
+      "compatible_harnesses": [
+        "codex",
+        "claude_code"
+      ],
+      "read": [
+        "SKILL.md",
+        "README.md"
+      ],
+      "boundary": [
+        "Offer-only context. Recheck readiness, silence and action authority at the governed consumer. Token gates do not understand full semantic negation; semantic retrieval may bypass branch conditions.",
+        "Offer only; no scheduler or action authority. Existing product grants, work, policy and receipts remain mandatory."
+      ]
+    },
+    {
+      "id": "instruction_rule:product-lifecycle-research",
+      "kind": "instruction_rule",
+      "name": "Product lifecycle: research handoff",
+      "status": "active",
+      "weight": 1,
+      "triggers": [
+        "interview",
+        "customer",
+        "unmet",
+        "analyze",
+        "needs",
+        "research",
+        "feedback"
+      ],
+      "when": [
+        {
+          "kind": "task-class",
+          "values": [
+            "interview",
+            "customer",
+            "unmet"
+          ]
+        },
+        {
+          "kind": "task-class",
+          "values": [
+            "analyze",
+            "needs",
+            "research",
+            "feedback"
+          ]
+        }
+      ],
+      "compatible_harnesses": [
+        "codex",
+        "claude_code"
+      ],
+      "tier": 1,
+      "read": [
+        "branches/research.md"
+      ],
+      "route": [
+        {
+          "output": "product-research-evidence",
+          "destination": "instruction_rule:product-lifecycle-strategy"
+        },
+        {
+          "output": "product-research-evidence",
+          "destination": "instruction_rule:product-lifecycle-experiment"
+        }
+      ],
+      "boundary": [
+        "Offer-only context. Recheck readiness, silence and action authority at the governed consumer. Token gates do not understand full semantic negation; semantic retrieval may bypass branch conditions.",
+        "Do not invent respondents or demand; no outreach without its own grant."
+      ]
+    },
+    {
+      "id": "instruction_rule:product-lifecycle-strategy",
+      "kind": "instruction_rule",
+      "name": "Product lifecycle: strategy handoff",
+      "status": "active",
+      "weight": 1,
+      "triggers": [
+        "audience",
+        "promise",
+        "differentiation",
+        "positioning",
+        "define",
+        "product",
+        "pricing",
+        "strategy"
+      ],
+      "when": [
+        {
+          "kind": "task-class",
+          "values": [
+            "audience",
+            "promise",
+            "differentiation",
+            "positioning"
+          ]
+        },
+        {
+          "kind": "task-class",
+          "values": [
+            "define",
+            "product",
+            "pricing",
+            "strategy"
+          ]
+        }
+      ],
+      "compatible_harnesses": [
+        "codex",
+        "claude_code"
+      ],
+      "tier": 1,
+      "read": [
+        "branches/strategy.md"
+      ],
+      "route": [
+        {
+          "output": "product-strategy-evidence",
+          "destination": "instruction_rule:product-lifecycle-experiment"
+        },
+        {
+          "output": "product-strategy-evidence",
+          "destination": "instruction_rule:product-lifecycle-ux"
+        },
+        {
+          "output": "product-strategy-evidence",
+          "destination": "instruction_rule:product-lifecycle-spec"
+        }
+      ],
+      "boundary": [
+        "Offer-only context. Recheck readiness, silence and action authority at the governed consumer. Token gates do not understand full semantic negation; semantic retrieval may bypass branch conditions.",
+        "No invented competitive wins; no pricing or store changes from a strategy brief."
+      ]
+    },
+    {
+      "id": "instruction_rule:product-lifecycle-experiment",
+      "kind": "instruction_rule",
+      "name": "Product lifecycle: experiment handoff",
+      "status": "active",
+      "weight": 1,
+      "triggers": [
+        "experiment",
+        "hypothesis",
+        "design",
+        "plan",
+        "test",
+        "window"
+      ],
+      "when": [
+        {
+          "kind": "task-class",
+          "values": [
+            "experiment",
+            "hypothesis"
+          ]
+        },
+        {
+          "kind": "task-class",
+          "values": [
+            "design",
+            "plan",
+            "test",
+            "window"
+          ]
+        }
+      ],
+      "compatible_harnesses": [
+        "codex",
+        "claude_code"
+      ],
+      "tier": 1,
+      "read": [
+        "branches/experiment.md"
+      ],
+      "route": [
+        {
+          "output": "product-experiment-evidence",
+          "destination": "instruction_rule:product-lifecycle-spec"
+        },
+        {
+          "output": "product-experiment-evidence",
+          "destination": "instruction_rule:product-lifecycle-measurement"
+        }
+      ],
+      "boundary": [
+        "Offer-only context. Recheck readiness, silence and action authority at the governed consumer. Token gates do not understand full semantic negation; semantic retrieval may bypass branch conditions.",
+        "No fabricated statistical power; no active experiment duplication or automatic spending."
+      ]
+    },
+    {
+      "id": "instruction_rule:product-lifecycle-ux",
+      "kind": "instruction_rule",
+      "name": "Product lifecycle: ux handoff",
+      "status": "active",
+      "weight": 1,
+      "triggers": [
+        "journey",
+        "flow",
+        "interaction",
+        "design",
+        "compare",
+        "first",
+        "ux"
+      ],
+      "when": [
+        {
+          "kind": "task-class",
+          "values": [
+            "journey",
+            "flow",
+            "interaction"
+          ]
+        },
+        {
+          "kind": "task-class",
+          "values": [
+            "design",
+            "compare",
+            "first",
+            "ux"
+          ]
+        }
+      ],
+      "compatible_harnesses": [
+        "codex",
+        "claude_code"
+      ],
+      "tier": 1,
+      "read": [
+        "branches/ux.md"
+      ],
+      "route": [
+        {
+          "output": "product-ux-evidence",
+          "destination": "instruction_rule:product-lifecycle-spec"
+        }
+      ],
+      "boundary": [
+        "Offer-only context. Recheck readiness, silence and action authority at the governed consumer. Token gates do not understand full semantic negation; semantic retrieval may bypass branch conditions.",
+        "Prototype remains explicit-use only; a settled local edit does not reopen design direction."
+      ]
+    },
+    {
+      "id": "instruction_rule:product-lifecycle-ui",
+      "kind": "instruction_rule",
+      "name": "Product lifecycle: ui handoff",
+      "status": "active",
+      "weight": 1,
+      "triggers": [
+        "typography",
+        "spacing",
+        "focus",
+        "polish",
+        "screen",
+        "ui",
+        "layout",
+        "component"
+      ],
+      "when": [
+        {
+          "kind": "task-class",
+          "values": [
+            "typography",
+            "spacing",
+            "focus",
+            "polish"
+          ]
+        },
+        {
+          "kind": "task-class",
+          "values": [
+            "screen",
+            "ui",
+            "layout",
+            "component"
+          ]
+        }
+      ],
+      "compatible_harnesses": [
+        "codex",
+        "claude_code"
+      ],
+      "tier": 1,
+      "read": [
+        "branches/ui.md"
+      ],
+      "route": [
+        {
+          "output": "product-ui-evidence",
+          "destination": "instruction_rule:product-lifecycle-qa"
+        }
+      ],
+      "boundary": [
+        "Offer-only context. Recheck readiness, silence and action authority at the governed consumer. Token gates do not understand full semantic negation; semantic retrieval may bypass branch conditions.",
+        "Screenshots are visual evidence, not usability or conversion proof."
+      ]
+    },
+    {
+      "id": "instruction_rule:product-lifecycle-visuals",
+      "kind": "instruction_rule",
+      "name": "Product lifecycle: visuals handoff",
+      "status": "active",
+      "weight": 1,
+      "triggers": [
+        "screenshots",
+        "visuals",
+        "campaign",
+        "store",
+        "assets",
+        "captions",
+        "ios"
+      ],
+      "when": [
+        {
+          "kind": "task-class",
+          "values": [
+            "screenshots",
+            "visuals",
+            "campaign"
+          ]
+        },
+        {
+          "kind": "task-class",
+          "values": [
+            "store",
+            "assets",
+            "captions",
+            "ios"
+          ]
+        }
+      ],
+      "compatible_harnesses": [
+        "codex",
+        "claude_code"
+      ],
+      "tier": 1,
+      "read": [
+        "branches/visuals.md"
+      ],
+      "route": [
+        {
+          "output": "product-visuals-evidence",
+          "destination": "instruction_rule:product-lifecycle-release"
+        },
+        {
+          "output": "product-visuals-evidence",
+          "destination": "instruction_rule:product-lifecycle-distribution"
+        }
+      ],
+      "boundary": [
+        "Offer-only context. Recheck readiness, silence and action authority at the governed consumer. Token gates do not understand full semantic negation; semantic retrieval may bypass branch conditions.",
+        "No generated UI presented as real functionality; no uploads or global device/profile changes under asset preparation."
+      ]
+    },
+    {
+      "id": "instruction_rule:product-lifecycle-spec",
+      "kind": "instruction_rule",
+      "name": "Product lifecycle: spec handoff",
+      "status": "active",
+      "weight": 1,
+      "triggers": [
+        "specification",
+        "spec",
+        "contracts",
+        "implementation",
+        "api",
+        "dependency",
+        "behaviour",
+        "behavior"
+      ],
+      "when": [
+        {
+          "kind": "task-class",
+          "values": [
+            "specification",
+            "spec",
+            "contracts"
+          ]
+        },
+        {
+          "kind": "task-class",
+          "values": [
+            "implementation",
+            "api",
+            "dependency",
+            "behaviour",
+            "behavior"
+          ]
+        }
+      ],
+      "compatible_harnesses": [
+        "codex",
+        "claude_code"
+      ],
+      "tier": 1,
+      "read": [
+        "branches/spec.md"
+      ],
+      "route": [
+        {
+          "output": "product-spec-evidence",
+          "destination": "instruction_rule:product-lifecycle-delivery"
+        }
+      ],
+      "boundary": [
+        "Offer-only context. Recheck readiness, silence and action authority at the governed consumer. Token gates do not understand full semantic negation; semantic retrieval may bypass branch conditions.",
+        "No second work state machine; accepted specs are not endlessly regenerated."
+      ]
+    },
+    {
+      "id": "instruction_rule:product-lifecycle-delivery",
+      "kind": "instruction_rule",
+      "name": "Product lifecycle: delivery handoff",
+      "status": "active",
+      "weight": 1,
+      "triggers": [
+        "implement",
+        "implementation",
+        "ticket",
+        "ready",
+        "slice",
+        "deliver",
+        "build"
+      ],
+      "when": [
+        {
+          "kind": "task-class",
+          "values": [
+            "implement",
+            "implementation",
+            "ticket"
+          ]
+        },
+        {
+          "kind": "task-class",
+          "values": [
+            "ready",
+            "slice",
+            "deliver",
+            "build"
+          ]
+        }
+      ],
+      "compatible_harnesses": [
+        "codex",
+        "claude_code"
+      ],
+      "tier": 1,
+      "read": [
+        "branches/delivery.md"
+      ],
+      "route": [
+        {
+          "output": "product-delivery-evidence",
+          "destination": "instruction_rule:product-lifecycle-qa"
+        },
+        {
+          "output": "product-delivery-evidence",
+          "destination": "instruction_rule:product-lifecycle-release"
+        },
+        {
+          "output": "product-delivery-evidence",
+          "destination": "instruction_rule:product-lifecycle-measurement"
+        }
+      ],
+      "boundary": [
+        "Offer-only context. Recheck readiness, silence and action authority at the governed consumer. Token gates do not understand full semantic negation; semantic retrieval may bypass branch conditions.",
+        "No edits in shared main, bypass, ungoverned fallback, installation or publication implied."
+      ]
+    },
+    {
+      "id": "instruction_rule:product-lifecycle-qa",
+      "kind": "instruction_rule",
+      "name": "Product lifecycle: qa handoff",
+      "status": "active",
+      "weight": 1,
+      "triggers": [
+        "journey",
+        "critical",
+        "permission",
+        "offline",
+        "check",
+        "verify",
+        "launch",
+        "qa"
+      ],
+      "when": [
+        {
+          "kind": "task-class",
+          "values": [
+            "journey",
+            "critical",
+            "permission",
+            "offline"
+          ]
+        },
+        {
+          "kind": "task-class",
+          "values": [
+            "check",
+            "verify",
+            "launch",
+            "qa"
+          ]
+        }
+      ],
+      "compatible_harnesses": [
+        "codex",
+        "claude_code"
+      ],
+      "tier": 1,
+      "read": [
+        "branches/qa.md"
+      ],
+      "route": [
+        {
+          "output": "product-qa-evidence",
+          "destination": "instruction_rule:product-lifecycle-delivery"
+        },
+        {
+          "output": "product-qa-evidence",
+          "destination": "instruction_rule:product-lifecycle-release"
+        }
+      ],
+      "boundary": [
+        "Offer-only context. Recheck readiness, silence and action authority at the governed consumer. Token gates do not understand full semantic negation; semantic retrieval may bypass branch conditions.",
+        "A polished demo does not stand in for failure paths; do not change production data."
+      ]
+    },
+    {
+      "id": "instruction_rule:product-lifecycle-release",
+      "kind": "instruction_rule",
+      "name": "Product lifecycle: release handoff",
+      "status": "active",
+      "weight": 1,
+      "triggers": [
+        "release",
+        "signing",
+        "privacy",
+        "prepare",
+        "verify",
+        "rollback",
+        "readiness"
+      ],
+      "when": [
+        {
+          "kind": "task-class",
+          "values": [
+            "release",
+            "signing",
+            "privacy"
+          ]
+        },
+        {
+          "kind": "task-class",
+          "values": [
+            "prepare",
+            "verify",
+            "rollback",
+            "readiness"
+          ]
+        }
+      ],
+      "compatible_harnesses": [
+        "codex",
+        "claude_code"
+      ],
+      "tier": 1,
+      "read": [
+        "branches/release.md"
+      ],
+      "route": [
+        {
+          "output": "product-release-evidence",
+          "destination": "instruction_rule:product-lifecycle-distribution"
+        },
+        {
+          "output": "product-release-evidence",
+          "destination": "instruction_rule:product-lifecycle-measurement"
+        }
+      ],
+      "boundary": [
+        "Offer-only context. Recheck readiness, silence and action authority at the governed consumer. Token gates do not understand full semantic negation; semantic retrieval may bypass branch conditions.",
+        "Preparation is not submission/publication authority; no automatic install or account changes."
+      ]
+    },
+    {
+      "id": "instruction_rule:product-lifecycle-distribution",
+      "kind": "instruction_rule",
+      "name": "Product lifecycle: distribution handoff",
+      "status": "active",
+      "weight": 1,
+      "triggers": [
+        "campaign",
+        "launch",
+        "distribution",
+        "acquisition",
+        "audience",
+        "prospect",
+        "channel",
+        "marketing",
+        "cold"
+      ],
+      "when": [
+        {
+          "kind": "task-class",
+          "values": [
+            "campaign",
+            "launch",
+            "distribution",
+            "acquisition"
+          ]
+        },
+        {
+          "kind": "task-class",
+          "values": [
+            "audience",
+            "prospect",
+            "channel",
+            "marketing",
+            "cold"
+          ]
+        }
+      ],
+      "compatible_harnesses": [
+        "codex",
+        "claude_code"
+      ],
+      "tier": 1,
+      "read": [
+        "branches/distribution.md"
+      ],
+      "route": [
+        {
+          "output": "product-distribution-evidence",
+          "destination": "instruction_rule:product-lifecycle-activation"
+        },
+        {
+          "output": "product-distribution-evidence",
+          "destination": "instruction_rule:product-lifecycle-measurement"
+        }
+      ],
+      "boundary": [
+        "Offer-only context. Recheck readiness, silence and action authority at the governed consumer. Token gates do not understand full semantic negation; semantic retrieval may bypass branch conditions.",
+        "Multiple addresses are not sending permission; no fake warm-up, identity rotation, unsolicited bulk effects or automatic publication."
+      ]
+    },
+    {
+      "id": "instruction_rule:product-lifecycle-activation",
+      "kind": "instruction_rule",
+      "name": "Product lifecycle: activation handoff",
+      "status": "active",
+      "weight": 1,
+      "triggers": [
+        "first",
+        "setup",
+        "activation",
+        "onboarding",
+        "users",
+        "value",
+        "finish",
+        "bottleneck",
+        "journey"
+      ],
+      "when": [
+        {
+          "kind": "task-class",
+          "values": [
+            "first",
+            "setup",
+            "activation",
+            "onboarding"
+          ]
+        },
+        {
+          "kind": "task-class",
+          "values": [
+            "users",
+            "value",
+            "finish",
+            "bottleneck",
+            "journey"
+          ]
+        }
+      ],
+      "compatible_harnesses": [
+        "codex",
+        "claude_code"
+      ],
+      "tier": 1,
+      "read": [
+        "branches/activation.md"
+      ],
+      "route": [
+        {
+          "output": "product-activation-evidence",
+          "destination": "instruction_rule:product-lifecycle-experiment"
+        },
+        {
+          "output": "product-activation-evidence",
+          "destination": "instruction_rule:product-lifecycle-spec"
+        }
+      ],
+      "boundary": [
+        "Offer-only context. Recheck readiness, silence and action authority at the governed consumer. Token gates do not understand full semantic negation; semantic retrieval may bypass branch conditions.",
+        "Do not call more acquisition the fix for broken value; no dark-pattern paywall assumptions."
+      ]
+    },
+    {
+      "id": "instruction_rule:product-lifecycle-retention",
+      "kind": "instruction_rule",
+      "name": "Product lifecycle: retention handoff",
+      "status": "active",
+      "weight": 1,
+      "triggers": [
+        "cancellation",
+        "support",
+        "retention",
+        "complaints",
+        "customer",
+        "analyze",
+        "recovery",
+        "cohort",
+        "recurring"
+      ],
+      "when": [
+        {
+          "kind": "task-class",
+          "values": [
+            "cancellation",
+            "support",
+            "retention",
+            "complaints"
+          ]
+        },
+        {
+          "kind": "task-class",
+          "values": [
+            "customer",
+            "analyze",
+            "recovery",
+            "cohort",
+            "recurring"
+          ]
+        }
+      ],
+      "compatible_harnesses": [
+        "codex",
+        "claude_code"
+      ],
+      "tier": 1,
+      "read": [
+        "branches/retention.md"
+      ],
+      "route": [
+        {
+          "output": "product-retention-evidence",
+          "destination": "instruction_rule:product-lifecycle-experiment"
+        },
+        {
+          "output": "product-retention-evidence",
+          "destination": "instruction_rule:product-lifecycle-qa"
+        }
+      ],
+      "boundary": [
+        "Offer-only context. Recheck readiness, silence and action authority at the governed consumer. Token gates do not understand full semantic negation; semantic retrieval may bypass branch conditions.",
+        "No hiding exit, inventing loyalty, deleting customer data or duplicating recovery effects."
+      ]
+    },
+    {
+      "id": "instruction_rule:product-lifecycle-measurement",
+      "kind": "instruction_rule",
+      "name": "Product lifecycle: measurement handoff",
+      "status": "active",
+      "weight": 1,
+      "triggers": [
+        "cohort",
+        "observation",
+        "measure",
+        "helped",
+        "shipped",
+        "change",
+        "experiment",
+        "metric",
+        "window"
+      ],
+      "when": [
+        {
+          "kind": "task-class",
+          "values": [
+            "cohort",
+            "observation",
+            "measure",
+            "helped"
+          ]
+        },
+        {
+          "kind": "task-class",
+          "values": [
+            "shipped",
+            "change",
+            "experiment",
+            "metric",
+            "window"
+          ]
+        }
+      ],
+      "compatible_harnesses": [
+        "codex",
+        "claude_code"
+      ],
+      "tier": 1,
+      "read": [
+        "branches/measurement.md"
+      ],
+      "route": [
+        {
+          "output": "product-measurement-evidence",
+          "destination": "instruction_rule:product-lifecycle-strategy"
+        },
+        {
+          "output": "product-measurement-evidence",
+          "destination": "instruction_rule:product-lifecycle-experiment"
+        },
+        {
+          "output": "product-measurement-evidence",
+          "destination": "instruction_rule:product-lifecycle-learning"
+        }
+      ],
+      "boundary": [
+        "Offer-only context. Recheck readiness, silence and action authority at the governed consumer. Token gates do not understand full semantic negation; semantic retrieval may bypass branch conditions.",
+        "Apple sales skill is a platform-specific complement, not a generic cohort engine; no fabricated business results."
+      ]
+    },
+    {
+      "id": "instruction_rule:product-lifecycle-learning",
+      "kind": "instruction_rule",
+      "name": "Product lifecycle: learning handoff",
+      "status": "active",
+      "weight": 1,
+      "triggers": [
+        "skill",
+        "trigger",
+        "routing",
+        "audit",
+        "update",
+        "compare",
+        "irrelevant",
+        "precision"
+      ],
+      "when": [
+        {
+          "kind": "task-class",
+          "values": [
+            "skill",
+            "trigger",
+            "routing"
+          ]
+        },
+        {
+          "kind": "task-class",
+          "values": [
+            "audit",
+            "update",
+            "compare",
+            "irrelevant",
+            "precision"
+          ]
+        }
+      ],
+      "compatible_harnesses": [
+        "codex",
+        "claude_code"
+      ],
+      "tier": 1,
+      "read": [
+        "branches/learning.md"
+      ],
+      "route": [
+        {
+          "output": "product-learning-evidence",
+          "destination": "skill:product-pipeline"
+        }
+      ],
+      "boundary": [
+        "Offer-only context. Recheck readiness, silence and action authority at the governed consumer. Token gates do not understand full semantic negation; semantic retrieval may bypass branch conditions.",
+        "No auto-promotion from one success, popularity, declared-use labels or a better screenshot."
+      ]
+    }
+  ]
+}

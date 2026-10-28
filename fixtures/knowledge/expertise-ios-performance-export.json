@@ -1,0 +1,128 @@
+{
+  "schema_version": "compound.knowledge_export.v0.1",
+  "source": {
+    "kind": "expertise-synthesis",
+    "ref": "expertise:ios-performance-engineering:v1",
+    "captured_at": "2026-07-07T12:00:00Z"
+  },
+  "privacy": "public",
+  "producer": {
+    "kind": "model",
+    "name": "claude-opus-4-8",
+    "version": "expertise-pack-0.1"
+  },
+  "items": [
+    {
+      "ref": "expertise:ios-perf:mental-model:frame-loop",
+      "title": "Mental model — the render loop and hitches, not 'dropped frames'",
+      "topics": ["ios", "performance", "mental-model", "core-animation"],
+      "candidate_classes": ["technique"],
+      "lang": "en",
+      "content": "A world-class iOS performance engineer thinks in the render loop, not in vague 'lag'. Every frame the system runs a fixed pipeline: your app updates state and lays out (CPU), Core Animation commits a layer tree, the render server composites, and the display scans out at the panel's refresh rate. The modern unit of failure is the hitch: a frame that misses its target and is shown late, measured as hitch time in milliseconds, not as a binary 'dropped frame'. On a 120Hz ProMotion display the frame budget is variable and can be as low as ~8ms, so a technique that looked fine at 60Hz can hitch at 120Hz. The correct question is never 'is it slow' but 'which phase of which frame exceeded its budget, on which device, at which refresh rate'."
+    },
+    {
+      "ref": "expertise:ios-perf:mental-model:main-thread-debt",
+      "title": "Mental model — the main thread is a serial queue you are always borrowing against",
+      "topics": ["ios", "performance", "mental-model", "concurrency"],
+      "candidate_classes": ["technique"],
+      "lang": "en",
+      "content": "The main thread is a single serial queue that must both run your UI logic and let UIKit/SwiftUI drive layout and the commit phase every frame. Any synchronous work you put on it — JSON decoding, image decoding, disk reads, Core Data faults, layout of a huge string, a lock waiting on another thread — is debt the frame budget pays. The senior instinct is to treat the main thread as sacred: it exists to schedule and commit, not to compute. Offload computation to background queues or Swift concurrency, then hop back to the main actor only to mutate UI. A single 50ms synchronous call on the main thread is not 'a bit of latency'; at 60Hz it is three consecutive hitches."
+    },
+    {
+      "ref": "expertise:ios-perf:launch:phases",
+      "title": "Launch time — pre-main vs post-main, and where the seconds actually hide",
+      "topics": ["ios", "performance", "launch", "startup"],
+      "candidate_classes": ["technique"],
+      "lang": "en",
+      "content": "App launch splits into pre-main and post-main. Pre-main time is dynamic linking and loading: dyld resolving and binding your dynamic frameworks, running Objective-C +load methods, and C++ static initializers — all before your code's main() runs. Post-main is your didFinishLaunching, first view controller construction, and the first frame. The experienced fix order is: cut the number of dynamic frameworks (each one costs dyld time; prefer static linking or merging), eliminate +load and static initializers (move work to first use / lazy), and defer everything not needed for the first frame out of didFinishLaunching. Measure pre-main with the DYLD_PRINT_STATISTICS environment variable and total launch with the MetricKit MXAppLaunchMetric from real users, not just cold launches on your fast dev device."
+    },
+    {
+      "ref": "expertise:ios-perf:images:decode-off-main-and-downsample",
+      "title": "Images — decode off the main thread and downsample to the target size",
+      "topics": ["ios", "performance", "images", "memory"],
+      "candidate_classes": ["technique"],
+      "lang": "en",
+      "content": "The single most common iOS performance disaster is image handling. Assigning a large UIImage to a UIImageView triggers decompression (decode) of the full-resolution bitmap on the main thread at display time, which both hitches scrolling and balloons memory. Two disciplines fix most of it: force-decode on a background queue before display (draw into a bitmap context or use a downsampling image source), and downsample to the pixel size you will actually show times the screen scale — a 4000x3000 photo in a 200pt thumbnail should be decoded near 400x300 pixels, not full size. A gallery that keeps full-resolution decoded bitmaps in memory will be killed by jetsam long before it looks slow. Prefer ImageIO's CGImageSourceCreateThumbnailAtIndex with kCGImageSourceThumbnailMaxPixelSize for correct, cheap downsampling."
+    },
+    {
+      "ref": "expertise:ios-perf:scroll:reuse-prefetch-async",
+      "title": "Scrolling — cell reuse, prefetching, and getting layout off the critical frame",
+      "topics": ["ios", "performance", "scrolling", "uikit"],
+      "candidate_classes": ["technique"],
+      "lang": "en",
+      "content": "Smooth scrolling is won by never doing per-frame work that could have been done ahead of time. Reuse cells (dequeue, never allocate per row) and keep cellForRowAt cheap: no image decoding, no date formatting, no sizing string measurement inside it. Move preparation into the prefetch APIs (UITableViewDataSourcePrefetching / UICollectionViewDataSourcePrefetching) so data and images are ready before the cell scrolls on screen, and cancel prefetch work when the user scrolls away. Cache expensive derived values (formatted strings, pre-computed heights, decoded thumbnails). The tell of an amateur scroll implementation is a DateFormatter or JSONDecoder allocated inside cellForRow; the tell of a senior one is that the cell just binds already-prepared values to views."
+    },
+    {
+      "ref": "expertise:ios-perf:swiftui:identity-and-invalidation",
+      "title": "SwiftUI — performance is governed by identity, invalidation scope, and avoiding AnyView",
+      "topics": ["ios", "performance", "swiftui", "rendering"],
+      "candidate_classes": ["technique"],
+      "lang": "en",
+      "content": "SwiftUI performance is not about drawing; it is about how often and how widely the framework re-evaluates body. Three levers dominate. First, invalidation scope: an @State or @Observable property change re-runs the body of every view that reads it, so push state down to the smallest subtree that needs it rather than holding it at the root. Second, identity: give ForEach stable identifiers and avoid recreating view identity every update, or SwiftUI tears down and rebuilds subtrees instead of updating them. Third, avoid AnyView in hot paths: type-erasing views defeats the framework's structural diffing and forces it to treat the branch as opaque, so prefer @ViewBuilder, generics, or Group over returning AnyView inside a list row. Use the Instruments SwiftUI template and the _printChanges() debugging hook to see which view is re-evaluating and why."
+    },
+    {
+      "ref": "expertise:ios-perf:core-animation:offscreen-blending-rasterization",
+      "title": "Core Animation — offscreen passes, blending, and when rasterization backfires",
+      "topics": ["ios", "performance", "core-animation", "gpu"],
+      "candidate_classes": ["technique"],
+      "lang": "en",
+      "content": "GPU-side hitches come from work the compositor must do per frame. The three classic costs: offscreen rendering (shadows drawn without a shadowPath, masking, some corner-radius-plus-clipping combinations force the GPU to render into a separate buffer then copy back), blending (many overlapping translucent layers force the compositor to blend per pixel — mark opaque views as opaque and give them a background color), and misused shouldRasterize (caching a layer as a bitmap helps only if the layer is static and reused; on content that changes every frame it re-rasterizes constantly and is slower than not caching). Always set an explicit shadowPath when using layer shadows. Use the Core Animation instrument's color-blended-layers and color-offscreen-rendered overlays to see these costs directly instead of guessing."
+    },
+    {
+      "ref": "expertise:ios-perf:memory:footprint-caches-jetsam",
+      "title": "Memory — footprint, image caches, and the jetsam limit that actually kills you",
+      "topics": ["ios", "performance", "memory", "jetsam"],
+      "candidate_classes": ["technique"],
+      "lang": "en",
+      "content": "On iOS the enemy is not a leak in the classic sense but footprint: the resident dirty memory the OS counts against a per-device jetsam limit. Exceed it and the app is terminated, often blamed by users as a crash. The senior habits: bound every cache (NSCache with countLimit/totalCostLimit rather than an unbounded dictionary, and honor didReceiveMemoryWarning), never keep full-resolution decoded images alive, and understand that a retain cycle in a view controller keeps its whole view hierarchy and its images resident. Measure real footprint with the Memory graph and the Allocations/Leaks instruments, and watch for unbounded growth across a navigation push/pop cycle — steady-state memory should return to baseline after popping. A closure capturing self strongly inside a long-lived store is the most common cycle; use [weak self] deliberately, not reflexively."
+    },
+    {
+      "ref": "expertise:ios-perf:diagnosis:instruments-and-signposts",
+      "title": "Diagnosis — pick the right instrument and add os_signpost intervals before guessing",
+      "topics": ["ios", "performance", "instruments", "profiling"],
+      "candidate_classes": ["technique"],
+      "lang": "en",
+      "content": "Experts measure before touching code, and they pick the instrument by symptom. CPU hitches and 'where is time going' -> Time Profiler. Memory growth or churn -> Allocations and Leaks. Scrolling/compositing jank -> Core Animation and the Animation Hitches template. UI stalls the user feels -> the Hangs instrument plus Thread State. To attribute time to your own logical operations rather than raw stack frames, instrument the code with os_signpost begin/end intervals and view them on the Points of Interest track; this turns 'the profiler shows time in CoreFoundation' into 'our feed-merge step took 240ms'. Always profile a Release build on a representative low-end device (the oldest supported model), never a Debug build on the newest phone — Debug disables optimizations and the newest phone hides the regressions your users feel."
+    },
+    {
+      "ref": "expertise:ios-perf:hangs:metrickit-field-signals",
+      "title": "Field diagnosis — MetricKit and hang/hitch signals from real users",
+      "topics": ["ios", "performance", "metrickit", "hangs"],
+      "candidate_classes": ["technique"],
+      "lang": "en",
+      "content": "Lab profiling finds what you can reproduce; the disasters are what you cannot. Senior teams wire MetricKit to receive daily aggregated metrics and diagnostics from real devices: MXHangDiagnostic for main-thread hangs with call stacks, hitch ratios and scroll hitch time, app launch time distributions, and memory/energy. Combine with the Xcode Organizer's regressions and hangs reports, which surface which release and which code path degraded in the field. The mindset shift is from 'it's fast on my phone' to 'the p95 launch on an iPhone from four years ago on a cold cache is what the store rating reflects'. Treat a rising hang rate in Organizer as a shipping-blocker signal, not a nice-to-have."
+    },
+    {
+      "ref": "expertise:ios-perf:failure-modes:top-production-disasters",
+      "title": "Failure database — the recurring iOS performance disasters and their early tells",
+      "topics": ["ios", "performance", "failure-modes", "anti-patterns"],
+      "candidate_classes": ["technique"],
+      "lang": "en",
+      "content": "The same disasters recur across apps. Main-thread image decode during scroll (tell: hitches only over image-heavy rows). Unbounded image or data cache (tell: memory climbs and never returns to baseline, jetsam terminations in the field). DateFormatter/NumberFormatter/JSONDecoder allocated per cell or per call (tell: Time Profiler shows time in formatter setup). Synchronous disk or network on the main thread (tell: hang instrument fires on a specific action). Too many dynamic frameworks and +load methods (tell: high pre-main launch time). AnyView and unstable ForEach identity in SwiftUI (tell: whole lists re-evaluate on any change). Offscreen rendering from shadows without shadowPath (tell: Core Animation offscreen overlay lights up). Retain cycles keeping view hierarchies alive (tell: memory grows one hierarchy per push/pop). Each has a cheap early detector; the expert wires the detector, not just the fix."
+    },
+    {
+      "ref": "expertise:ios-perf:rules-of-thumb:budgets",
+      "title": "Rules of thumb — the budgets and numbers a senior engineer carries",
+      "topics": ["ios", "performance", "budgets", "rules-of-thumb"],
+      "candidate_classes": ["technique"],
+      "lang": "en",
+      "content": "Carry concrete budgets, not vibes. A frame at 60Hz has ~16.7ms of total budget and your CPU work should fit in a few milliseconds of that; at 120Hz the budget can halve. Cold launch should feel under ~400ms of your own post-main work to first frame, and the store-visible number is the field p95, not your dev cold launch. Any main-thread operation over ~100ms is a user-perceptible hang by Apple's own hang definition and must move off the main thread. Decoded image memory is roughly width x height x 4 bytes regardless of the compressed file size, so a 12MP photo is ~48MB decoded — this is why downsampling matters. NSCache and prefetch windows should be bounded to a small multiple of what fits on screen. These numbers turn 'seems fine' into a pass/fail gate."
+    },
+    {
+      "ref": "expertise:ios-perf:diagnostic-flow:if-x-investigate-y",
+      "title": "Diagnostic flowchart — if X, then investigate Y",
+      "topics": ["ios", "performance", "diagnostic", "flowchart"],
+      "candidate_classes": ["technique"],
+      "lang": "en",
+      "content": "A reusable if-X-then-Y ladder. If scrolling hitches, investigate cellForRow work, image decode, and cell reuse before anything else. If launch is slow, split pre-main (dyld, +load, static init) from post-main (didFinishLaunching, first frame) with DYLD_PRINT_STATISTICS before optimizing either. If memory grows without bound, investigate cache limits and retain cycles across push/pop, not allocation speed. If the UI freezes on a specific tap, investigate synchronous disk/network/lock on the main thread with the Hangs instrument. If a SwiftUI screen is slow, investigate body re-evaluation scope and AnyView with _printChanges before touching drawing. If the GPU is the bottleneck, investigate offscreen rendering and blending with the Core Animation overlays. The discipline is to let the symptom pick the instrument, and the instrument pick the fix — never to optimize by intuition."
+    },
+    {
+      "ref": "expertise:ios-perf:hidden-knowledge:what-seniors-rarely-explain",
+      "title": "Hidden knowledge — what experienced iOS engineers rarely say out loud",
+      "topics": ["ios", "performance", "hidden-knowledge", "tacit"],
+      "candidate_classes": ["technique"],
+      "lang": "en",
+      "content": "The tacit rules. Debug builds lie: they disable compiler optimizations, so profile Release. The newest device lies: it hides regressions the median user feels, so test the oldest supported model. Averages lie: perf lives in the p95 and p99 tail and on cold caches, not the mean. 'It works on wifi' lies: test on a throttled network and airplane-mode-to-online transitions. Micro-optimizing hot Swift code before fixing an architectural main-thread stall is wasted effort — find the biggest single stall first, because performance is dominated by the worst offender, not the sum of small ones. And most importantly, a fast feature that ships is worth more than a perfect one that slips; the senior move is to set a measurable budget, gate on it in CI or pre-ship, and stop optimizing once the budget is met rather than chasing diminishing returns."
+    }
+  ]
+}

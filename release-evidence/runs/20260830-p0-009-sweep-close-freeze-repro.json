@@ -1,0 +1,35 @@
+{
+  "schema_version": "compound.release_reproducer.v0.1",
+  "issue_id": "REL-P0-009",
+  "observed_at": "2026-08-30T03:57:31Z",
+  "source_sha": "d7f77a3e25888f1f906114d857e79dadaa1ac78d",
+  "source_tree": "07ee2144aa75f21a643562a6ebe26b291cadfd56",
+  "method": "deterministic disposable-home test using the existing prepareRunAttemptTerminalization seam; no live home or tracked source mutation",
+  "interleaving": [
+    "governed failing execution freezes running WorkEnvelope plus pending claim reservation into close-pending",
+    "RunAttempt SweepStale wins before PrepareTerminalization and terminalizes the claim reservation abandoned/side_effect_free",
+    "PrepareTerminalization observes already-terminal abandoned instead of the frozen pending snapshot"
+  ],
+  "observed": {
+    "error": "close recovery_required: runattempt prepare terminalization <claim-reservation>: already terminal (abandoned)",
+    "work_state": "running",
+    "close_pending": true,
+    "actual_execution_status": "failed",
+    "actual_execution_forward_linked": false,
+    "exact_retry_converges": false,
+    "terminal_reconciler_applicable": false
+  },
+  "commands": [
+    {
+      "command": "GOTOOLCHAIN=go1.26.4 go test -count=1 -v ./internal/actuator -run '^TestReproGovernedFailureFinalizationWedgesWhenSweepWinsBeforePrepare$'",
+      "exit_code": 0,
+      "meaning": "reproducer observed every asserted wedge condition"
+    },
+    {
+      "command": "GOTOOLCHAIN=go1.26.4 go test -race -count=1 -v ./internal/actuator -run '^TestReproGovernedFailureFinalizationWedgesWhenSweepWinsBeforePrepare$'",
+      "exit_code": 0,
+      "meaning": "same deterministic interleaving under the race detector"
+    }
+  ],
+  "invariant": "Once close freezes a generation, a concurrent side-effect-free sweep cannot strand governed failure finalization; the same frozen close must either commit or expose a reconciler that converges idempotently."
+}

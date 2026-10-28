@@ -1,0 +1,4 @@
+{
+  "confidence": 0.88,
+  "findings": [{"claim": "No near-duplicate promoted memory was supplied for this runtime claim.", "severity": "low", "evidence_refs": ["trace://synthetic-clean"]}]
+}

@@ -1,0 +1,25 @@
+{
+  "confidence": 0.8,
+  "findings": [
+    {
+      "claim": "Mom opens by confirming attendance (\"are you still coming Sunday\") and Dana confirms without elaboration (\"yeah, planning on it, why\").",
+      "severity": "medium",
+      "evidence_refs": ["are you still coming Sunday", "yeah, planning on it, why"]
+    },
+    {
+      "claim": "Mom offers a concrete logistics option (\"I can pick you up from the station\") which Dana declines in favor of driving.",
+      "severity": "medium",
+      "evidence_refs": ["I can pick you up from the station if that helps", "I can drive, it's fine"]
+    },
+    {
+      "claim": "Mom asks a question outside the stated logistics topic (\"did you eat today\") which is not about Sunday plans.",
+      "severity": "medium",
+      "evidence_refs": ["did you eat today"]
+    },
+    {
+      "claim": "Dana's replies across the exchange are consistently short and close each topic quickly.",
+      "severity": "low",
+      "evidence_refs": ["yeah, planning on it, why", "I can drive, it's fine", "yes mom, I'm fine"]
+    }
+  ]
+}

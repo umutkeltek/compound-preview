@@ -1,0 +1,29 @@
+schema_version: compound.product_signal_export.v0.1
+source:
+  kind: google_adsense
+  ref: adsense:site:example.com:earnings:2026-07-01
+signal_id: sig_example_adsense_earnings_20260701
+product_id: product:example-site
+surface: web-monetization
+change_event: "Google AdSense metric snapshot observed."
+metric:
+  name: estimated_earnings
+  before:
+    value: 12.34
+    period: "2026-06-01/2026-06-30"
+    ref: fixture:adsense:earnings:before
+  after:
+    value: 12.34
+    period: "2026-06-01/2026-06-30"
+    ref: fixture:adsense:earnings:after
+window: "neutral snapshot 2026-07-01"
+confidence: 0.5
+confounders:
+  - neutral provider snapshot; no causal movement implied
+interpretations:
+  - lens: provider_snapshot
+    claim: records Google AdSense metric observation only
+next_action: "Review alongside product context before taking action."
+evidence_refs:
+  - fixture:adsense:example.com:2026-07-01
+observed_at: "2026-07-01T00:00:00Z"

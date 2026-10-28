@@ -1,0 +1,25 @@
+{
+  "confidence": 0.6,
+  "findings": [
+    {
+      "claim": "\"quick question\" may function to minimize the perceived size of the ask, framing what is actually a process/permission decision as a small, low-cost check-in.",
+      "severity": "medium",
+      "evidence_refs": ["hey, quick question when you have a sec"]
+    },
+    {
+      "claim": "\"quick question\" may instead function literally: Jordan genuinely expects a fast yes/no and is not trying to minimize anything.",
+      "severity": "low",
+      "evidence_refs": ["hey, quick question when you have a sec"]
+    },
+    {
+      "claim": "\"who else knows about this\" functions as testing scope and authorization before committing to a position, not as idle curiosity.",
+      "severity": "medium",
+      "evidence_refs": ["hm, who else knows about this"]
+    },
+    {
+      "claim": "\"no worries, just wanted to keep things moving\" may function as Jordan smoothing over the redirect to preserve status after being told to wait.",
+      "severity": "medium",
+      "evidence_refs": ["ok, no worries, just wanted to keep things moving"]
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "schema_version": "playtest.finding.v0.1",
+  "id": "pf1",
+  "severity": "P2",
+  "type": "totally_made_up_signal",
+  "title": "Unfamiliar finding type must pass through intake without being gated",
+  "evidence": {
+    "player_belief": "n/a synthetic",
+    "ledger_truth": "n/a synthetic",
+    "impact": "Guards the open enum: a finding type outside the known set must still be emitted verbatim with a warning.",
+    "member_findings": [],
+    "screenshots": []
+  },
+  "repro": ["synthetic only"],
+  "source": "synthetic fixture run-unknown-type; fully fabricated for tests"
+}

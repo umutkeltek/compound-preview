@@ -1,0 +1,30 @@
+{
+  "date": "2026-07-13",
+  "captured_at": "2026-07-13T12:00:00Z",
+  "apps": [
+    {
+      "asc_app_id": "123456789",
+      "bundle_id": "com.example.focusnotes",
+      "name": "Focus Notes",
+      "metrics": {
+        "units": 18,
+        "developer_proceeds_usd": 14.13,
+        "impressions": 296,
+        "product_page_views": 42,
+        "product_page_conversion_rate": 0.135
+      }
+    },
+    {
+      "asc_app_id": "987654321",
+      "bundle_id": "com.example.other",
+      "name": "Other App",
+      "metrics": {
+        "units": 0,
+        "developer_proceeds_usd": 0,
+        "impressions": 12,
+        "product_page_views": 1,
+        "product_page_conversion_rate": 0
+      }
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+{"decision":"park","confidence":0.76,"rationale":"candidate and baseline are both plausible but correctness is not decisively better","dissent":[{"lens_ref":"lens:comparison-correctness","position":"needs_human","note":"caller verification risk remains unresolved"}]}

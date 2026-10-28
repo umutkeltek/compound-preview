@@ -1,0 +1,17 @@
+{
+  "account": "pub-demo-account",
+  "rows": [
+    {
+      "date": "2026-06-29",
+      "estimated_earnings": 8.9,
+      "page_rpm": 3.21,
+      "impressions": 2100
+    },
+    {
+      "date": "2026-06-30",
+      "estimated_earnings": 12.34,
+      "page_rpm": 4.56,
+      "impressions": 2700
+    }
+  ]
+}

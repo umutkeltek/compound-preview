@@ -1,0 +1,35 @@
+{
+  "schema_version": "compound.transition.v0.1",
+  "id": "tr_demo",
+  "created_at": "2026-06-28T00:00:00Z",
+  "producer": { "kind": "cli", "name": "compound" },
+  "ids": { "work_id": "work_demo", "run_id": "run_demo" },
+  "scope": { "entity_id": "system:compound", "surface": "repo:internal/envelope" },
+  "authority": { "source_class": "runtime", "status": "current" },
+  "privacy": "private",
+  "risk": "tier1",
+  "evidence_refs": ["rec_demo"],
+  "uncertainty": { "level": "known" },
+  "source_trace_id": "trace_demo",
+  "before_refs": [],
+  "action_refs": ["act_demo"],
+  "after_refs": ["artifact_envelope_pkg"],
+  "state_delta": "internal/envelope package added; envelope schemas validate",
+  "projections": {
+    "memory": [],
+    "skill": [],
+    "product": [],
+    "cost": [],
+    "risk": ["tier1"],
+    "taste": [],
+    "routing": [],
+    "human_attention": []
+  },
+  "second_order": {
+    "future_behavior_changed": true,
+    "should_harden": false,
+    "should_create_rule": false,
+    "should_decay": false,
+    "revisit_at": null
+  }
+}

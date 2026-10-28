@@ -1,0 +1,25 @@
+{
+  "confidence": 0.5,
+  "findings": [
+    {
+      "claim": "Alex's \"no pressure\" and \"it's whatever\" may protect against the exposure of caring more than Sam does, keeping the ask deniable if declined.",
+      "severity": "medium",
+      "evidence_refs": ["we should grab coffee sometime, no pressure", "same, it's whatever, just figured I'd mention it"]
+    },
+    {
+      "claim": "Sam's \"pretty busy this week\" may protect against having to give a direct reason for not wanting to commit, avoiding an awkward exchange.",
+      "severity": "medium",
+      "evidence_refs": ["sure, if it works out. I'm pretty busy this week"]
+    },
+    {
+      "claim": "Non-protective alternative: Alex's low-key framing may simply reflect genuine, low-stakes friendliness with no exposure being managed at all.",
+      "severity": "low",
+      "evidence_refs": ["we should grab coffee sometime, no pressure"]
+    },
+    {
+      "claim": "Non-protective alternative: Sam may in fact be busy this week, and the statement is a literal scheduling fact rather than a deflection.",
+      "severity": "low",
+      "evidence_refs": ["I'm pretty busy this week"]
+    }
+  ]
+}

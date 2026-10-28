@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- Template: launchd does NOT expand ${HOME} — substitute placeholders at install time, e.g.
+	     sed "s|\${HOME}|$HOME|g" com.compound.activity-sensor.plist.template \
+	       > ~/Library/LaunchAgents/com.compound.activity-sensor.plist -->
+	<key>Label</key>
+	<string>com.compound.activity-sensor</string>
+	<key>ProgramArguments</key>
+	<array>
+		<string>${HOME}/.local/bin/compound-activity-sensor</string>
+	</array>
+	<key>RunAtLoad</key>
+	<true/>
+	<key>KeepAlive</key>
+	<true/>
+	<key>ProcessType</key>
+	<string>Background</string>
+	<key>StandardOutPath</key>
+	<string>${HOME}/Library/Logs/compound-activity-sensor.log</string>
+	<key>StandardErrorPath</key>
+	<string>${HOME}/Library/Logs/compound-activity-sensor.log</string>
+</dict>
+</plist>

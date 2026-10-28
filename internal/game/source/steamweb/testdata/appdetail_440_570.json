@@ -1,0 +1,34 @@
+{
+  "440": {
+    "success": true,
+    "data": {
+      "steam_appid": 440,
+      "name": "Team Fortress 2",
+      "genres": [{"id": "1", "description": "Action"}],
+      "categories": [],
+      "developers": ["Valve"],
+      "publishers": ["Valve"],
+      "is_free": true,
+      "release_date": {"date": "10 Oct, 2007"},
+      "price_overview": null
+    }
+  },
+  "570": {
+    "success": true,
+    "data": {
+      "steam_appid": 570,
+      "name": "Dota 2",
+      "genres": [
+        {"id": "1", "description": "Action"},
+        {"id": "37", "description": "Free to Play"},
+        {"id": "2", "description": "Strategy"}
+      ],
+      "categories": [],
+      "developers": ["Valve"],
+      "publishers": ["Valve"],
+      "is_free": true,
+      "release_date": {"date": "9 Jul, 2013"},
+      "price_overview": null
+    }
+  }
+}

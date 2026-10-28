@@ -1,0 +1,27 @@
+{
+  "440": {
+    "success": true,
+    "data": {
+      "steam_appid": 440,
+      "name": "Team Fortress 2",
+      "genres": [
+        {"id": "1", "description": "Action"},
+        {"id": "23", "description": "Free to Play"}
+      ],
+      "categories": [
+        {"id": "9", "description": "Co-op"},
+        {"id": "1", "description": "Multi-player"}
+      ],
+      "developers": ["Valve"],
+      "publishers": ["Valve"],
+      "is_free": true,
+      "release_date": {"date": "10 Oct, 2007"},
+      "price_overview": {
+        "currency": "USD",
+        "initial": 0,
+        "final": 0,
+        "discount_percent": 0
+      }
+    }
+  }
+}

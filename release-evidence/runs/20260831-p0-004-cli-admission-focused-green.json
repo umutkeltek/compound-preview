@@ -1,0 +1,96 @@
+{
+  "schema_version": "compound.release_issue_evidence.v0.1",
+  "issue_id": "REL-P0-004",
+  "slice": "experimental v0.1 CLI admission and zero-footprint read probes",
+  "status": "focused_green",
+  "recorded_at": "2026-08-31T18:16:00Z",
+  "pre_fix_sha": "1167e8fae8130706058ee0b601044d00e0ca7256",
+  "test_only_red_sha": "909fe6803e050c266457f1fc13bf14ac3f694d38",
+  "fix_commits": [
+    "e26f496f3ae907ecb8135db4c4b3a53dab4ebacb",
+    "27984af79ddcf751b013f5e5fcef1e7dd9e5dd8a",
+    "8e60a073cf3baff0f0b3c48555521a022bca50f3"
+  ],
+  "fix_tree": "51dd3845639557d96e60b333389f9eb9a39756ac",
+  "red": {
+    "command": "GOTOOLCHAIN=go1.26.4 go test -count=1 ./internal/work ./internal/landlease ./cmd/compound -run 'SweepStale|StatusReadOnly'",
+    "revision": "909fe6803e050c266457f1fc13bf14ac3f694d38",
+    "exit_code": 1,
+    "meaning": "Before the fix, ungated --yes applied, default and dry-run materialized work/events/lock state, malformed requests could be classified writable, the delegate and land-lease probes materialized state, StatusReadOnly did not exist, and help did not disclose the experimental gate."
+  },
+  "review_red_extension": {
+    "base_sha": "27984af79ddcf751b013f5e5fcef1e7dd9e5dd8a",
+    "tests_from_sha": "8e60a073cf3baff0f0b3c48555521a022bca50f3",
+    "command": "GOTOOLCHAIN=go1.26.4 go test -count=1 ./internal/work ./cmd/compound -run '^(TestRunWorkSweepStaleCLIParsesExperimentalMutationGate|TestWorkSweepStaleAdmissionUsesValidatedParser|TestWorkSweepStaleCLIOnlyValidExperimentalApplyMaterializesHome)$'",
+    "exit_code": 1,
+    "observed": [
+      "--threshold invalid --threshold 1h exited 0, selected writable admission, and applied at 1h",
+      "--threshold 1h --threshold 2h exited 0, selected writable admission, and applied at 2h"
+    ],
+    "meaning": "The parser used last-value-wins semantics, so an earlier malformed or duplicate threshold could be overwritten before writable admission."
+  },
+  "invariant": {
+    "support_contract": "work sweep-stale mutation remains experimental and unsupported in v0.1 unless both --yes and --experimental-sweep-stale-mutations are present.",
+    "single_parser": "One parser owns syntax validation, dry-run/apply selection, and writable-store classification.",
+    "admission": "Invalid, conflicting, repeated, ungated, zero, negative, or excessive threshold requests fail with exit 2 before writable store open.",
+    "read_only": "Default, --dry-run, help, rejected requests, delegate liveness probes, and land-lease status probes do not materialize work, events, locks, leases, or RunAttempt changes.",
+    "runtime_truth": "A valid experimental apply is the only CLI shape that opens writable state."
+  },
+  "focused_verification": [
+    {
+      "command": "GOTOOLCHAIN=go1.26.4 go test -count=1 ./internal/work ./internal/landlease ./cmd/compound -run 'SweepStale|StatusReadOnly'",
+      "exit_code": 0,
+      "package_durations_seconds": {
+        "compound/internal/work": 15.015,
+        "compound/internal/landlease": 0.83,
+        "compound/cmd/compound": 6.848
+      }
+    },
+    {
+      "command": "GOTOOLCHAIN=go1.26.4 go test -race -count=1 ./internal/work ./internal/landlease ./cmd/compound -run 'SweepStale|StatusReadOnly'",
+      "exit_code": 0,
+      "package_durations_seconds": {
+        "compound/internal/work": 15.875,
+        "compound/internal/landlease": 1.633,
+        "compound/cmd/compound": 16.341
+      }
+    },
+    {
+      "command": "GOTOOLCHAIN=go1.26.4 go vet ./internal/work ./internal/landlease ./cmd/compound",
+      "exit_code": 0
+    },
+    {
+      "command": "gofmt -d internal/work/sweep_stale_cli.go internal/work/sweep_stale_cli_test.go cmd/compound/work_sweep_stale_cli_test.go",
+      "exit_code": 0,
+      "output": "empty"
+    },
+    {
+      "command": "git diff --check HEAD^ HEAD",
+      "exit_code": 0
+    }
+  ],
+  "governed_verification": {
+    "work_id": "work_4b7b54226189",
+    "work_state": "verifying",
+    "run_attempt_id": "ratt_20260831T181022Z_b79242bd",
+    "run_attempt_status": "succeeded",
+    "running_action_intent_id": "act_0247d7808303",
+    "running_policy_decision_id": "pol_3e84ba67fb88",
+    "verification_action_intent_id": "act_bf2f7feca991",
+    "verification_policy_decision_id": "pol_5c2febd2a6ab",
+    "artifact_action_intent_id": "act_d3671b35c00c",
+    "artifact_policy_decision_id": "pol_3658d49cd0f7",
+    "harness": "os-harness-entrypoints",
+    "verified_source_sha": "8e60a073cf3baff0f0b3c48555521a022bca50f3",
+    "exit_code": 0,
+    "duration_ms": 33320,
+    "transcript_ref": "<home>/run_attempts/ratt_20260831T181022Z_b79242bd.transcript",
+    "transcript_sha256": "390b219275a1b9bc7c1f717a3723fb341be94274adba4f6b5bba1b8c2aa502c4"
+  },
+  "review": {
+    "spec": "approved",
+    "quality": "approved",
+    "blocking_findings": 0
+  },
+  "canonical_broad_status": "pending; REL-P0-004 remains fixing until the shared cross-process liveness boundary, resumable physical removal, every-boundary failure injection, and canonical broad proof pass"
+}

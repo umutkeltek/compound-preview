@@ -1,0 +1,28 @@
+{
+  "schema_version": "compound.observation_batch.v0.1",
+  "source": {
+    "kind": "social_channel",
+    "ref": "channel:fixture-social",
+    "captured_at": "2026-07-04T12:00:00Z",
+    "collector": "fixture-distribution-edge",
+    "privacy": "synthetic"
+  },
+  "subject": {
+    "kind": "product",
+    "id": "product:focus-notes",
+    "surface": "distribution",
+    "channel": "social"
+  },
+  "observations": [
+    {
+      "id": "obs_fixture_social_reply",
+      "observed_at": "2026-07-04T10:00:00Z",
+      "kind": "distribution_feedback",
+      "title": "Fixture reply asks for export support",
+      "content": "Synthetic commenter asked whether Focus Notes exports plain text.",
+      "raw_ref": "social-reply:fixture-001",
+      "confidence": 0.7,
+      "evidence_refs": ["fixture:social:reply"]
+    }
+  ]
+}

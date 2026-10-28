@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Template only. Replace every PLACEHOLDER value before installing.
+
+WHY THIS EXISTS
+  `compound run-attempt sweep` terminalizes RunAttempts whose bound pane is
+  provably gone. It has always been correct; for a long time nothing invoked
+  it unattended. A delegate that died therefore left its attempt reporting
+  `running` forever, and `compound executors` / `compound attention` reported
+  that as truth.
+
+  The spawn path now sweeps opportunistically before each new delegate, which
+  covers an operator who keeps working. It does NOT cover an idle machine:
+  nothing spawns, so nothing sweeps, and a burst that died at 08:00 still
+  reads `running` at 18:00. This agent closes that gap.
+
+  The sweep protects live panes via a work-owned liveness probe, is read-mostly
+  (~50ms against 1600+ attempts), and is safe to run on a short interval.
+
+Install example:
+  mkdir -p "${HOME}/Library/LaunchAgents"
+  cp tools/templates/com.example.compound-runattempt-sweep.plist \
+     "${HOME}/Library/LaunchAgents/com.example.compound-runattempt-sweep.plist"
+  launchctl bootstrap "gui/$(id -u)" \
+     "${HOME}/Library/LaunchAgents/com.example.compound-runattempt-sweep.plist"
+
+Verify it is actually running (do not trust the install alone):
+  launchctl print "gui/$(id -u)/com.example.compound-runattempt-sweep" | head
+  compound run-attempt list --non-terminal
+
+Unload example:
+  launchctl bootout "gui/$(id -u)" \
+     "${HOME}/Library/LaunchAgents/com.example.compound-runattempt-sweep.plist"
+-->
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.example.compound-runattempt-sweep</string>
+  <key>ProgramArguments</key>
+  <array>
+    <!-- absolute path to the compound binary -->
+    <string>PLACEHOLDER</string>
+    <string>run-attempt</string>
+    <string>sweep</string>
+  </array>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>COMPOUND_HOME</key>
+    <string>PLACEHOLDER</string>
+    <!-- tmux must be resolvable: the liveness probe shells out to it.
+         Without it every candidate probes as not-live. -->
+    <key>PATH</key>
+    <string>PLACEHOLDER</string>
+  </dict>
+  <!-- Every 15 minutes. The sweep threshold is 30m, so this cannot
+       terminalize anything younger than the threshold regardless of
+       how often it runs. -->
+  <key>StartInterval</key>
+  <integer>900</integer>
+  <key>RunAtLoad</key>
+  <true/>
+  <key>StandardOutPath</key>
+  <string>PLACEHOLDER</string>
+  <key>StandardErrorPath</key>
+  <string>PLACEHOLDER</string>
+</dict>
+</plist>

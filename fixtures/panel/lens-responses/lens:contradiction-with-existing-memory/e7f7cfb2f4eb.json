@@ -1,0 +1,4 @@
+{
+  "confidence": 0.72,
+  "findings": [{"claim": "No direct contradiction is visible from the supplied refs.", "severity": "low", "evidence_refs": ["trace://synthetic-dissent"]}]
+}

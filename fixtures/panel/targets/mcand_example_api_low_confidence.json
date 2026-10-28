@@ -1,0 +1,16 @@
+{
+  "id": "mcand_example_api_low_confidence",
+  "entity": "service:example-api",
+  "predicate": "uses_cache",
+  "object": "in-memory-cache",
+  "claim_type": "architecture",
+  "confidence": 0.42,
+  "promotion_basis": "",
+  "state": "parked",
+  "visibility": "candidate",
+  "derivation": "inferred",
+  "qualifiers": {"domain": "runtime"},
+  "source_trace_ref": "trace://synthetic-low-confidence",
+  "snippet_hash": "sha256:low-confidence",
+  "created_at": "2026-07-01T10:05:00Z"
+}

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Template only. Replace every PLACEHOLDER value before installing. Not loaded
+by anything in this repository.
+
+WHAT IT DOES
+  Every 6 hours, for each listed browser profile:
+    compound browser probe --profile ID   (0 logged in, 3 logged out, 2 error)
+    on exit 3 only: compound browser heal --profile ID
+  heal runs the profile's login_recipe once, at most 2 attempts per profile
+  per 6h (persisted in the profile registry), and never loops. Anything that
+  needs the operator (exhausted attempts, a 2FA prompt, no credential
+  provider, a failed login) lands in $COMPOUND_HOME/browser/return-queue.jsonl.
+  Every browser call is headless with the profile's own user_data_dir
+  (Browser skill Level 0); a profile that is not enrolled yet exits 2 from
+  probe and is never logged in automatically.
+
+BEFORE LOADING
+  - each listed profile is enrolled (operator signed in once, headed) and its
+    registry row has login_check_url, logged_in_marker and login_recipe;
+  - `compound browser credential-provider` exists in the compound on PATH;
+  - PATH below resolves both `compound` and `agent-browser`.
+
+Install example:
+  mkdir -p "${HOME}/Library/LaunchAgents"
+  cp tools/templates/com.compound.browser-probe.plist.template \
+     "${HOME}/Library/LaunchAgents/com.compound.browser-probe.plist"
+  # edit the PLACEHOLDER values, then:
+  plutil -lint "${HOME}/Library/LaunchAgents/com.compound.browser-probe.plist"
+  launchctl bootstrap "gui/$(id -u)" \
+     "${HOME}/Library/LaunchAgents/com.compound.browser-probe.plist"
+
+Verify it actually ran (do not trust the install alone):
+  launchctl print "gui/$(id -u)/com.compound.browser-probe" | head
+  compound browser doctor        # self_heal section: last_probe per profile
+
+Unload example:
+  launchctl bootout "gui/$(id -u)" \
+     "${HOME}/Library/LaunchAgents/com.compound.browser-probe.plist"
+-->
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.compound.browser-probe</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/sh</string>
+    <string>-c</string>
+    <string>for p in $BROWSER_PROBE_PROFILES; do "$COMPOUND_BIN" browser probe --profile "$p" --json; rc=$?; if [ "$rc" -eq 3 ]; then "$COMPOUND_BIN" browser heal --profile "$p" --json; fi; done; exit 0</string>
+  </array>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <!-- absolute path to the compound binary -->
+    <key>COMPOUND_BIN</key>
+    <string>PLACEHOLDER</string>
+    <key>COMPOUND_HOME</key>
+    <string>PLACEHOLDER</string>
+    <!-- space-separated registry profile ids, e.g. "example-a example-b" -->
+    <key>BROWSER_PROBE_PROFILES</key>
+    <string>PLACEHOLDER</string>
+    <!-- must resolve compound (the credential provider) and agent-browser;
+         launchd's default PATH resolves neither -->
+    <key>PATH</key>
+    <string>PLACEHOLDER</string>
+  </dict>
+  <!-- Every 6 hours, matching the heal rate-limit window. -->
+  <key>StartInterval</key>
+  <integer>21600</integer>
+  <key>RunAtLoad</key>
+  <true/>
+  <key>StandardOutPath</key>
+  <string>PLACEHOLDER</string>
+  <key>StandardErrorPath</key>
+  <string>PLACEHOLDER</string>
+</dict>
+</plist>

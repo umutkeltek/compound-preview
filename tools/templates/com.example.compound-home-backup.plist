@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Template only. Replace every PLACEHOLDER value before installing.
+Install example:
+  mkdir -p "${HOME}/Library/LaunchAgents"
+  cp tools/templates/com.example.compound-home-backup.plist "${HOME}/Library/LaunchAgents/com.example.compound-home-backup.plist"
+  launchctl bootstrap "gui/$(id -u)" "${HOME}/Library/LaunchAgents/com.example.compound-home-backup.plist"
+Unload example:
+  launchctl bootout "gui/$(id -u)" "${HOME}/Library/LaunchAgents/com.example.compound-home-backup.plist"
+-->
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.example.compound-home-backup</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>PLACEHOLDER</string>
+    <string>PLACEHOLDER</string>
+  </array>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>COMPOUND_BIN</key>
+    <string>PLACEHOLDER</string>
+    <key>COMPOUND_HOME</key>
+    <string>PLACEHOLDER</string>
+    <key>BACKUP_LOCAL_DIR</key>
+    <string>PLACEHOLDER</string>
+    <key>BACKUP_REMOTE</key>
+    <string>PLACEHOLDER</string>
+    <key>KEEP_LOCAL</key>
+    <string>PLACEHOLDER</string>
+  </dict>
+  <key>StartCalendarInterval</key>
+  <dict>
+    <key>Hour</key>
+    <integer>3</integer>
+    <key>Minute</key>
+    <integer>15</integer>
+  </dict>
+  <key>StandardOutPath</key>
+  <string>PLACEHOLDER</string>
+  <key>StandardErrorPath</key>
+  <string>PLACEHOLDER</string>
+</dict>
+</plist>

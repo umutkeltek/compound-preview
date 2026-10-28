@@ -1,0 +1,1 @@
+{"confidence":0.78,"findings":[{"claim":"candidate saves 14 tokens but is 50ms slower, so the cost-latency delta is not decisive","severity":"medium","evidence_refs":["target:cmp_inconclusive"]}]}

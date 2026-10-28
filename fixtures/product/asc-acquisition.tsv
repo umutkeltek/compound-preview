@@ -1,0 +1,10 @@
+Date	App Name	App Apple Identifier	Download Type	App Version	Device	Platform Version	Source Type	Source Info	Campaign	Page Type	Page Title	Pre-Order	Territory	Counts
+2026-01-01	Example App	0000000042	First-time download	1.0.0	iPhone	iOS 26.5	App Store search			No page	No page	No	US	10
+2026-01-01	Example App	0000000042	First-time download	1.0.0	iPhone	iOS 26.5	App Store search		Example Brand Campaign	Product page	Default product page	No	US	5
+2026-01-01	Example App	0000000042	Auto-update	1.0.0	iPhone	iOS 26.5	App Store search			No page	No page	No	US	100
+2026-01-02	Example App	0000000042	First-time download	1.0.0	iPad	iOS 26.5	App Store browse			No page	No page	No	DE	4
+2026-01-02	Example App	0000000042	Redownload	1.0.0	iPhone	iOS 26.5	App Store search			No page	No page	No	US	50
+2026-01-02	Other Example App	0000000043	First-time download	3.2.1	iPhone	iOS 26.5	App Store search		Other App Campaign	No page	No page	No	US	999
+2026-02-01	Example App	0000000042	First-time download	1.1.0	iPhone	iOS 26.6	App Store search			No page	No page	No	US	8
+2026-02-01	Example App	0000000042	First-time download	1.1.0	iPhone	iOS 26.6	App Store search		Example Brand Campaign	Product page	Default product page	No	US	12
+2026-02-01	Example App	0000000042	Manual update	1.1.0	iPhone	iOS 26.6	App Store search			No page	No page	No	US	70

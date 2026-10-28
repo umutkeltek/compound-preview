@@ -1,0 +1,78 @@
+# Synthetic OS-shaped model-router fixture exercising LaneTuple facts.
+# Companion to model-capabilities.yaml — verifies additive optional fields
+# (context_window, max_output, cost_detail, relative_cost_hint, capacity_source,
+# aliases) round-trip through ImportModelCapabilitiesYAML and surface in projection.
+version: 1
+purpose: "Fixture model capability authority with LaneTuple facts for route planning tests."
+rules:
+  - "LaneTuple facts are optional additive metadata — absence is not an error."
+  - "Subscription cost detail complements CostClass, never replaces it."
+  - "Capacity source binds to a live probe family; freshness declares staleness window."
+capability_classes:
+  - classify-extract
+  - judge-critique
+models:
+  tuple/sub-lane-a:
+    lane: "subscription window lane (fixture)"
+    harness: "switchback"
+    provider_route: "tuple/sub-lane-a"
+    resolution:
+      mode: adaptive
+    effort_default: medium
+    cost_class: subscription
+    tier: cheap
+    packet_ceiling: multi-file
+    context_window: 200000
+    max_output: 16000
+    cost_detail:
+      subscription:
+        window_minutes: 300
+        busy_multiplier: 2.0
+        plan_ref: "fixture-tier-creator"
+    relative_cost_hint:
+      fable_vs_opus: 2.0
+      sub_vs_api: 0.4
+    capacity_source:
+      kind: codexbar
+      freshness_minutes: 30
+      ref: "codexbar://provider/sub-lane-a"
+    aliases:
+      - "sub-lane-a"
+      - "sub-lane-a:worker"
+    capabilities:
+      classify-extract:
+        level: capable
+        evidence: "fixture: subscription lane admissible for classify-extract"
+      judge-critique:
+        level: capable
+        evidence: "fixture: subscription lane admissible for judge-critique"
+  tuple/api-lane-b:
+    lane: "per-token API lane (fixture)"
+    harness: "switchback"
+    provider_route: "tuple/api-lane-b"
+    resolution:
+      mode: direct
+      targets:
+        - provider: tuple-provider
+          model: tuple/api-lane-b
+    effort_default: high
+    cost_class: api-marginal
+    tier: cheap
+    packet_ceiling: multi-file
+    context_window: 500000
+    max_output: 32000
+    cost_detail:
+      api_usd_per_mtok_in: 3.0
+      api_usd_per_mtok_out: 15.0
+    relative_cost_hint:
+      api_vs_subscription: 1.5
+    capabilities:
+      judge-critique:
+        level: primary
+        evidence: "fixture: per-token API lane is decision-eligible judge"
+routing_defaults:
+  classify-extract:
+    - tuple/sub-lane-a
+  judge-critique:
+    - tuple/sub-lane-a
+    - tuple/api-lane-b

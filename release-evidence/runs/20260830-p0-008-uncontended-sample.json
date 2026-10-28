@@ -1,0 +1,31 @@
+{
+  "schema_version": "compound.release_run_evidence.v0.1",
+  "issue_id": "REL-P0-008",
+  "captured_at": "2026-08-30T00:11:20Z",
+  "candidate_head": "5dfec9f7bb566b3181a7d94b5cb0d0ecdc4266e0",
+  "toolchain": "go1.26.4",
+  "command": "GOTOOLCHAIN=go1.26.4 go test -count=1 -timeout=40m ./internal/work ./cmd/compound",
+  "execution_posture": "single serial command with no competing release package or proof battery",
+  "results": [
+    {
+      "package": "compound/internal/work",
+      "result": "failed",
+      "duration_seconds": 1388.628,
+      "failures": [
+        "TestCloseResumesLegacyPreparedActionIdentityAfterUpgrade",
+        "TestCrashGapReconcileMapsEveryWorkCloseOutcome/completed",
+        "TestCrashGapReconcileMapsEveryWorkCloseOutcome/failed",
+        "TestCrashGapReconcileMapsEveryWorkCloseOutcome/cancelled"
+      ],
+      "classification": "stale temporal test premises; corrected at 49b54682 without weakening the recovery invariant"
+    },
+    {
+      "package": "compound/cmd/compound",
+      "result": "interrupted",
+      "elapsed_seconds": 1686.563,
+      "reason": "candidate was already red after internal/work completed"
+    }
+  ],
+  "invariant": "A full durability package must complete with meaningful margin inside the canonical proof deadline without weakening persistence assertions.",
+  "conclusion": "Even uncontended, internal/work required more than 23 minutes and therefore does not fit the current canonical proof budget. The functional failures are separately repaired, but the proof-runtime P0 remains reproduced."
+}

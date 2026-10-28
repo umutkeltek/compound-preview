@@ -1,0 +1,15 @@
+{
+  "id": "mcand_relational_family_logistics",
+  "entity": "relational-proof",
+  "predicate": "captured_exhaust",
+  "object": "sha256:815e7e2859226c5af98a1169621afd1e97de76196cdb07f7a51ff84d5989e205",
+  "confidence": 0,
+  "derivation": "observed",
+  "promotion_basis": "",
+  "state": "proposed",
+  "visibility": "candidate",
+  "source_trace_ref": "capture:sha256:815e7e2859226c5af98a1169621afd1e97de76196cdb07f7a51ff84d5989e205",
+  "snippet_hash": "sha256:relational-family-logistics",
+  "created_at": "2026-07-21T10:00:00Z",
+  "transcript_text": "Mom: are you still coming Sunday\nDana: yeah, planning on it, why\nMom: just checking, no reason. I can pick you up from the station if that helps\nDana: I can drive, it's fine\nMom: ok. did you eat today\nDana: yes mom, I'm fine\nMom: just asking. see you Sunday then\nDana: see you Sunday\n"
+}

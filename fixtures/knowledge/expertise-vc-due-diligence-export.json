@@ -1,0 +1,136 @@
+{
+  "schema_version": "compound.knowledge_export.v0.1",
+  "source": {
+    "kind": "expertise-synthesis",
+    "ref": "expertise:vc-due-diligence:v1",
+    "captured_at": "2026-07-07T18:00:00Z"
+  },
+  "privacy": "public",
+  "producer": {
+    "kind": "model",
+    "name": "claude-fable-5",
+    "version": "expertise-pack-0.1"
+  },
+  "items": [
+    {
+      "ref": "expertise:vc-dd:mental-model:power-law",
+      "title": "Mental model — the power law: the question is 'can this be enormous', not 'is this good'",
+      "topics": ["venture", "due-diligence", "power-law", "mental-model"],
+      "candidate_classes": ["technique"],
+      "lang": "en",
+      "content": "Venture judgment is shaped by one distribution: returns follow a power law, where a single investment returns more than the rest of the fund combined and most go to zero. This inverts normal business evaluation. The diligence question is never 'is this a good business' — plenty of good businesses are venture failures — but 'if everything works, how big is this, and does that size return the fund'. It follows that the cost of missing a winner exceeds the cost of backing a loser, so experienced investors probe for reasons to believe in the extreme upside case before cataloguing risks: a fatal flaw in a capped-outcome company doesn't even matter, because the cap already killed the deal. It also follows that consensus is expensive — a deal everyone agrees is good is priced accordingly, and the fund-returners were mostly non-consensus at entry: they looked like toys, niches, or bad markets to most observers. The transferable discipline for any portfolio operator: rank opportunities by their ceiling times the probability of reaching it, not by their floor, and notice when you are diligencing the floor of something whose ceiling is too low to matter either way."
+    },
+    {
+      "ref": "expertise:vc-dd:decision-library:the-first-questions",
+      "title": "Decision library — the questions asked before anything else: why now, why you, what do you know",
+      "topics": ["venture", "due-diligence", "decision-library", "questions"],
+      "candidate_classes": ["technique"],
+      "lang": "en",
+      "content": "The opening diligence questions are a compressed decision library, each a proxy for a deeper judgment. 'Why now?' — what changed in technology, cost curves, regulation, or behavior that makes this possible today when it wasn't three years ago; a startup without a why-now is usually either too late (incumbents own it) or too early (the market will bleed it dry waiting). 'Why you?' — what earned, unfair advantage does this team have for this specific problem: lived the problem, built the enabling tech, owns the distribution; 'we work hard' is not an answer. 'What do you know that others don't?' — the earned secret; companies are built on insights the market disagrees with or hasn't noticed, and a founder who cannot articulate one is executing a visible idea where execution speed is the only moat. 'How does this become a monopoly-shaped business?' — what compounds: network effects, data, switching costs, brand. 'What kills this?' — a founder who answers instantly and specifically has thought like an owner; one who deflects has been rehearsing a pitch. The pattern across all five: the investor is testing for depth of contact with reality, because rehearsed generalities predict how the founder will meet every future surprise."
+    },
+    {
+      "ref": "expertise:vc-dd:market:bottoms-up-or-theater",
+      "title": "Market sizing — TAM slides are theater; the real analysis is wedge, expansion path, and pull",
+      "topics": ["venture", "due-diligence", "market-sizing", "tam"],
+      "candidate_classes": ["technique"],
+      "lang": "en",
+      "content": "Experienced investors ignore the TAM slide — a top-down 'one percent of a fifty-billion market' number is theater that proves only that the founder can multiply. The real market analysis has three parts. First, the wedge: what specific, urgent problem does the first product solve, for whom, and is that beachhead winnable — a crisp small wedge beats a vague large market every time, because you can't expand from a beachhead you never took. Second, the expansion path: bottoms-up, how many buyers exist, at what realistic price, and what sequence of adjacent products or segments grows the company out of the wedge — the fund-returners often start in markets that look too small, and the judgment is whether the market grows, the product expands the market, or usage creates new demand. Third, pull versus push: is the market dragging the product out of the company — inbound, waitlists, users hacking around missing features, organic word-of-mouth — or is every sale a shove uphill; pull is the single most reliable early signal that the market wants what this company makes, and its absence at 'growth stage' pricing is the red flag underneath most write-offs. Growth rate of the market forgives many sins; a static market forgives none."
+    },
+    {
+      "ref": "expertise:vc-dd:moat:taxonomy-and-the-wrapper-test",
+      "title": "Moat taxonomy — the five durable moats, and the test for products with none",
+      "topics": ["venture", "due-diligence", "moats", "defensibility"],
+      "candidate_classes": ["technique"],
+      "lang": "en",
+      "content": "Defensibility diligence runs a five-item taxonomy. Network effects: does each user make the product better for other users — the strongest moat and the most falsely claimed; a community is not a network effect unless value actually routes through it. Switching costs: how much pain, data gravity, workflow embedding, and retraining stands between a customer and the exit — enterprise workflow depth is a real moat wearing boring clothes. Scale economies: does unit cost fall or unit value rise with size in a way a new entrant cannot match. Brand and trust: does the name itself reduce customer acquisition cost and close deals — real in consumer and security, rare elsewhere. Counter-positioning: is the model one an incumbent rationally cannot copy because doing so cannibalizes their core economics — the subtlest and often the true explanation of why a startup wins. The modern stress test: if the product is a thin layer over someone else's capability — an API, a platform, a model — ask what compounds with usage that a competitor cloning the feature set next quarter would not have; acceptable answers involve accumulated proprietary data, workflow lock-in, network position, or distribution owned outright. 'We move fast' is a head start, not a moat, and the diligence question is what the head start is being converted into."
+    },
+    {
+      "ref": "expertise:vc-dd:founder:thirty-second-signals",
+      "title": "Founder signal — rate of learning, earned insight, and clarity as the tells",
+      "topics": ["venture", "due-diligence", "founders", "signals"],
+      "candidate_classes": ["technique"],
+      "lang": "en",
+      "content": "Founder evaluation is pattern recognition on a handful of observable signals, and experienced investors converge on the same short list. Rate of learning: compare the company and the founder's model of the world across two meetings months apart — the slope matters more than the intercept, because the company will need to be relearned five times before it works. Earned insight: does the founder's understanding come from contact with the problem — customers interviewed, systems built, the domain lived in — or from reading about the space; secondhand conviction collapses at the first hard pivot decision. Clarity: can they explain the business in plain words without jargon armor — confusion in the explanation predicts confusion in the strategy, and jargon density correlates inversely with understanding. Intellectual honesty: do they know what they don't know, state the scary risk unprompted, and describe churned customers accurately — a founder who spins in diligence will spin in board meetings. Magnetism as evidence: look at who they've convinced — the quality of early employees and customers who took a chance is a reference check the founder cannot fake. And the classic negative tells: blaming externals for every setback, feature-listing when asked about strategy, and an org where every decision routes through the founder eighteen months in."
+    },
+    {
+      "ref": "expertise:vc-dd:traction:revenue-quality",
+      "title": "Traction quality — revenue is not revenue: retention, concentration, and organic mix decide what it's worth",
+      "topics": ["venture", "due-diligence", "traction", "retention", "metrics"],
+      "candidate_classes": ["technique"],
+      "lang": "en",
+      "content": "Diligence treats revenue as a quality-weighted number, not a total, and three cuts determine the weight. Retention by cohort: plot each acquisition cohort's revenue over time — flattening curves mean a durable asset, decaying-to-zero curves mean the company is renting users, and net revenue retention above one hundred percent means the business grows even with acquisition switched off, the single strongest traction signal there is. Concentration: revenue where one customer is a third of the total is a partnership wearing revenue's clothes, and design-partner revenue with heavy services attached is not yet a product signal. Acquisition mix: organic and word-of-mouth revenue is worth a multiple of paid revenue at the same dollar figure, because paid growth at seed proves the founder can buy users, not that anyone wants the product. The vanity list every investor discounts on sight: cumulative anything ('total downloads to date'), registered users instead of active, GMV brandished where net revenue is small, growth percentages off tiny bases, letters of intent, and 'pipeline'. Behind them all sits one question — usage: are the users the company already has using the product more over time? Because that, not the top-line slope this quarter, is what compounds into the outcome the fund is underwriting."
+    },
+    {
+      "ref": "expertise:vc-dd:unit-economics:the-honest-math",
+      "title": "Unit economics — contribution-margin LTV, cohort-level CAC, payback, and burn multiple",
+      "topics": ["venture", "due-diligence", "unit-economics", "ltv-cac", "metrics"],
+      "candidate_classes": ["technique"],
+      "lang": "en",
+      "content": "Unit-economics diligence is mostly the art of un-flattering the founder's math. LTV must be computed on contribution margin, not revenue — an LTV built on gross revenue overstates the truth by whatever the margin hides — and it must use measured churn from cohort data, not an assumed lifetime; any LTV quoting a lifetime longer than the company's operating history is extrapolated fiction. CAC must be fully loaded — ad spend plus sales salaries, tooling, and content — and read by channel and by cohort, because blended CAC is where dying paid channels hide behind a shrinking pool of organic; the diligence question is the marginal CAC of the next thousand customers, not the average of the first thousand. Payback period is often the most honest single number: months of contribution margin to recover fully loaded CAC — under twelve months is healthy for SaaS, and long paybacks mean growth consumes cash even when the LTV ratio looks fine on the slide. Capital efficiency wraps it together: the burn multiple — net cash burned per dollar of net new recurring revenue — separates companies buying growth at ruinous exchange rates from companies compounding; under one is elite, above two at scale is a structural problem. And always ask what happens to all four numbers if paid marketing stopped tomorrow: the answer is the product's truth."
+    },
+    {
+      "ref": "expertise:vc-dd:red-flags:the-silent-kill-list",
+      "title": "Red-flag database — the patterns that kill deals quietly, without ever being said out loud",
+      "topics": ["venture", "due-diligence", "red-flags", "failure-modes"],
+      "candidate_classes": ["technique"],
+      "lang": "en",
+      "content": "Most deals die from pattern-matched red flags that are rarely stated to the founder. The kill list: solution in search of a problem — impressive technology, no burning need, diagnosable by asking what users did about this problem before and hearing 'nothing'. No earned insight — the founder's knowledge is indistinguishable from a smart outsider's weekend reading. Fake TAM — top-down sizing with no bottoms-up wedge. The science project — perpetually six months from working, where the risk is physics or research, not execution. Tourist founders — attracted by the trend, not the problem, and gone when the trend rotates. Cap-table damage — a departed co-founder holding a large unvested-free stake, or seed investors owning half the company, both of which poison future rounds. Churn dressed as growth — top line rising while cohorts decay underneath. Diligence friction — slow, partial, or massaged data-room responses; founders with good numbers share them fast. Serial pivoting without accumulated learning — each pivot resetting to zero rather than compounding. And the meta-flag that outweighs any single item: the story keeps adjusting to the listener — metrics presented one way to customers, another to investors — because if the narrative flexes under light pressure in a pitch, it will flex much more under a board's pressure later."
+    },
+    {
+      "ref": "expertise:vc-dd:monologue:partner-meeting",
+      "title": "Internal monologue — what the partner is actually thinking during the pitch",
+      "topics": ["venture", "due-diligence", "monologue", "tacit"],
+      "candidate_classes": ["technique"],
+      "lang": "en",
+      "content": "Simulate the partner's head during a pitch and the process stops being mysterious. The monologue: 'Can this return the fund — at our check size and this valuation, what exit does that require, and does the market cap of the comparable set even allow it? Who else will want this deal — if no strong firm competes for it, what do they see that I don't; if everyone does, the price will erase the return. What has to be true — can I write down the three load-bearing assumptions, and which one snaps first? This founder answers the question I actually asked, fast and specifically — good; that one redirected every hard question back to the vision slide — noted. The demo is smooth, but is the hard part the part they've built, or the part they're hand-waving? Would I want to work for this person — because the next hundred hires will be making that exact call. What's my cost of a yes here versus the cost of missing this — which mistake can I live with? And if this works, is it a feature, a product, or a company?' The pattern: the partner spends the meeting pricing three risks — market risk, execution risk, and their own conviction risk — and most of the questions are instruments pointed at whichever risk the deck tried hardest to obscure."
+    },
+    {
+      "ref": "expertise:vc-dd:competition:incumbent-blindness",
+      "title": "Competition — 'no competitors' is a red flag; the real question is why incumbents rationally won't respond",
+      "topics": ["venture", "due-diligence", "competition", "incumbents"],
+      "candidate_classes": ["technique"],
+      "lang": "en",
+      "content": "Competitive diligence inverts the founder's framing twice. First: 'we have no competitors' is a red flag, not a moat — it usually means no market, or competitors the founder hasn't recognized because they compete for the budget rather than the feature set; the honest competitive map includes the status quo (spreadsheets, interns, doing nothing), which is almost always the largest competitor. Second: the feature-comparison matrix — the slide where the startup has all the checkmarks — is close to worthless, because features converge; the durable question is why the incumbent rationally won't respond even after the startup proves the market. Good answers are structural: the incumbent's margin structure makes the startup's price cannibalistic to match (counter-positioning); the incumbent's distribution or sales motion cannot reach this customer; the opportunity is genuinely too small for them until it's too late (the classic disruption path from the low end); or their organizational immune system — the division whose revenue this threatens — will fight the response internally for years. 'We're better and faster' is not an answer, because better-and-faster is a two-year head start against a competitor with a hundred times the resources. The diligence output is a sentence of the form: 'the incumbent won't follow because following costs them X' — and if no such sentence survives scrutiny, the startup's success is the incumbent's product roadmap."
+    },
+    {
+      "ref": "expertise:vc-dd:checklist:confirmatory-diligence",
+      "title": "Checklist — the concrete confirmatory work: cap table, cohorts, references, pipeline, tech, legal",
+      "topics": ["venture", "due-diligence", "checklist", "process"],
+      "candidate_classes": ["technique"],
+      "lang": "en",
+      "content": "After conviction forms, confirmatory diligence is a concrete checklist, and skipping items is how funds get surprised. Cap table: full ownership including SAFEs and convertibles as-converted, option pool size, founder vesting status and any departed holders — clean enough that the next two rounds don't require surgery. Financials: bank-statement-verified revenue, monthly burn and runway, revenue recognition sanity (especially where services hide inside 'ARR'). Cohorts: raw retention data cut by month of acquisition, not the founder's summary chart. Customer references: several current customers, at least one churned one — ask what they'd do if the product disappeared tomorrow; lukewarm current customers and articulate churned ones are the highest-information calls in the entire process. Pipeline: named accounts and stages, tested by sampling a few for reality. Team backchannel: references the founder didn't provide, weighted for the asymmetry that people avoid saying negative things on record — a hesitation is data. Technical: architecture review by someone who has built at the next scale, security posture, and in AI products a hard look at what is proprietary versus rented. Legal: IP assignment from every early contributor and any prior employer exposure, open-source license hygiene, pending disputes. The discipline is finishing the list even when conviction is high — especially when conviction is high, because that's precisely when the process is most tempted to skip the churned-customer call that would have changed the answer."
+    },
+    {
+      "ref": "expertise:vc-dd:hidden-knowledge:what-investors-never-say",
+      "title": "Hidden knowledge — momentum pattern-matching, the dishonest 'no', and other unstated mechanics",
+      "topics": ["venture", "due-diligence", "hidden-knowledge", "tacit"],
+      "candidate_classes": ["technique"],
+      "lang": "en",
+      "content": "The unstated mechanics of venture decisions. Investors pattern-match momentum above almost everything — a round coming together fast, other firms circling, growth that steepened last quarter — because social proof is a real (if self-referential) signal in a power-law game, and FOMO closes more rounds than analysis does; diligence often functions as post-hoc rationalization of a conviction formed in the first twenty minutes. The 'no' is rarely honest: 'too early for us' and 'come back with more traction' usually mean 'I don't believe in you or this market enough', phrased to preserve option value in case the company works anyway — founders who optimize against the stated reason are optimizing against noise. Warm-intro dynamics are a filter of social network, not of quality, and everyone inside knows it. Portfolio construction drives individual decisions invisibly: a fund late in its deployment period, or already exposed to the sector, will pass on a company it would have chased two years earlier — the deal didn't change, the fund's context did. Ownership targets kill deals that returns math would bless. And the one investors least like admitting: at seed, most of the diligence is on the person, and the market analysis — however elaborate the memo — is mostly a check that the person has chosen a big enough arena."
+    },
+    {
+      "ref": "expertise:vc-dd:rules-of-thumb:the-numbers",
+      "title": "Rules of thumb — the benchmark numbers carried into every evaluation",
+      "topics": ["venture", "due-diligence", "benchmarks", "rules-of-thumb"],
+      "candidate_classes": ["technique"],
+      "lang": "en",
+      "content": "The benchmark numbers experienced investors carry, useful as calibration rather than law. Growth: the old T2D3 SaaS path — triple, triple, double, double, double annual recurring revenue after the first million — describes the venture-scale trajectory; growth well below the bar for the stage means the power-law case needs another explanation. Efficiency: burn multiple (net burn per net new ARR) under 1 is elite, 1 to 2 acceptable early, above 2 at scale is structural; the 'rule of 40' (growth rate plus profit margin above forty) applies from growth stage onward. Retention: net revenue retention above 110 percent is strong for SaaS; logo churn above roughly 3 percent monthly in B2B means the bucket leaks faster than most GTM can fill it. Consumer subscriptions run on different physics: single-digit monthly churn is normal and the question is payback speed. Unit economics: contribution-margin LTV to fully-loaded CAC around 3 is the classic screen, CAC payback under 12 months healthy, under 6 excellent. Dilution: expect roughly 15 to 25 percent per priced early round, option pools of about 10 percent carved pre-money. Outcomes: the sobering base rate — of venture-backed companies, most return roughly nothing to founders, and roughly one in twenty to one in a hundred becomes the outcome the model is priced on. Deviation from a benchmark is a question to investigate, never a verdict by itself."
+    },
+    {
+      "ref": "expertise:vc-dd:operator:fund-or-kill-your-own-portfolio",
+      "title": "Operator application — running the investor lens on your own products, where the currency is your time",
+      "topics": ["venture", "due-diligence", "portfolio", "fund-or-kill", "operator"],
+      "candidate_classes": ["technique"],
+      "lang": "en",
+      "content": "The diligence toolkit inverts cleanly onto a builder's own portfolio, where the scarce fund is time and attention rather than capital. Run the same battery on each product you operate: why now, what earned insight does this embody, what compounds with usage, what would a skeptical partner say the ceiling is, do the cohort curves flatten or decay, what is the marginal CAC of the next thousand users, and would you — knowing everything you now know — start this product today. Then apply the portfolio math honestly: the cost of each project is not its burn but the foregone compounding of your best project (opportunity cost is the real bar), and a portfolio of products each growing slightly is often one fund-returner being starved by several living dead. Watch for the operator's version of the classic red flags in yourself: continuing a product because of sunk cost is the founder who won't pivot; 'it only needs one more feature' is the science project; counting cumulative downloads instead of cohort retention is your own vanity-metrics slide. Schedule the review on a calendar cadence with written kill criteria decided in advance — momentum decisions made in the moment always favor the status quo — and treat a clean kill as a win in the ledger, because in a power-law portfolio, concentration on the thing that's working is the entire strategy."
+    },
+    {
+      "ref": "expertise:vc-dd:diagnostic-flow:if-x-investigate-y",
+      "title": "Diagnostic flowchart — symptom to investigation, from stalled growth to too-good numbers",
+      "topics": ["venture", "due-diligence", "diagnostic", "flowchart"],
+      "candidate_classes": ["technique"],
+      "lang": "en",
+      "content": "A reusable if-X-then-investigate-Y ladder for company evaluation. If growth stalled, investigate retention before acquisition — a leaky bucket makes every acquisition number a lie, and cohort curves tell you which problem you actually have. If growth is strong, investigate its composition: paid versus organic mix, channel concentration, and whether the latest cohorts retain like the early ones — growth bought from a single fragile channel is inventory, not momentum. If margins look great, investigate what's excluded: founder salaries not taken, services labor buried in COGS, cloud credits expiring, or in AI products, model-provider costs subsidized by the current pricing tier. If churn looks low, investigate the definition — logo versus revenue, whether paused accounts count, and whether annual contracts are simply deferring the churn cliff by eleven months. If the team ships fast, investigate what: demos and features, or the boring reliability work that retention actually runs on. If customers love it, investigate who's paying — enthusiasm from users who don't control budget is a different business than boring approval from buyers who do. If every reference call is glowing, investigate who selected the list — and find the churned customer yourself. And the master rule: whenever a number is surprisingly good, the first hypothesis is a definition problem, the second is a selection effect, and only the third is the business actually being that good."
+    }
+  ]
+}

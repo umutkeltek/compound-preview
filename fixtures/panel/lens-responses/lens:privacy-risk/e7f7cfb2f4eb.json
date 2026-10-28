@@ -1,0 +1,4 @@
+{
+  "confidence": 0.89,
+  "findings": [{"claim": "The target contains synthetic identifiers only and no credential material.", "severity": "low", "evidence_refs": ["trace://synthetic-dissent"]}]
+}

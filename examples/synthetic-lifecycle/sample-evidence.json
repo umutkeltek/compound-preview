@@ -1,0 +1,107 @@
+{
+  "schema_version": "compound.synthetic_reproduction.v0.1",
+  "status": "passed",
+  "native_inference": false,
+  "synthetic": true,
+  "platform": "darwin",
+  "architecture": "arm64",
+  "binary": {
+    "version": "0.1.0",
+    "build_sha": "83fbadc452fd7bcc61fd7e464313fcf8902f329f",
+    "sha256": "cb0050be53edc2ad4ff5b2e5ad0385def4b32c4759e235368f0f0513dee1cc74"
+  },
+  "work_id": "work_synthetic_reproduction",
+  "run_attempt_id": "ratt_20261027T195722Z_0e170ed1",
+  "receipt_id": "rec_4a7ee14b5654",
+  "transition_id": "tr_4a7ee14b5654",
+  "execution_policy_decision_id": "pol_85c8dabaab5c",
+  "state_delta": {
+    "initial": "ready",
+    "claimed": "claimed",
+    "rejected_adapter": "claimed",
+    "executed": "verifying",
+    "accepted": "completed"
+  },
+  "checks": {
+    "refusal_nonzero": true,
+    "refusal_work_unchanged": true,
+    "refusal_attempts_unchanged": true,
+    "exact_output_accepted": true,
+    "attempt_succeeded": true,
+    "attempt_forward_linked": true,
+    "closed_completed": true,
+    "proof_chain_doctor_passed": true
+  },
+  "result_sha256": "56edaee56a42ee40775c18fcab6ebac35b19d100d1f27852d047a9a7b2b30c5f",
+  "limits": [
+    "One local synthetic command.",
+    "No model inference, external tester, unattended recovery, automatic learning, or human time saving measured.",
+    "Raw run directory includes local paths and must remain private."
+  ],
+  "steps": [
+    {
+      "name": "version",
+      "status": 0
+    },
+    {
+      "name": "initialize",
+      "status": 0
+    },
+    {
+      "name": "orient",
+      "status": 0
+    },
+    {
+      "name": "create",
+      "status": 0
+    },
+    {
+      "name": "claim",
+      "status": 0
+    },
+    {
+      "name": "before-refusal",
+      "status": 0
+    },
+    {
+      "name": "attempts-before",
+      "status": 0
+    },
+    {
+      "name": "unsupported-adapter",
+      "status": 1
+    },
+    {
+      "name": "after-refusal",
+      "status": 0
+    },
+    {
+      "name": "attempts-after",
+      "status": 0
+    },
+    {
+      "name": "execute",
+      "status": 0
+    },
+    {
+      "name": "verifying",
+      "status": 0
+    },
+    {
+      "name": "attempt",
+      "status": 0
+    },
+    {
+      "name": "close",
+      "status": 0
+    },
+    {
+      "name": "completed",
+      "status": 0
+    },
+    {
+      "name": "proof-chain",
+      "status": 0
+    }
+  ]
+}

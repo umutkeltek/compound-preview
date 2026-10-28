@@ -1,0 +1,26 @@
+{
+  "schema_version": "compound.knowledge_export.v0.1",
+  "source": {
+    "kind": "web",
+    "ref": "https://example.test/research-roundup",
+    "captured_at": "2026-07-03T09:00:00Z"
+  },
+  "privacy": "public",
+  "producer": {
+    "kind": "edge-script",
+    "name": "web-capture",
+    "version": "0.1"
+  },
+  "items": [
+    {
+      "ref": "web:roundup:synthetic-agents",
+      "url": "https://arxiv.org/abs/2506.12345",
+      "title": "Synthetic Agents Learn Evidence Discipline",
+      "authors": ["A. Researcher", "B. Builder"],
+      "published_at": "2026-07-03",
+      "topics": ["agents", "memory"],
+      "content": "A web roundup references the same synthetic paper, so the importer should fold it as distribution evidence instead of creating another candidate.",
+      "lang": "en"
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+node_modules/
+.DS_Store
+*.log
+/bin/
+/compound
+/home/
+
+# private overlay — never shipped (compound is destined to be a public repo)
+/docs_private/
+*.private.md
+.compound-private/
+/.claude/
+/.codex/
+/.agents/
+/Plans/
+
+# runtime/evidence state produced by lanes (playtest runs etc.) — generated, never committed
+/state/
+
+# switchback body-store sidecar (lives at ~/.switchback/state/body/, never in the repo)
+/body/
+
+# External memory systems cloned for audit (P6 evidence-gathering, never vendored)
+/memory/
+
+# prebuilt release artifacts (make release-artifacts) — generated, never committed
+/dist/
+
+# local codebase knowledge graph (generated analysis output) — never committed
+/.ua/
+
+# hermes worktree metadata (local) — never committed
+/.hermes/
+
+# local lane-launcher scripts (sb run wrappers per model) — generated, never committed
+/wrappers/
+
+# understand/knowledge-graph analysis output (generated, ~745 MB) — never committed
+/graphify-out/
+
+# Python bytecode. Untracked __pycache__ dirs dirty the worktree, and a dirty tree
+# refuses every certifying proof-check battery ("certifying proof requires a clean
+# committed Git worktree") — so a missing ignore here silently blocks landing.
+__pycache__/
+*.py[cod]

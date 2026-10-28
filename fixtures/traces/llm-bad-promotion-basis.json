@@ -1,0 +1,15 @@
+{
+  "schema_version": "compound.distiller.llm_extraction.v0.1",
+  "trace_ref": "trace_reject_promotion_basis",
+  "source_refs": ["raw:turn_1"],
+  "candidates": [
+    {
+      "kind": "memory",
+      "entity": "project:compound",
+      "predicate": "distiller_gate",
+      "object": "model tried to promote memory",
+      "confidence": 0.9,
+      "promotion_basis": "trusted_deterministic_import"
+    }
+  ]
+}

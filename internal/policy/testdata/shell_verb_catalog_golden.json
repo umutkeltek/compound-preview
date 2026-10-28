@@ -1,0 +1,819 @@
+[
+  {
+    "command": "ls -la",
+    "classification": {
+      "Known": true,
+      "Domain": "shell",
+      "Operation": "local_command",
+      "MutationClass": "local_reversible",
+      "Reversibility": "easy",
+      "BlastRadius": "local",
+      "TargetKind": "command",
+      "Destination": "command:sha256:1de700c29687cae34561545f50d3c8b3d9afe88e04cc11069f8a6dc6e4ce9464",
+      "RequiredSink": "shell",
+      "NeedsSchema": false,
+      "NeedsDestination": true,
+      "OperatorGated": false,
+      "CapturesWorkInProgress": false,
+      "DesktopSurface": "none"
+    }
+  },
+  {
+    "command": "go test ./...",
+    "classification": {
+      "Known": true,
+      "Domain": "shell",
+      "Operation": "local_command",
+      "MutationClass": "local_reversible",
+      "Reversibility": "easy",
+      "BlastRadius": "local",
+      "TargetKind": "command",
+      "Destination": "command:sha256:1bb497e3e13a1105cf24e3359fa3ef75de08b66ff8a2839cd7f9ea97824d9eb3",
+      "RequiredSink": "shell",
+      "NeedsSchema": false,
+      "NeedsDestination": true,
+      "OperatorGated": false,
+      "CapturesWorkInProgress": false,
+      "DesktopSurface": "none"
+    }
+  },
+  {
+    "command": "git status",
+    "classification": {
+      "Known": true,
+      "Domain": "shell",
+      "Operation": "local_command",
+      "MutationClass": "local_reversible",
+      "Reversibility": "easy",
+      "BlastRadius": "local",
+      "TargetKind": "command",
+      "Destination": "command:sha256:e62b04aadf39df1a47b771265e4ae5c452df3f1903d5c263ab00f088e86102f6",
+      "RequiredSink": "shell",
+      "NeedsSchema": false,
+      "NeedsDestination": true,
+      "OperatorGated": false,
+      "CapturesWorkInProgress": false,
+      "DesktopSurface": "none"
+    }
+  },
+  {
+    "command": "git push origin main",
+    "classification": {
+      "Known": true,
+      "Domain": "shell",
+      "Operation": "git_push_existing_remote",
+      "MutationClass": "external_side_effect",
+      "Reversibility": "hard",
+      "BlastRadius": "internet",
+      "TargetKind": "command",
+      "Destination": "git-remote:existing",
+      "RequiredSink": "network",
+      "NeedsSchema": false,
+      "NeedsDestination": true,
+      "OperatorGated": false,
+      "CapturesWorkInProgress": false,
+      "DesktopSurface": "none"
+    }
+  },
+  {
+    "command": "rm -rf build",
+    "classification": {
+      "Known": true,
+      "Domain": "shell",
+      "Operation": "operator_gated_command",
+      "MutationClass": "destructive",
+      "Reversibility": "irreversible",
+      "BlastRadius": "host",
+      "TargetKind": "command",
+      "Destination": "command:sha256:17f69ae2697b61fda85f4efef12aad45a1bb7dda951b5dacf0132eb76e0807be",
+      "RequiredSink": "shell",
+      "NeedsSchema": false,
+      "NeedsDestination": true,
+      "OperatorGated": true,
+      "CapturesWorkInProgress": false,
+      "DesktopSurface": "none"
+    }
+  },
+  {
+    "command": "cat README.md | grep foo",
+    "classification": {
+      "Known": true,
+      "Domain": "shell",
+      "Operation": "local_command",
+      "MutationClass": "local_reversible",
+      "Reversibility": "easy",
+      "BlastRadius": "local",
+      "TargetKind": "command",
+      "Destination": "command:sha256:059149d4301839a5a41089c7e5e9f1ff03cf7c0d73b544aa92fecd8d575c8bf1",
+      "RequiredSink": "shell",
+      "NeedsSchema": false,
+      "NeedsDestination": true,
+      "OperatorGated": false,
+      "CapturesWorkInProgress": false,
+      "DesktopSurface": "none"
+    }
+  },
+  {
+    "command": "npm install left-pad",
+    "classification": {
+      "Known": true,
+      "Domain": "shell",
+      "Operation": "install_command",
+      "MutationClass": "security",
+      "Reversibility": "manual",
+      "BlastRadius": "host",
+      "TargetKind": "command",
+      "Destination": "command:sha256:8e9559b42796401a70d2094e7ac2bf2d23aa69345999e53f2f65e7f75b54b626",
+      "RequiredSink": "install",
+      "NeedsSchema": false,
+      "NeedsDestination": true,
+      "OperatorGated": false,
+      "CapturesWorkInProgress": false,
+      "DesktopSurface": "none"
+    }
+  },
+  {
+    "command": "curl https://example.com/x",
+    "classification": {
+      "Known": true,
+      "Domain": "shell",
+      "Operation": "network_command",
+      "MutationClass": "external_side_effect",
+      "Reversibility": "hard",
+      "BlastRadius": "internet",
+      "TargetKind": "command",
+      "Destination": "command:sha256:bc798df7f1a361e2b6494c1fbfde84c590bd9ce9b624f650b8358c64b31ebfbc",
+      "RequiredSink": "network",
+      "NeedsSchema": false,
+      "NeedsDestination": true,
+      "OperatorGated": false,
+      "CapturesWorkInProgress": false,
+      "DesktopSurface": "none"
+    }
+  },
+  {
+    "command": "curl -X POST https://example.com/api -d a=b",
+    "classification": {
+      "Known": true,
+      "Domain": "shell",
+      "Operation": "network_command",
+      "MutationClass": "external_side_effect",
+      "Reversibility": "hard",
+      "BlastRadius": "internet",
+      "TargetKind": "command",
+      "Destination": "command:sha256:9559c7891b524ad40de6f577247ec975e792b91b448879c1be3e7d0fbab715ac",
+      "RequiredSink": "network",
+      "NeedsSchema": false,
+      "NeedsDestination": true,
+      "OperatorGated": false,
+      "CapturesWorkInProgress": false,
+      "DesktopSurface": "none"
+    }
+  },
+  {
+    "command": "compound work list",
+    "classification": {
+      "Known": true,
+      "Domain": "shell",
+      "Operation": "governed_command",
+      "MutationClass": "local_reversible",
+      "Reversibility": "easy",
+      "BlastRadius": "local",
+      "TargetKind": "command",
+      "Destination": "command:sha256:73710a5e7a56e9644f7e5772426fdff115a8a2f95921bbbf3a3d001f602a00f0",
+      "RequiredSink": "shell",
+      "NeedsSchema": false,
+      "NeedsDestination": true,
+      "OperatorGated": false,
+      "CapturesWorkInProgress": false,
+      "DesktopSurface": "none"
+    }
+  },
+  {
+    "command": "compound product loops",
+    "classification": {
+      "Known": false,
+      "Domain": "shell",
+      "Operation": "unknown_command",
+      "MutationClass": "security",
+      "Reversibility": "hard",
+      "BlastRadius": "host",
+      "TargetKind": "command",
+      "Destination": "command:sha256:323b9f6e7e2e0aac35224c4552adc07d14de4ef90185a8f324fbb0511da35cbc",
+      "RequiredSink": "shell",
+      "NeedsSchema": false,
+      "NeedsDestination": true,
+      "OperatorGated": false,
+      "CapturesWorkInProgress": false,
+      "DesktopSurface": "none"
+    }
+  },
+  {
+    "command": "compound product ads --window 7d extra",
+    "classification": {
+      "Known": false,
+      "Domain": "shell",
+      "Operation": "unknown_command",
+      "MutationClass": "security",
+      "Reversibility": "hard",
+      "BlastRadius": "host",
+      "TargetKind": "command",
+      "Destination": "command:sha256:df8b51fff2b9ca67df123154260ea516ff4b063aaba9c99eb8a125a668adf20a",
+      "RequiredSink": "shell",
+      "NeedsSchema": false,
+      "NeedsDestination": true,
+      "OperatorGated": false,
+      "CapturesWorkInProgress": false,
+      "DesktopSurface": "none"
+    }
+  },
+  {
+    "command": "frobnicate --x",
+    "classification": {
+      "Known": false,
+      "Domain": "shell",
+      "Operation": "unknown_command",
+      "MutationClass": "security",
+      "Reversibility": "hard",
+      "BlastRadius": "host",
+      "TargetKind": "command",
+      "Destination": "command:sha256:8285d25303b69cd2be559b8411ebc16db28cc63c8f1a9e8c2f322752cd3d516c",
+      "RequiredSink": "shell",
+      "NeedsSchema": false,
+      "NeedsDestination": true,
+      "OperatorGated": false,
+      "CapturesWorkInProgress": false,
+      "DesktopSurface": "none"
+    }
+  },
+  {
+    "command": "gog drive ls",
+    "classification": {
+      "Known": false,
+      "Domain": "shell",
+      "Operation": "unknown_command",
+      "MutationClass": "security",
+      "Reversibility": "hard",
+      "BlastRadius": "host",
+      "TargetKind": "command",
+      "Destination": "command:sha256:43633d01f4e751b9c0f4c01e3dc511c9174dc4e3543be45b3b48b62c7272c523",
+      "RequiredSink": "shell",
+      "NeedsSchema": false,
+      "NeedsDestination": true,
+      "OperatorGated": false,
+      "CapturesWorkInProgress": false,
+      "DesktopSurface": "none"
+    }
+  },
+  {
+    "command": "gog calendar events list",
+    "classification": {
+      "Known": false,
+      "Domain": "shell",
+      "Operation": "unknown_command",
+      "MutationClass": "security",
+      "Reversibility": "hard",
+      "BlastRadius": "host",
+      "TargetKind": "command",
+      "Destination": "command:sha256:615ddcb75ac6b85d0505266925d3d9e008cc975cfe9b596aaf0694be83314da9",
+      "RequiredSink": "shell",
+      "NeedsSchema": false,
+      "NeedsDestination": true,
+      "OperatorGated": false,
+      "CapturesWorkInProgress": false,
+      "DesktopSurface": "none"
+    }
+  },
+  {
+    "command": "gog gmail trash m1",
+    "classification": {
+      "Known": false,
+      "Domain": "shell",
+      "Operation": "unknown_command",
+      "MutationClass": "security",
+      "Reversibility": "hard",
+      "BlastRadius": "host",
+      "TargetKind": "command",
+      "Destination": "command:sha256:cdcf09b34fcb4626608e0ffa8d8859ce508ac3320674c8fcd50e3996e4013645",
+      "RequiredSink": "shell",
+      "NeedsSchema": false,
+      "NeedsDestination": true,
+      "OperatorGated": false,
+      "CapturesWorkInProgress": false,
+      "DesktopSurface": "none"
+    }
+  },
+  {
+    "command": "gog gmail labels modify t1 --add X",
+    "classification": {
+      "Known": false,
+      "Domain": "shell",
+      "Operation": "unknown_command",
+      "MutationClass": "security",
+      "Reversibility": "hard",
+      "BlastRadius": "host",
+      "TargetKind": "command",
+      "Destination": "command:sha256:219aef8a787c39050a99114c225c7ded05f452877015f087d2e67b34935c78c8",
+      "RequiredSink": "shell",
+      "NeedsSchema": false,
+      "NeedsDestination": true,
+      "OperatorGated": false,
+      "CapturesWorkInProgress": false,
+      "DesktopSurface": "none"
+    }
+  },
+  {
+    "command": "asc doctor",
+    "classification": {
+      "Known": true,
+      "Domain": "shell",
+      "Operation": "local_command",
+      "MutationClass": "local_reversible",
+      "Reversibility": "easy",
+      "BlastRadius": "local",
+      "TargetKind": "command",
+      "Destination": "command:sha256:3eb6e1e87542272fb1d0d4682ccb0fb360ea272622e9eb79e38ed16b0b244c17",
+      "RequiredSink": "shell",
+      "NeedsSchema": false,
+      "NeedsDestination": true,
+      "OperatorGated": false,
+      "CapturesWorkInProgress": false,
+      "DesktopSurface": "none"
+    }
+  },
+  {
+    "command": "asc status",
+    "classification": {
+      "Known": true,
+      "Domain": "shell",
+      "Operation": "local_command",
+      "MutationClass": "local_reversible",
+      "Reversibility": "easy",
+      "BlastRadius": "local",
+      "TargetKind": "command",
+      "Destination": "command:sha256:a2301aa227d934cba3c4f30c8b77c92175e98ac73542024f6b9ea2ad2b94a402",
+      "RequiredSink": "shell",
+      "NeedsSchema": false,
+      "NeedsDestination": true,
+      "OperatorGated": false,
+      "CapturesWorkInProgress": false,
+      "DesktopSurface": "none"
+    }
+  },
+  {
+    "command": "asc builds upload --path X.ipa",
+    "classification": {
+      "Known": false,
+      "Domain": "shell",
+      "Operation": "unknown_command",
+      "MutationClass": "security",
+      "Reversibility": "hard",
+      "BlastRadius": "host",
+      "TargetKind": "command",
+      "Destination": "command:sha256:c263ea1b953f146bc47ed4ba7de7a208b54ef2a02fd155cb762f0b49a44b0dca",
+      "RequiredSink": "shell",
+      "NeedsSchema": false,
+      "NeedsDestination": true,
+      "OperatorGated": false,
+      "CapturesWorkInProgress": false,
+      "DesktopSurface": "none"
+    }
+  },
+  {
+    "command": "asc submit --app 1",
+    "classification": {
+      "Known": false,
+      "Domain": "shell",
+      "Operation": "unknown_command",
+      "MutationClass": "security",
+      "Reversibility": "hard",
+      "BlastRadius": "host",
+      "TargetKind": "command",
+      "Destination": "command:sha256:8228e56b526f142ceb314cbfb34937924602fa948582edd93a04c18b522d7ccb",
+      "RequiredSink": "shell",
+      "NeedsSchema": false,
+      "NeedsDestination": true,
+      "OperatorGated": false,
+      "CapturesWorkInProgress": false,
+      "DesktopSurface": "none"
+    }
+  },
+  {
+    "command": "asc reviews --app 1 --unknown-value 5",
+    "classification": {
+      "Known": false,
+      "Domain": "shell",
+      "Operation": "unknown_command",
+      "MutationClass": "security",
+      "Reversibility": "hard",
+      "BlastRadius": "host",
+      "TargetKind": "command",
+      "Destination": "command:sha256:84d8db8ac55c8841a197481924d1a7fb7496a99ea0a401a942d15b3335a72a8c",
+      "RequiredSink": "shell",
+      "NeedsSchema": false,
+      "NeedsDestination": true,
+      "OperatorGated": false,
+      "CapturesWorkInProgress": false,
+      "DesktopSurface": "none"
+    }
+  },
+  {
+    "command": "asc reviews list --app 1 > out.json",
+    "classification": {
+      "Known": false,
+      "Domain": "shell",
+      "Operation": "unknown_command",
+      "MutationClass": "security",
+      "Reversibility": "hard",
+      "BlastRadius": "host",
+      "TargetKind": "command",
+      "Destination": "command:sha256:2749f8d3edddc2f483b26588bde9c0d50d0a381b3d663fc47eb53cf1cbd5ff2c",
+      "RequiredSink": "shell",
+      "NeedsSchema": false,
+      "NeedsDestination": true,
+      "OperatorGated": false,
+      "CapturesWorkInProgress": false,
+      "DesktopSurface": "none"
+    }
+  },
+  {
+    "command": "./asc reviews list --app 1",
+    "classification": {
+      "Known": false,
+      "Domain": "shell",
+      "Operation": "unknown_command",
+      "MutationClass": "security",
+      "Reversibility": "hard",
+      "BlastRadius": "host",
+      "TargetKind": "command",
+      "Destination": "command:sha256:bee45c83cc1049f70a08351f5ac907f0920288e70bc443c31d9750e24d705f10",
+      "RequiredSink": "shell",
+      "NeedsSchema": false,
+      "NeedsDestination": true,
+      "OperatorGated": false,
+      "CapturesWorkInProgress": false,
+      "DesktopSurface": "none"
+    }
+  },
+  {
+    "command": "bin/gog gmail search foo",
+    "classification": {
+      "Known": false,
+      "Domain": "shell",
+      "Operation": "unknown_command",
+      "MutationClass": "security",
+      "Reversibility": "hard",
+      "BlastRadius": "host",
+      "TargetKind": "command",
+      "Destination": "command:sha256:28c2f72925e99e3cb79b5fc03293807471789049bdfe33e6978454d14f9366eb",
+      "RequiredSink": "shell",
+      "NeedsSchema": false,
+      "NeedsDestination": true,
+      "OperatorGated": false,
+      "CapturesWorkInProgress": false,
+      "DesktopSurface": "none"
+    }
+  },
+  {
+    "command": "asc reviews \"$(echo respond)\" --app 1",
+    "classification": {
+      "Known": false,
+      "Domain": "shell",
+      "Operation": "unknown_command",
+      "MutationClass": "security",
+      "Reversibility": "hard",
+      "BlastRadius": "host",
+      "TargetKind": "command",
+      "Destination": "command:sha256:53a7bb388578805e5f924e4fc18224c0a26eeeb552b6b50c05f54b9a2fa69706",
+      "RequiredSink": "shell",
+      "NeedsSchema": false,
+      "NeedsDestination": true,
+      "OperatorGated": false,
+      "CapturesWorkInProgress": false,
+      "DesktopSurface": "none"
+    }
+  },
+  {
+    "command": "asc reviews list --app $APP",
+    "classification": {
+      "Known": false,
+      "Domain": "shell",
+      "Operation": "unknown_command",
+      "MutationClass": "security",
+      "Reversibility": "hard",
+      "BlastRadius": "host",
+      "TargetKind": "command",
+      "Destination": "command:sha256:c2a0b2bca5d72a4d2b260fed10c4ac420c536d59c4d865a985975af96e7c00a5",
+      "RequiredSink": "shell",
+      "NeedsSchema": false,
+      "NeedsDestination": true,
+      "OperatorGated": false,
+      "CapturesWorkInProgress": false,
+      "DesktopSurface": "none"
+    }
+  },
+  {
+    "command": "gog gmail send --to x@example.com $EXTRA",
+    "classification": {
+      "Known": false,
+      "Domain": "shell",
+      "Operation": "unknown_command",
+      "MutationClass": "security",
+      "Reversibility": "hard",
+      "BlastRadius": "host",
+      "TargetKind": "command",
+      "Destination": "command:sha256:c9d43a086b01faafaea0fc97e41d186b35f8c52c741b99aaaad2d68029ce6629",
+      "RequiredSink": "shell",
+      "NeedsSchema": false,
+      "NeedsDestination": true,
+      "OperatorGated": false,
+      "CapturesWorkInProgress": false,
+      "DesktopSurface": "none"
+    }
+  },
+  {
+    "command": "gog gmail search foo | sh",
+    "classification": {
+      "Known": false,
+      "Domain": "shell",
+      "Operation": "unknown_command",
+      "MutationClass": "security",
+      "Reversibility": "hard",
+      "BlastRadius": "host",
+      "TargetKind": "command",
+      "Destination": "command:sha256:a8929fecddf2a6bbc1e1dd66ecf47ee71d5335a3d378c845d7bd79eafad56789",
+      "RequiredSink": "shell",
+      "NeedsSchema": false,
+      "NeedsDestination": true,
+      "OperatorGated": false,
+      "CapturesWorkInProgress": false,
+      "DesktopSurface": "none"
+    }
+  },
+  {
+    "command": "asc reviews list --app 1 && curl https://example.com/x",
+    "classification": {
+      "Known": true,
+      "Domain": "shell",
+      "Operation": "network_command",
+      "MutationClass": "external_side_effect",
+      "Reversibility": "hard",
+      "BlastRadius": "internet",
+      "TargetKind": "command",
+      "Destination": "command:sha256:de30d208d951f12ad3f793bf401e52fbc2ff6a845f073dc445342a77c8cc8f4f",
+      "RequiredSink": "network",
+      "NeedsSchema": false,
+      "NeedsDestination": true,
+      "OperatorGated": false,
+      "CapturesWorkInProgress": false,
+      "DesktopSurface": "none"
+    }
+  },
+  {
+    "command": "gog gmail search foo && rm -rf /tmp/x",
+    "classification": {
+      "Known": true,
+      "Domain": "shell",
+      "Operation": "operator_gated_command",
+      "MutationClass": "destructive",
+      "Reversibility": "irreversible",
+      "BlastRadius": "host",
+      "TargetKind": "command",
+      "Destination": "command:sha256:ebdeabd59351247a856aeca6744f89504a6a95f9cad69dad2b392fe4a9153008",
+      "RequiredSink": "shell",
+      "NeedsSchema": false,
+      "NeedsDestination": true,
+      "OperatorGated": true,
+      "CapturesWorkInProgress": false,
+      "DesktopSurface": "none"
+    }
+  },
+  {
+    "command": "curl https://api.paddle.com/x --proxy http://proxy.example.com",
+    "classification": {
+      "Known": true,
+      "Domain": "shell",
+      "Operation": "network_command",
+      "MutationClass": "external_side_effect",
+      "Reversibility": "hard",
+      "BlastRadius": "internet",
+      "TargetKind": "command",
+      "Destination": "command:sha256:1e6e75ff82e607d4a8ad09fb5d1429c638bc1f86d51e47882e9e566505e0d773",
+      "RequiredSink": "network",
+      "NeedsSchema": false,
+      "NeedsDestination": true,
+      "OperatorGated": false,
+      "CapturesWorkInProgress": false,
+      "DesktopSurface": "none"
+    }
+  },
+  {
+    "command": "curl https://api.paddle.com/x -K cfg",
+    "classification": {
+      "Known": true,
+      "Domain": "shell",
+      "Operation": "network_command",
+      "MutationClass": "external_side_effect",
+      "Reversibility": "hard",
+      "BlastRadius": "internet",
+      "TargetKind": "command",
+      "Destination": "command:sha256:218fc62e799c2d080aa2c3ce8c43dbdbec93409531ed4bfdeb5832066dddc5ed",
+      "RequiredSink": "network",
+      "NeedsSchema": false,
+      "NeedsDestination": true,
+      "OperatorGated": false,
+      "CapturesWorkInProgress": false,
+      "DesktopSurface": "none"
+    }
+  },
+  {
+    "command": "curl https://api.paddle.com.evil.example.com/x",
+    "classification": {
+      "Known": true,
+      "Domain": "shell",
+      "Operation": "network_command",
+      "MutationClass": "external_side_effect",
+      "Reversibility": "hard",
+      "BlastRadius": "internet",
+      "TargetKind": "command",
+      "Destination": "command:sha256:4f1124ffdb0f32a3db2789e93ff1d74dc0a4e552b1eda46337e40c1a7cfa7a34",
+      "RequiredSink": "network",
+      "NeedsSchema": false,
+      "NeedsDestination": true,
+      "OperatorGated": false,
+      "CapturesWorkInProgress": false,
+      "DesktopSurface": "none"
+    }
+  },
+  {
+    "command": "curl https://api.paddle.com/x https://example.com/y",
+    "classification": {
+      "Known": true,
+      "Domain": "shell",
+      "Operation": "network_command",
+      "MutationClass": "external_side_effect",
+      "Reversibility": "hard",
+      "BlastRadius": "internet",
+      "TargetKind": "command",
+      "Destination": "command:sha256:ecbea556a7d976549700201ee7017c92fa86a35890dc86c1f8d1401c7610410e",
+      "RequiredSink": "network",
+      "NeedsSchema": false,
+      "NeedsDestination": true,
+      "OperatorGated": false,
+      "CapturesWorkInProgress": false,
+      "DesktopSurface": "none"
+    }
+  },
+  {
+    "command": "curl $PADDLE/transactions",
+    "classification": {
+      "Known": true,
+      "Domain": "shell",
+      "Operation": "network_command",
+      "MutationClass": "external_side_effect",
+      "Reversibility": "hard",
+      "BlastRadius": "internet",
+      "TargetKind": "command",
+      "Destination": "command:sha256:d37a70ccdb3773a0f1701a6a7aea7c0c5d91d37b7fd9dba43ba6f0196ee4a564",
+      "RequiredSink": "network",
+      "NeedsSchema": false,
+      "NeedsDestination": true,
+      "OperatorGated": false,
+      "CapturesWorkInProgress": false,
+      "DesktopSurface": "none"
+    }
+  },
+  {
+    "command": "sudo gog gmail send --to x@example.com",
+    "classification": {
+      "Known": true,
+      "Domain": "shell",
+      "Operation": "operator_gated_command",
+      "MutationClass": "destructive",
+      "Reversibility": "irreversible",
+      "BlastRadius": "host",
+      "TargetKind": "command",
+      "Destination": "command:sha256:19c063f2ed2c230ba45137f707db01248a45a50155a0b08bc7b89499aeb0051f",
+      "RequiredSink": "shell",
+      "NeedsSchema": false,
+      "NeedsDestination": true,
+      "OperatorGated": true,
+      "CapturesWorkInProgress": false,
+      "DesktopSurface": "none"
+    }
+  },
+  {
+    "command": "PATH=/tmp gog gmail search foo",
+    "classification": {
+      "Known": false,
+      "Domain": "shell",
+      "Operation": "unknown_command",
+      "MutationClass": "security",
+      "Reversibility": "hard",
+      "BlastRadius": "host",
+      "TargetKind": "command",
+      "Destination": "command:sha256:2b321db1ec8bf2f1ea64a2b9ffc58f10d7c50c62c97be9c161d67cccaaaa93a1",
+      "RequiredSink": "shell",
+      "NeedsSchema": false,
+      "NeedsDestination": true,
+      "OperatorGated": false,
+      "CapturesWorkInProgress": false,
+      "DesktopSurface": "none"
+    }
+  },
+  {
+    "command": "eval gog gmail send --to x@example.com",
+    "classification": {
+      "Known": false,
+      "Domain": "shell",
+      "Operation": "unknown_command",
+      "MutationClass": "security",
+      "Reversibility": "hard",
+      "BlastRadius": "host",
+      "TargetKind": "command",
+      "Destination": "command:sha256:1134d7b39e21700496b9536da7824431e090098a481d13241e72b9c872c1b0a7",
+      "RequiredSink": "shell",
+      "NeedsSchema": false,
+      "NeedsDestination": true,
+      "OperatorGated": false,
+      "CapturesWorkInProgress": false,
+      "DesktopSurface": "none"
+    }
+  },
+  {
+    "command": "bash -c 'gog gmail send --to x@example.com'",
+    "classification": {
+      "Known": false,
+      "Domain": "shell",
+      "Operation": "unknown_command",
+      "MutationClass": "security",
+      "Reversibility": "hard",
+      "BlastRadius": "host",
+      "TargetKind": "command",
+      "Destination": "command:sha256:1d346f35eb4e8f4667ff9a6d5f72db683945d0cf58f38b12c6134b209042a4b0",
+      "RequiredSink": "shell",
+      "NeedsSchema": false,
+      "NeedsDestination": true,
+      "OperatorGated": false,
+      "CapturesWorkInProgress": false,
+      "DesktopSurface": "none"
+    }
+  },
+  {
+    "command": "xh https://example.com/x",
+    "classification": {
+      "Known": false,
+      "Domain": "shell",
+      "Operation": "unknown_command",
+      "MutationClass": "security",
+      "Reversibility": "hard",
+      "BlastRadius": "host",
+      "TargetKind": "command",
+      "Destination": "command:sha256:127c6264e1823552c19e1773150c6d519b44d76cfdb07142e2bcb1b1ea66f4e6",
+      "RequiredSink": "shell",
+      "NeedsSchema": false,
+      "NeedsDestination": true,
+      "OperatorGated": false,
+      "CapturesWorkInProgress": false,
+      "DesktopSurface": "none"
+    }
+  },
+  {
+    "command": "http POST https://example.com a=b",
+    "classification": {
+      "Known": true,
+      "Domain": "shell",
+      "Operation": "network_command",
+      "MutationClass": "external_side_effect",
+      "Reversibility": "hard",
+      "BlastRadius": "internet",
+      "TargetKind": "command",
+      "Destination": "command:sha256:4b43768a4cfed48ebf153cd5a453614ad2e2d63771bba22bc43de42545106ac0",
+      "RequiredSink": "network",
+      "NeedsSchema": false,
+      "NeedsDestination": true,
+      "OperatorGated": false,
+      "CapturesWorkInProgress": false,
+      "DesktopSurface": "none"
+    }
+  },
+  {
+    "command": "asc reviews respond --review-id 1 --response hi && gog gmail send --to x@example.com",
+    "classification": {
+      "Known": false,
+      "Domain": "shell",
+      "Operation": "unknown_command",
+      "MutationClass": "security",
+      "Reversibility": "hard",
+      "BlastRadius": "host",
+      "TargetKind": "command",
+      "Destination": "command:sha256:1408e893c9beb2fad496110a2f8ad38ce2b7dee4fe5cfe8a0f3b5aa28ae4dfbc",
+      "RequiredSink": "shell",
+      "NeedsSchema": false,
+      "NeedsDestination": true,
+      "OperatorGated": false,
+      "CapturesWorkInProgress": false,
+      "DesktopSurface": "none"
+    }
+  }
+]

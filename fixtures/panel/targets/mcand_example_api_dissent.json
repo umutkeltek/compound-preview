@@ -1,0 +1,16 @@
+{
+  "id": "mcand_example_api_dissent",
+  "entity": "service:example-api",
+  "predicate": "stores_config",
+  "object": "local-file",
+  "claim_type": "status",
+  "confidence": 0.74,
+  "promotion_basis": "trusted_deterministic_import",
+  "state": "parked",
+  "visibility": "contextual",
+  "derivation": "extracted",
+  "qualifiers": {"domain": "configuration"},
+  "source_trace_ref": "trace://synthetic-dissent",
+  "snippet_hash": "sha256:dissent",
+  "created_at": "2026-07-01T10:10:00Z"
+}

@@ -1,0 +1,25 @@
+{
+  "confidence": 0.55,
+  "findings": [
+    {
+      "claim": "Jordan's \"quick question\" framing may protect against the exposure of directly asking for an exception to normal process, which could read as overstepping.",
+      "severity": "medium",
+      "evidence_refs": ["hey, quick question when you have a sec", "I want to push the deploy this afternoon instead of waiting for the review, is that ok?"]
+    },
+    {
+      "claim": "Priya's redirect to the team may protect her from being the sole approver of a risky exception, spreading responsibility for the decision.",
+      "severity": "medium",
+      "evidence_refs": ["let's loop in the team before you move on it"]
+    },
+    {
+      "claim": "Non-protective alternative: Jordan may have used \"quick question\" purely as a conversational courtesy with no strategic framing intended.",
+      "severity": "low",
+      "evidence_refs": ["hey, quick question when you have a sec"]
+    },
+    {
+      "claim": "Non-protective alternative: Priya's request to loop in the team may be a neutral, standard process step unrelated to protecting herself.",
+      "severity": "low",
+      "evidence_refs": ["let's loop in the team before you move on it"]
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+{
+  "confidence": 0.79,
+  "findings": [{"claim": "The claim is scoped to one service runtime and is easy to supersede.", "severity": "low", "evidence_refs": ["trace://synthetic-clean"]}]
+}

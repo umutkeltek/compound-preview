@@ -1,0 +1,12 @@
+{
+  "confidence": 0.86,
+  "findings": [
+    {
+      "claim": "synthetic skill candidate has low review risk",
+      "severity": "low",
+      "evidence_refs": [
+        "trace://panel/synthetic"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "generated_at": "2026-07-06T00:00:00Z",
+  "jobs": [
+    {
+      "job_id": "sessions-mine-daily-dry-run",
+      "name": "sessions mine daily dry-run digest",
+      "enabled": false,
+      "state": "pending_operator_scheduling",
+      "schedule": "daily",
+      "deliver": "review_queue",
+      "script": "compound sessions mine --since 24h --dry-run --job-run sessions-mine-daily-dry-run --json",
+      "no_agent": true,
+      "lane": "local_dry_run",
+      "last_status": "pending",
+      "recommended_action": "operator schedules this only after confirming the runtime home and privacy scope"
+    }
+  ]
+}

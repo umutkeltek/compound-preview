@@ -1,0 +1,40 @@
+{
+  "schema_version": "compound.release_reproducer.v0.1",
+  "issue_id": "REL-P0-008",
+  "observed_at": "2026-08-29T14:52:13Z",
+  "source_sha": "3eb9ea6bb0dde318db42a26e65c663ea8960c87e",
+  "command": "GOTOOLCHAIN=go1.26.4 go test ./internal/work -json -timeout=20m",
+  "exit_code": 1,
+  "package_duration_ms": 1201554,
+  "wall_duration_ms": 1203170,
+  "user_cpu_ms": 34540,
+  "system_cpu_ms": 89200,
+  "top_level_tests_total": 763,
+  "top_level_tests_completed": 581,
+  "top_level_parallel_calls": 0,
+  "median_test_duration_ms": 1350,
+  "p95_test_duration_ms": 6390,
+  "max_silent_gap_ms": 11120,
+  "timeout_stack": "internal/poll.FD.Fsync -> os.File.Sync -> runattempt.writeLocked",
+  "deadlock_observed": false,
+  "host_contention": {
+    "concurrent_internal_work_binaries": 3,
+    "concurrent_broad_battery": true,
+    "load_average_range": "23-44",
+    "assessment": "amplifier, not an isolated-margin substitute"
+  },
+  "smallest_nonweakening_fix": {
+    "code": "Parallelize only independent temp-store subtests with no package-global seams, preserving real fsync and every assertion.",
+    "scheduler": "Single-flight broad release batteries.",
+    "candidate_tests": [
+      "TestPreFingerprintGitDeliveryRejectsUnsafeMigrationPaths",
+      "TestAutoAdmitOperatorOnlyRiskFrontierAlwaysWins",
+      "TestRecordedLandCheckContentIsTamperEvident"
+    ],
+    "forbidden": [
+      "increase the proof timeout",
+      "stub or remove fsync",
+      "parallelize tests that mutate package-global failure or resolver seams"
+    ]
+  }
+}

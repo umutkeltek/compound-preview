@@ -1,0 +1,49 @@
+{
+  "kind": "ios",
+  "date": "2026-07-13",
+  "pulled_at": "2026-07-14T12:00:00Z",
+  "name": "Focus Notes",
+  "product": "focus-notes",
+  "current": {
+    "app": {
+      "asc_app_id": "123456789",
+      "state": "READY_FOR_DISTRIBUTION",
+      "version": "1.4.0",
+      "impressions": 296,
+      "downloads_first_time": 6,
+      "conversion_rate": 0.0135
+    },
+    "as_of": {
+      "app.impressions": "2026-07-13",
+      "app.downloads_first_time": "2026-07-13",
+      "app.conversion_rate": "2026-07-13"
+    }
+  },
+  "ideas": [
+    {
+      "id": "focus-notes.appstore-low-conversion",
+      "status": "candidate",
+      "automation_level": "L1_draft_or_L2_reversible_only",
+      "approval_gate": "required_before_publish_release_spend_or_external_mutation",
+      "surface": "app_store",
+      "score": 48,
+      "title": "Review App Store visual and metadata conversion",
+      "why": "Store metrics show 296 impressions with 1.35% first-download conversion.",
+      "suggested_next_action": "Run an App Store visual review and hold screenshot or metadata changes for approval.",
+      "evidence": [
+        {
+          "metric": "app.impressions",
+          "value": 296,
+          "as_of": "2026-07-13",
+          "product_record": "fixtures/product/canonical-latest.json"
+        },
+        {
+          "metric": "app.conversion_rate",
+          "value": 0.0135,
+          "as_of": "2026-07-13",
+          "product_record": "fixtures/product/canonical-latest.json"
+        }
+      ]
+    }
+  ]
+}

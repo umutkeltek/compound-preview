@@ -1,0 +1,65 @@
+{
+  "schema_version": "compound.release_issue_evidence.v0.1",
+  "issue_id": "REL-P0-008",
+  "status": "focused_green",
+  "recorded_at": "2026-08-30T05:43:25Z",
+  "source_sha": "ad8883c47613fc4b7d0dddbe343218939a21d10c",
+  "red": {
+    "command": "GOTOOLCHAIN=go1.26.4 go test ./internal/work",
+    "exit_code": 1,
+    "duration_seconds": 600,
+    "prior_uncontended_duration_seconds": 1388.628,
+    "meaning": "The package could not satisfy Go's unchanged ten-minute default and a 40-minute sample still required more than 23 minutes."
+  },
+  "fix_commits": [
+    "80135cd9",
+    "a58d4bd8",
+    "156c3ce2",
+    "8687f3b9",
+    "e0ab3e66",
+    "ad8883c4"
+  ],
+  "fix_invariant": {
+    "durability": "Every fsync, rename, directory-sync, tamper, recovery, and real Git assertion remains active.",
+    "fixture_isolation": "Shared baselines are immutable and every mutating case receives an independent byte copy or temporary home.",
+    "parallel_isolation": "Only helper-transitively audited top-level tests run in parallel; tests replacing package globals, environment, cwd, sockets, or shared processes remain serial."
+  },
+  "focused_verification": [
+    {
+      "command": "GOTOOLCHAIN=go1.26.4 go test -count=20 ./internal/work -run '^TestCompletedReceiptedActionRejectsSchemaValidExactOutputTamper$'",
+      "exit_code": 0,
+      "duration_seconds": 16.474
+    },
+    {
+      "command": "GOTOOLCHAIN=go1.26.4 go test -race -count=1 ./internal/work -run '^(TestRecordedLandCheckContentIsTamperEvident|TestCompletedReceiptedActionRejectsLegacyAndMissingExactOutputDigests|TestCompletedReceiptedActionRejectsSchemaValidExactOutputTamper)$'",
+      "exit_code": 0,
+      "duration_seconds": 4.852
+    },
+    {
+      "command": "GOTOOLCHAIN=go1.26.4 go test -count=1 ./internal/work -run '^(TestRecordReceiptedAction|TestRecordReservedReceiptedAction|TestReceiptedAction|TestCompletedReceiptedAction|TestAbortReceiptedAction)'",
+      "exit_code": 0,
+      "duration_seconds": 22.866
+    },
+    {
+      "command": "GOTOOLCHAIN=go1.26.4 go test -count=1 ./internal/work -run '(LandCheck|CompletedCodeWork|PublicationProof|CloseRefusal|LandingCloseGate)'",
+      "exit_code": 0,
+      "duration_seconds": 51.108
+    },
+    {
+      "command": "GOTOOLCHAIN=go1.26.4 go vet ./internal/work",
+      "exit_code": 0
+    },
+    {
+      "command": "GOTOOLCHAIN=go1.26.4 go test ./internal/work",
+      "exit_code": 0,
+      "duration_seconds": 396.254
+    }
+  ],
+  "broad_verification": {
+    "command": "GOTOOLCHAIN=go1.26.4 go test ./...",
+    "exit_code": 1,
+    "internal_work_duration_seconds": 605.424,
+    "classification": "Cross-package durable-I/O contention still exhausts the default timeout; tracked separately as REL-P0-010."
+  },
+  "residual_risk": "The isolated package now has 203.746 seconds of default-timeout margin, but canonical broad proof remains red."
+}

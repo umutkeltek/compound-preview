@@ -1,0 +1,19 @@
+schema_version: compound.source_observation.v0.1
+id: srcobs_fixture_oracle_second_opinion
+adapter_id: fixture.second-opinion
+source_system: oracle
+observed_at: "2026-07-04T00:00:00Z"
+source_ref:
+  path: fixtures/oracle/second-opinion-answer.md
+  kind: external_opinion
+  owner: second-opinion-fixture
+  source_class: second_opinion_evidence
+  revision: sha256:oraclefixture
+maps_to:
+  - object_family: method
+    candidate_kind: method_upgrade
+    entity_hint: oracle-second-opinion
+    promote_allowed: false
+evidence_refs:
+  - oracle_session:fixture
+  - artifact_sha256:oraclefixture

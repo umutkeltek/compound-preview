@@ -1,0 +1,69 @@
+{
+  "schema_version": "compound.release_issue_evidence.v0.1",
+  "issue_id": "REL-P0-004",
+  "slice": "close terminalization must hold the shared work-admission lock (residual e)",
+  "status": "focused_green",
+  "recorded_at": "2026-09-04T03:00:00Z",
+  "pre_fix_sha": "0da0f321",
+  "fix_commits": [
+    "a9fa0286"
+  ],
+  "v4": {
+    "slice": "close terminalization must hold the shared work-admission lock (residual e)",
+    "fix_commits": [
+      "a9fa0286"
+    ],
+    "red_first": [
+      {
+        "command": "go test ./internal/work -run TestCloseHoldsSharedWorkAdmissionThroughTerminalization -count=1 -v (on 0da0f321)",
+        "exit_code": 1,
+        "duration_seconds": 9.047,
+        "output": "work_admission_test.go:38: close terminalization ran outside shared work admission"
+      }
+    ],
+    "green_verification": [
+      {
+        "command": "go test ./internal/work -run TestCloseHoldsSharedWorkAdmissionThroughTerminalization -count=1 -v",
+        "exit_code": 0,
+        "duration_seconds": 3.019,
+        "detail": "post a9fa0286: PASS, probe swapped for closeAfterTerminalizationPrepare must NOT acquire TryWithWorkAdmissionLock; close now holds the shared work-admission lock through terminalization"
+      },
+      {
+        "command": "go test ./internal/work -run 'Close|Terminal|Delegate|SweepStale|Reclaim|RunAttempt' -count=1 (detached, alone)",
+        "exit_code": 0,
+        "duration_seconds": 565.520,
+        "detail": "all focused close + sweep + delegate + reclaim + runattempt tests green"
+      },
+      {
+        "command": "go test ./internal/work -count=1 -timeout=20m (detached, alone)",
+        "exit_code": 0,
+        "duration_seconds": 479.301,
+        "detail": "closes the v2 606s-timeout full internal/work broad run"
+      },
+      {
+        "command": "go test ./internal/runattempt -count=1",
+        "exit_code": 0,
+        "duration_seconds": 102.677
+      },
+      {
+        "command": "go test ./internal/home -count=1",
+        "exit_code": 0,
+        "duration_seconds": 238.012
+      }
+    ],
+    "diff_summary": {
+      "files_changed": 2,
+      "insertions": 86,
+      "deletions": 39,
+      "files": [
+        "internal/work/work.go (helper only: withCloseAdmissionLock)",
+        "internal/work/close_pending.go (completeClosePending terminalization section wrapped)"
+      ]
+    },
+    "gates": {
+      "gofmt_l_over_changed_files": "empty",
+      "go_vet_internal_work": "pass",
+      "envelope_state": "left running; not closed"
+    }
+  }
+}

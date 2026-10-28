@@ -1,0 +1,21 @@
+{
+  "schema_version": "compound.distiller.llm_extraction.v0.1",
+  "trace_ref": "trace_event_source_candidate",
+  "source_refs": [
+    "trace_envelope:trace_os_event_distill"
+  ],
+  "candidates": [
+    {
+      "kind": "memory",
+      "entity": "project:control",
+      "predicate": "daily_snapshot_generated",
+      "object": "2026-06-29T01:00:00Z",
+      "confidence": 0.88,
+      "derivation": "llm_extracted_from_trace_envelope",
+      "evidence_refs": [
+        "trace_envelope:trace_os_event_distill",
+        "os_event:evt_20260629T010000Z_alpha"
+      ]
+    }
+  ]
+}

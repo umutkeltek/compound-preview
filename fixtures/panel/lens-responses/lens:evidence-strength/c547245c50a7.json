@@ -1,0 +1,4 @@
+{
+  "confidence": 0.90,
+  "findings": [{"claim": "The runtime claim has a direct synthetic trace and an allowed promotion basis.", "severity": "low", "evidence_refs": ["trace://synthetic-clean"]}]
+}

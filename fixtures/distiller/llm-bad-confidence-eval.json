@@ -1,0 +1,16 @@
+{
+  "schema_version": "compound.distiller.eval_case.v0.1",
+  "id": "eval_rejects_llm_bad_confidence",
+  "request": {
+    "trace_ref": "trace_reject_bad_confidence",
+    "raw": "../traces/raw-distill-session.txt"
+  },
+  "response": "../traces/llm-bad-confidence.json",
+  "expect": {
+    "source_refs": ["raw_trace:trace_reject_bad_confidence"],
+    "decisions": [],
+    "current_claims": 0,
+    "live_model_calls": 0,
+    "error_contains": "outside [0,1]"
+  }
+}

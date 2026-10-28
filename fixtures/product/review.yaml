@@ -1,0 +1,13 @@
+schema_version: compound.product_review.v0.1
+id: review_focus_visuals_20260713
+product_id: product:focus-notes
+hypothesis_id: hyp_focus_visuals_conversion
+result: inconclusive
+rationale: "Fourteen-day conversion movement stayed positive, but sample size and weekday mix still prevent a causal claim."
+confidence: 0.61
+next_action: "Keep screenshot for one more window; do not change paywall visuals from this evidence alone."
+reviewed_by: operator
+reviewed_at: "2026-07-13T12:00:00Z"
+evidence_refs:
+  - fixture:app-store-metrics:14d
+  - fixture:weekday-mix

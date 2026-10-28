@@ -1,0 +1,56 @@
+schema_version: compound.product_registry.v0.1
+product:
+  id: product:focus-notes
+  name: Focus Notes
+  owner_entity: project:focus-notes
+  surfaces:
+    - id: app-store-page
+      kind: app_store
+      ref: appstore:123456789
+    - id: landing-page
+      kind: web
+      ref: https://example.invalid/focus-notes
+  channels:
+    - app_store
+    - landing_page
+  positioning: "Private focus notes for fast capture and calmer review."
+  privacy_posture: local_first
+  taste_profile:
+    standards:
+      - calm utility
+      - fast capture
+    red_lines:
+      - busy dashboard
+signals:
+  - id: sig_focus_screenshot_20260629
+    product_id: product:focus-notes
+    surface: app-store-page
+    change_event: "Changed first screenshot from feature list to focused capture moment."
+    metric_name: app_store_product_page_conversion
+    before: 0.041
+    after: 0.052
+    window: "7d after change"
+    confidence: 0.42
+    confounders:
+      - small sample
+      - weekday mix changed
+    interpretations:
+      - lens: conversion
+        claim: visual may be clearer but evidence is not causal yet
+    next_action: wait for full 14d window before changing paywall visuals
+    evidence_refs:
+      - fixture:app-store-metrics
+hypotheses:
+  - id: hyp_focus_visuals_conversion
+    product_id: product:focus-notes
+    change_event: "Changed first screenshot from feature list to focused capture moment."
+    expected_effect: conversion improves if screenshot communicates capture speed
+    metrics:
+      - app_store_product_page_conversion
+    observation_window: "14d after change"
+    result: unknown
+    next_action: review conversion after 14d; do not declare win before confounders are checked
+    evidence_refs:
+      - fixture:app-store-metrics
+evidence_refs:
+  - fixture:product-registry

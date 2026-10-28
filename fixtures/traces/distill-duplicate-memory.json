@@ -1,0 +1,14 @@
+{
+  "trace_ref": "session_2026-06-29_duplicate_memory",
+  "candidates": [
+    {
+      "kind": "memory",
+      "entity": "project:duplicate-proof",
+      "predicate": "backend_language",
+      "object": "go",
+      "confidence": 0.92,
+      "promotion_basis": "trusted_deterministic_import",
+      "evidence_refs": ["fixture:duplicate-memory"]
+    }
+  ]
+}

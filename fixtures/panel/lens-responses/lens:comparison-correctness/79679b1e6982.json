@@ -1,0 +1,1 @@
+{"confidence":0.93,"findings":[{"claim":"candidate includes both required release steps while baseline omits the secret scan","severity":"low","evidence_refs":["target:cmp_candidate_better"]}]}

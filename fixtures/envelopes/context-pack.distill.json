@@ -1,0 +1,59 @@
+{
+  "schema_version": "compound.context_pack.v0.1",
+  "id": "ctx_distill_fixture",
+  "created_at": "2026-06-29T12:00:00Z",
+  "producer": {
+    "kind": "fixture",
+    "name": "compound"
+  },
+  "ids": {
+    "work_id": "work_distill_fixture"
+  },
+  "scope": {
+    "entity_id": "system:compound",
+    "surface": "distiller"
+  },
+  "authority": {
+    "source_class": "runtime",
+    "status": "current"
+  },
+  "privacy": "private",
+  "risk": "tier1",
+  "evidence_refs": [],
+  "uncertainty": {
+    "level": "known"
+  },
+  "summary_md": "Bounded product-oriented context for distiller request fixture.",
+  "included": [
+    {
+      "ref": "repo://docs",
+      "source_class": "source",
+      "reason": "product task context",
+      "confidence": 0.9,
+      "status": "current"
+    },
+    {
+      "ref": "memory://relevance-gated",
+      "source_class": "generated",
+      "reason": "relevant prior state only",
+      "confidence": 0.8,
+      "status": "current"
+    }
+  ],
+  "excluded": [
+    {
+      "ref": "control-plane://workflow-contract",
+      "reason": "not ambient for product-scoped extraction"
+    }
+  ],
+  "active_instructions": [
+    "extract candidates only"
+  ],
+  "active_decisions": [],
+  "required_checks": [
+    "distiller doctor"
+  ],
+  "avoid": [
+    "global governance dump"
+  ]
+}

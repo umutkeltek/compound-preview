@@ -1,0 +1,18 @@
+# Synthetic model configuration for the exact native binary's loopback-only probe.
+providers:
+  switchback:
+    baseUrl: 'https://capture.fixture.invalid'
+    apiKey: 'fixture-only'
+    api: openai-completions
+    authHeader: true
+    headers:
+      x-switchback-launch-profile: 'omp-test'
+      x-switchback-conformance-revision: 'sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
+      x-switchback-harness: omp
+      x-switchback-capture-policy: 'wire'
+      x-switchback-requested-effort: 'high'
+    models:
+      - id: 'test/omp-model'
+        name: 'Synthetic prompt-only model'
+        api: openai-completions
+        reasoning: true

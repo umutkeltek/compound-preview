@@ -1,0 +1,13 @@
+{
+  "id": "cobs_panel_synthetic_park",
+  "kind": "capability_observation",
+  "subject": "skill:panel-capability-park",
+  "statement": "panel park context",
+  "detail": "missed_when",
+  "confidence": 0.42,
+  "derivation": "synthetic_panel_fixture",
+  "evidence_refs": [
+    "trace://panel/capability-park"
+  ],
+  "policy_version": "fixture-v1"
+}

@@ -1,0 +1,61 @@
+{
+  "schema_version": "compound.gbrain_db_export.v0.1",
+  "db_host": "db.example.invalid",
+  "db_name": "gbrain_synthetic",
+  "dump_ref": "sha256:dump_fixture_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "export_time": "2026-07-09T12:00:00Z",
+  "generation_label": "current-2026-07-09",
+  "pages": [
+    {
+      "page_slug": "projects/synthetic-alpha",
+      "db_only": true,
+      "page_hash": "sha256:9389957b97dc809773d97527de44675d7e072f54bdf7d7cf9022ea662a7194e5",
+      "chunks": [
+        { "ordinal": 0, "chunk_hash": "sha256:chunk_aaa111" },
+        { "ordinal": 1, "chunk_hash": "sha256:chunk_aaa222" }
+      ],
+      "embedding": {
+        "provider": "ollama",
+        "model": "nomic-embed-text",
+        "dims": 768
+      },
+      "corpus_generation": "current-2026-07-09",
+      "imported_at": "2026-07-09T12:00:00Z",
+      "source_kind": "gbrain_page"
+    },
+    {
+      "page_slug": "projects/synthetic-beta",
+      "db_only": true,
+      "page_hash": "sha256:ce915cc0e3f140dfdc6181b0283b1d356391e6d66fbcc4b177b9f228caa87156",
+      "chunks": [
+        { "ordinal": 0, "chunk_hash": "sha256:chunk_bbb111" }
+      ],
+      "embedding": {
+        "provider": "ollama",
+        "model": "nomic-embed-text",
+        "dims": 768
+      },
+      "corpus_generation": "current-2026-07-09",
+      "imported_at": "2026-07-09T12:00:00Z",
+      "source_kind": "gbrain_page"
+    },
+    {
+      "page_slug": "projects/synthetic-alpha",
+      "db_only": true,
+      "page_hash": "sha256:2cc9d815bc568d1276f1f15787f6fb6d54b5a3fcfaf5e64ac545c52e6a0c7cfc",
+      "chunks": [
+        { "ordinal": 0, "chunk_hash": "sha256:chunk_ccc111" },
+        { "ordinal": 1, "chunk_hash": "sha256:chunk_ccc222" },
+        { "ordinal": 2, "chunk_hash": "sha256:chunk_ccc333" }
+      ],
+      "embedding": {
+        "provider": "openai",
+        "model": "text-embedding-3-small",
+        "dims": 1536
+      },
+      "corpus_generation": "pre-collapse-2026-06-04",
+      "imported_at": "2026-06-04T04:32:01Z",
+      "source_kind": "gbrain_page"
+    }
+  ]
+}

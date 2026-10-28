@@ -1,0 +1,211 @@
+{
+  "description": "Author-written native routing diagnostics, not outcome benchmarks. Known negation case records a limitation, not desired silence.",
+  "cases": [
+    {
+      "id": "research",
+      "task": "Analyze customer interviews and unmet needs before choosing features.",
+      "expected": [
+        "instruction_rule:product-lifecycle-research"
+      ],
+      "absent": [
+        "skill:product-pipeline"
+      ]
+    },
+    {
+      "id": "strategy",
+      "task": "Define target audience, product promise, differentiation and pricing strategy.",
+      "expected": [
+        "instruction_rule:product-lifecycle-strategy"
+      ],
+      "absent": [
+        "skill:product-pipeline"
+      ]
+    },
+    {
+      "id": "experiment",
+      "task": "Design an experiment hypothesis with a test window.",
+      "expected": [
+        "instruction_rule:product-lifecycle-experiment"
+      ],
+      "absent": [
+        "skill:product-pipeline"
+      ]
+    },
+    {
+      "id": "ux",
+      "task": "Design the first-run journey and compare two interaction models.",
+      "expected": [
+        "instruction_rule:product-lifecycle-ux"
+      ],
+      "absent": [
+        "skill:product-pipeline"
+      ]
+    },
+    {
+      "id": "ui",
+      "task": "Polish a screen's typography, spacing and focus while preserving layout.",
+      "expected": [
+        "instruction_rule:product-lifecycle-ui"
+      ],
+      "absent": [
+        "skill:product-pipeline"
+      ]
+    },
+    {
+      "id": "visuals",
+      "task": "Prepare campaign visuals and store screenshots with readable captions.",
+      "expected": [
+        "instruction_rule:product-lifecycle-visuals"
+      ],
+      "absent": [
+        "skill:product-pipeline"
+      ]
+    },
+    {
+      "id": "spec",
+      "task": "Write implementation behavior and API contracts in a specification.",
+      "expected": [
+        "instruction_rule:product-lifecycle-spec"
+      ],
+      "absent": [
+        "skill:product-pipeline"
+      ]
+    },
+    {
+      "id": "delivery",
+      "task": "Implement the ready ticket as one delivery slice.",
+      "expected": [
+        "instruction_rule:product-lifecycle-delivery"
+      ],
+      "absent": [
+        "skill:product-pipeline"
+      ]
+    },
+    {
+      "id": "qa",
+      "task": "Verify critical journey recovery including offline and permission failures.",
+      "expected": [
+        "instruction_rule:product-lifecycle-qa"
+      ],
+      "absent": [
+        "skill:product-pipeline"
+      ]
+    },
+    {
+      "id": "release",
+      "task": "Prepare release readiness, signing, privacy and rollback evidence.",
+      "expected": [
+        "instruction_rule:product-lifecycle-release"
+      ],
+      "absent": [
+        "skill:product-pipeline"
+      ]
+    },
+    {
+      "id": "distribution",
+      "task": "Plan a distribution campaign for a specific audience and marketing channel.",
+      "expected": [
+        "instruction_rule:product-lifecycle-distribution"
+      ],
+      "absent": [
+        "skill:product-pipeline"
+      ]
+    },
+    {
+      "id": "activation",
+      "task": "Find the onboarding bottleneck preventing users from reaching first value.",
+      "expected": [
+        "instruction_rule:product-lifecycle-activation"
+      ],
+      "absent": [
+        "skill:product-pipeline"
+      ]
+    },
+    {
+      "id": "retention",
+      "task": "Analyze mature retention cohorts and cancellation complaints from customers.",
+      "expected": [
+        "instruction_rule:product-lifecycle-retention"
+      ],
+      "absent": [
+        "skill:product-pipeline"
+      ]
+    },
+    {
+      "id": "measurement",
+      "task": "Measure whether the shipped change helped the cohort in its observation window.",
+      "expected": [
+        "instruction_rule:product-lifecycle-measurement"
+      ],
+      "absent": [
+        "skill:product-pipeline"
+      ]
+    },
+    {
+      "id": "learning",
+      "task": "Audit skill trigger precision and compare routing before an update.",
+      "expected": [
+        "instruction_rule:product-lifecycle-learning"
+      ],
+      "absent": [
+        "skill:product-pipeline"
+      ]
+    },
+    {
+      "id": "root",
+      "task": "Design an interconnected product lifecycle pipeline.",
+      "expected": [
+        "skill:product-pipeline"
+      ],
+      "absent": []
+    },
+    {
+      "id": "ci",
+      "task": "Fix this CI pipeline failure.",
+      "expected": [],
+      "absent": [
+        "skill:product-pipeline"
+      ]
+    },
+    {
+      "id": "data",
+      "task": "Build a web data pipeline with scheduled ETL.",
+      "expected": [],
+      "absent": [
+        "skill:product-pipeline"
+      ]
+    },
+    {
+      "id": "email",
+      "task": "Rewrite this one email message.",
+      "expected": [],
+      "absent": [
+        "skill:product-pipeline"
+      ]
+    },
+    {
+      "id": "local_ui",
+      "task": "Adjust this button's spacing without redesigning the screen.",
+      "expected": [],
+      "absent": [
+        "skill:product-pipeline"
+      ]
+    },
+    {
+      "id": "local_release",
+      "task": "Run this release command.",
+      "expected": [],
+      "absent": [
+        "skill:product-pipeline"
+      ]
+    }
+  ],
+  "known_limitations": [
+    {
+      "id": "negation",
+      "task": "Do not design a full product lifecycle pipeline; only revise this one error message.",
+      "observed_offer": "skill:product-pipeline",
+      "desired": "root should stay silent; not enforced by current token matcher"
+    }
+  ]
+}

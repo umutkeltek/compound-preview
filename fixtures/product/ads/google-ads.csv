@@ -1,0 +1,7 @@
+Campaign report
+Sep 1, 2026 - Sep 3, 2026
+Day,Campaign,Campaign ID,Currency code,Cost,Impr.,Clicks,Conversions,Conv. value
+2026-09-01,demo search TR,20001,TRY,"1.250,40","12,300",410,18.0,"2.980,00"
+2026-09-02,demo search TR,20001,TRY,"1.180,00","11,870",395,16.0,"2.640,00"
+2026-09-03,demo search TR,20001,TRY,"1.322,75","13,010",440,21.0,"3.470,00"
+Total: Account,,,TRY,"3.753,15","37,180","1,245",55.0,"9.090,00"

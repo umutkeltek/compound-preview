@@ -1,0 +1,36 @@
+# Editable-surfaces registry (EVOLVE-BLOCK) — EXAMPLE.
+#
+# This is the policy-owned whitelist of what a self-improvement loop may EVER propose edits
+# to. Copy it to $COMPOUND_HOME/config/editable-surfaces.yaml and edit it there; the runtime
+# reads that live file (no rebuild, no daemon). This fixture is only an example — it is not
+# auto-loaded and does not enable anything by itself.
+#
+# Semantics (fail-closed for system-originated edits):
+#   - Absent or empty file => NOTHING is editable. Opening a surface is an explicit act.
+#   - Only status: active surfaces are open. status: retired keeps the audit row but denies.
+#   - A HARD-DENY core surface (policy, permissions, ledger, evaluator) can NEVER be listed:
+#     doing so is a loud validation error that invalidates the WHOLE registry (=> nothing
+#     editable). The evaluator and the policy/permission/ledger spine must stay outside any
+#     loop that could edit them.
+#   - proposal_class is the mutation class allowed against the surface (see MutationClasses).
+#   - Only proposals that declare a target_surface are constrained; ordinary work is unaffected.
+#
+# Inspect the live state with: compound policy editable-surfaces --json
+schema_version: compound.editable_surfaces.v0.1
+surfaces:
+  - surface: skill_descriptions
+    description: generated skill trigger/description text (never SKILL.md bodies)
+    proposal_class: local_reversible
+    status: active
+  - surface: injection_templates
+    description: context-pack / orientation injection templates
+    proposal_class: local_reversible
+    status: active
+  - surface: steering_config
+    description: non-authoritative steering knobs (thresholds, ordering)
+    proposal_class: local_reversible
+    status: active
+  - surface: capability_edges
+    description: capability-graph edges between existing observed nodes
+    proposal_class: local_reversible
+    status: retired

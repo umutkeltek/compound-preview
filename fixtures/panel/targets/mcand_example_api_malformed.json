@@ -1,0 +1,15 @@
+{
+  "id": "mcand_example_api_malformed",
+  "entity": "service:example-api",
+  "predicate": "has_malformed_judge_fixture",
+  "object": "true",
+  "claim_type": "status",
+  "confidence": 0.5,
+  "promotion_basis": "",
+  "state": "parked",
+  "visibility": "candidate",
+  "derivation": "deterministic",
+  "source_trace_ref": "trace://synthetic-malformed",
+  "snippet_hash": "sha256:malformed",
+  "created_at": "2026-07-01T10:15:00Z"
+}

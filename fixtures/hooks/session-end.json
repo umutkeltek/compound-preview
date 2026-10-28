@@ -1,0 +1,7 @@
+{
+  "hook": "session-end",
+  "harness": "claude_code",
+  "cwd": "/repo/fixture",
+  "session_id": "session_end_fixture",
+  "summary": "synthetic SessionEnd receipt fixture"
+}

@@ -1,0 +1,14 @@
+🛎 hold=opnotice_9e5a6294c0966c844d750202
+work=work_golden_a
+ask=route-promotions needs an operator decision.
+decide=compound reviews resolve --area route-promotions
+---
+🛎 hold=opnotice_796c378ff95ec1cb79986dbd
+work=work_golden_c
+ask=attention hold requires operator review
+decide=compound reviews resolve --area blank-summary
+---
+🛎 hold=opnotice_384fee4cb92cb1c03877bfd2
+work=work_golden_b
+ask=workbench-holds needs an operator decision.
+decide=(none available; this hold carries no adjudicating command)

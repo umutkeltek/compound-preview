@@ -1,0 +1,15 @@
+{
+  "ok": true,
+  "schema_version": 1,
+  "request_id": "req_fixture_query_degraded",
+  "hits": [
+    {
+      "claim_id": "claim_app_runtime",
+      "score": 0.75
+    }
+  ],
+  "degraded_lanes": [
+    "vector"
+  ],
+  "corpus_gen": 42
+}

@@ -1,0 +1,306 @@
+# Inactive in this repository since 2026-10-16; retained as a test reference.
+# Active owned-CI and maintainer publication procedure: docs/release.md.
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  build-reproducible:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff
+        with:
+          go-version-file: go.mod
+          cache: true
+
+      - name: Bind stable version, tag, and remote main to source
+        id: meta
+        shell: bash
+        run: |
+          set -euo pipefail
+          version=${GITHUB_REF_NAME#v}
+          version_re='^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$'
+          [[ "$version" =~ $version_re ]]
+          git fetch --no-tags origin "+refs/heads/main:refs/remotes/origin/main"
+          test "$(git rev-parse "refs/tags/$GITHUB_REF_NAME^{commit}")" = "$GITHUB_SHA"
+          # Exact tip, not ancestry: --is-ancestor accepts ANY commit already
+          # in main's history, so a tag placed on a months-old commit passes
+          # and publishes a stale tree under a fresh version.
+          main_sha=$(git rev-parse refs/remotes/origin/main)
+          if [ "$main_sha" != "$GITHUB_SHA" ]; then
+            echo "::error::tagged commit $GITHUB_SHA is not the tip of origin/main ($main_sha); an ancestor of main is not a release candidate -- re-tag the exact tip" >&2
+            exit 1
+          fi
+          printf 'version=%s\n' "$version" >> "$GITHUB_OUTPUT"
+
+      - name: Run canonical public release gates
+        shell: bash
+        run: |
+          set -euo pipefail
+          go mod verify
+          tool_root="$RUNNER_TEMP/release-tools"
+          mkdir -p "$tool_root"
+          go build -o "$tool_root/compound" ./cmd/compound
+          "$tool_root/compound" proof-check --ci
+          "$tool_root/compound" release export-public \
+            --repo "$GITHUB_WORKSPACE" \
+            --target "$RUNNER_TEMP/compound-public-source.tar.gz" \
+            --prefix compound-source \
+            --json
+          test -s "$RUNNER_TEMP/compound-public-source.tar.gz"
+          tar -tzf "$RUNNER_TEMP/compound-public-source.tar.gz" >/dev/null
+          GOBIN="$tool_root" go install github.com/zricethezav/gitleaks/v8@v8.30.1
+          "$tool_root/gitleaks" dir . --config .gitleaks.toml --no-banner --redact
+
+      - name: Install pinned application SBOM tool
+        shell: bash
+        run: |
+          set -euo pipefail
+          tool_root="$RUNNER_TEMP/release-tools"
+          mkdir -p "$tool_root"
+          GOBIN="$tool_root" go install github.com/CycloneDX/cyclonedx-gomod/cmd/cyclonedx-gomod@v1.10.0
+
+      - name: Build and compare two real release candidates
+        shell: bash
+        run: |
+          set -euo pipefail
+          version='${{ steps.meta.outputs.version }}'
+          sbom_tool="$RUNNER_TEMP/release-tools/cyclonedx-gomod"
+          make release-artifacts VERSION="$version" DIST="$RUNNER_TEMP/release-a" SBOM_TOOL="$sbom_tool"
+          make release-artifacts VERSION="$version" DIST="$RUNNER_TEMP/release-b" SBOM_TOOL="$sbom_tool"
+          names=(
+            RELEASE
+            SHA256SUMS
+            install-release.sh
+            "compound_${version}_darwin_arm64.tar.gz"
+            "compound_${version}_darwin_arm64.cdx.json"
+            "compound_${version}_darwin_arm64_compound-breadth-engine.cdx.json"
+            "compound_${version}_linux_amd64.tar.gz"
+            "compound_${version}_linux_amd64.cdx.json"
+            "compound_${version}_linux_amd64_compound-breadth-engine.cdx.json"
+          )
+          test "$(find "$RUNNER_TEMP/release-a" -mindepth 1 -maxdepth 1 -print | wc -l)" -eq 9
+          test "$(find "$RUNNER_TEMP/release-b" -mindepth 1 -maxdepth 1 -print | wc -l)" -eq 9
+          for name in "${names[@]}"; do
+            test -f "$RUNNER_TEMP/release-a/$name"
+            test -f "$RUNNER_TEMP/release-b/$name"
+            test ! -L "$RUNNER_TEMP/release-a/$name"
+            test ! -L "$RUNNER_TEMP/release-b/$name"
+            cmp "$RUNNER_TEMP/release-a/$name" "$RUNNER_TEMP/release-b/$name"
+          done
+          (cd "$RUNNER_TEMP/release-a" && sha256sum --check SHA256SUMS)
+          (cd "$RUNNER_TEMP/release-b" && sha256sum --check SHA256SUMS)
+
+      - name: Upload exact sealed candidate
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: release-candidate
+          path: |
+            ${{ runner.temp }}/release-a/RELEASE
+            ${{ runner.temp }}/release-a/SHA256SUMS
+            ${{ runner.temp }}/release-a/install-release.sh
+            ${{ runner.temp }}/release-a/compound_${{ steps.meta.outputs.version }}_darwin_arm64.tar.gz
+            ${{ runner.temp }}/release-a/compound_${{ steps.meta.outputs.version }}_darwin_arm64.cdx.json
+            ${{ runner.temp }}/release-a/compound_${{ steps.meta.outputs.version }}_darwin_arm64_compound-breadth-engine.cdx.json
+            ${{ runner.temp }}/release-a/compound_${{ steps.meta.outputs.version }}_linux_amd64.tar.gz
+            ${{ runner.temp }}/release-a/compound_${{ steps.meta.outputs.version }}_linux_amd64.cdx.json
+            ${{ runner.temp }}/release-a/compound_${{ steps.meta.outputs.version }}_linux_amd64_compound-breadth-engine.cdx.json
+          if-no-files-found: error
+          retention-days: 1
+
+  clean-install:
+    needs: [build-reproducible]
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - runner: ubuntu-24.04
+            asset: linux_amd64
+          - runner: macos-15
+            asset: darwin_arm64
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 20
+    steps:
+      - name: Download sealed release candidate
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: release-candidate
+          path: ${{ runner.temp }}/candidate
+
+      - name: Clean-install exact release candidate
+        shell: bash
+        run: |
+          set -euo pipefail
+          version=${GITHUB_REF_NAME#v}
+          candidate="$RUNNER_TEMP/candidate"
+          install_root=$(mktemp -d)
+          COMPOUND_RELEASE_TARBALL="$candidate/compound_${version}_${{ matrix.asset }}.tar.gz" \
+          COMPOUND_HOME="$install_root/home" \
+          GOBIN="$install_root/bin" \
+            sh "$candidate/install-release.sh"
+          test "$("$install_root/bin/compound" version)" = "compound $version (build $GITHUB_SHA)"
+          test -x "$install_root/bin/compound-breadth-engine"
+
+  publish:
+    needs: [build-reproducible, clean-install]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: write
+      id-token: write
+      attestations: write
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Resolve stable release version
+        id: meta
+        shell: bash
+        run: |
+          set -euo pipefail
+          version=${GITHUB_REF_NAME#v}
+          version_re='^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$'
+          [[ "$version" =~ $version_re ]]
+          git fetch --no-tags origin "+refs/heads/main:refs/remotes/origin/main"
+          test "$(git rev-parse "refs/tags/$GITHUB_REF_NAME^{commit}")" = "$GITHUB_SHA"
+          # Exact tip, not ancestry: --is-ancestor accepts ANY commit already
+          # in main's history, so a tag placed on a months-old commit passes
+          # and publishes a stale tree under a fresh version.
+          main_sha=$(git rev-parse refs/remotes/origin/main)
+          if [ "$main_sha" != "$GITHUB_SHA" ]; then
+            echo "::error::tagged commit $GITHUB_SHA is not the tip of origin/main ($main_sha); an ancestor of main is not a release candidate -- re-tag the exact tip" >&2
+            exit 1
+          fi
+          printf 'version=%s\n' "$version" >> "$GITHUB_OUTPUT"
+
+      - name: Download exact sealed release candidate
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: release-candidate
+          path: ${{ runner.temp }}/candidate
+
+      - name: Revalidate exact candidate before attestation
+        shell: bash
+        run: |
+          set -euo pipefail
+          version='${{ steps.meta.outputs.version }}'
+          candidate="$RUNNER_TEMP/candidate"
+          names=(
+            RELEASE
+            SHA256SUMS
+            install-release.sh
+            "compound_${version}_darwin_arm64.tar.gz"
+            "compound_${version}_darwin_arm64.cdx.json"
+            "compound_${version}_darwin_arm64_compound-breadth-engine.cdx.json"
+            "compound_${version}_linux_amd64.tar.gz"
+            "compound_${version}_linux_amd64.cdx.json"
+            "compound_${version}_linux_amd64_compound-breadth-engine.cdx.json"
+          )
+          test "$(find "$candidate" -mindepth 1 -maxdepth 1 -print | wc -l)" -eq 9
+          for name in "${names[@]}"; do
+            test -f "$candidate/$name"
+            test ! -L "$candidate/$name"
+          done
+          (cd "$candidate" && sha256sum --check SHA256SUMS)
+
+      - name: Attest every published release object
+        uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8
+        with:
+          subject-path: |
+            ${{ runner.temp }}/candidate/RELEASE
+            ${{ runner.temp }}/candidate/SHA256SUMS
+            ${{ runner.temp }}/candidate/install-release.sh
+            ${{ runner.temp }}/candidate/compound_${{ steps.meta.outputs.version }}_darwin_arm64.tar.gz
+            ${{ runner.temp }}/candidate/compound_${{ steps.meta.outputs.version }}_darwin_arm64.cdx.json
+            ${{ runner.temp }}/candidate/compound_${{ steps.meta.outputs.version }}_darwin_arm64_compound-breadth-engine.cdx.json
+            ${{ runner.temp }}/candidate/compound_${{ steps.meta.outputs.version }}_linux_amd64.tar.gz
+            ${{ runner.temp }}/candidate/compound_${{ steps.meta.outputs.version }}_linux_amd64.cdx.json
+            ${{ runner.temp }}/candidate/compound_${{ steps.meta.outputs.version }}_linux_amd64_compound-breadth-engine.cdx.json
+
+      - name: Stage or resume exact draft and publish
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          version='${{ steps.meta.outputs.version }}'
+          candidate="$RUNNER_TEMP/candidate"
+          names=(
+            RELEASE
+            SHA256SUMS
+            install-release.sh
+            "compound_${version}_darwin_arm64.tar.gz"
+            "compound_${version}_darwin_arm64.cdx.json"
+            "compound_${version}_darwin_arm64_compound-breadth-engine.cdx.json"
+            "compound_${version}_linux_amd64.tar.gz"
+            "compound_${version}_linux_amd64.cdx.json"
+            "compound_${version}_linux_amd64_compound-breadth-engine.cdx.json"
+          )
+          files=()
+          for name in "${names[@]}"; do
+            test -f "$candidate/$name"
+            test ! -L "$candidate/$name"
+            files+=("$candidate/$name")
+          done
+          test "$(find "$candidate" -mindepth 1 -maxdepth 1 -print | wc -l)" -eq 9
+          tag_object_type=$(gh api "/repos/$GITHUB_REPOSITORY/git/ref/tags/$GITHUB_REF_NAME" --jq '.object.type')
+          remote_tag_sha=$(gh api "/repos/$GITHUB_REPOSITORY/git/ref/tags/$GITHUB_REF_NAME" --jq '.object.sha')
+          test "$tag_object_type" = commit
+          test "$remote_tag_sha" = "$GITHUB_SHA"
+
+          release_ids=$(gh api --paginate "/repos/$GITHUB_REPOSITORY/releases?per_page=100" \
+            --jq ".[] | select(.tag_name == \"$GITHUB_REF_NAME\") | .id")
+          release_count=$(printf '%s\n' "$release_ids" | awk 'NF { count++ } END { print count + 0 }')
+          test "$release_count" -le 1
+          if test "$release_count" -eq 0; then
+            gh release create "$GITHUB_REF_NAME" \
+              --verify-tag \
+              --target "$GITHUB_SHA" \
+              --draft \
+              --generate-notes \
+              --title "Compound $version" \
+              "${files[@]}"
+            release_id=$(gh api "/repos/$GITHUB_REPOSITORY/releases/tags/$GITHUB_REF_NAME" --jq .id)
+          else
+            release_id=$release_ids
+          fi
+          case "$release_id" in ''|*[!0-9]*) exit 1 ;; esac
+
+          test "$(gh api "/repos/$GITHUB_REPOSITORY/releases/$release_id" --jq .draft)" = true
+          test "$(gh api "/repos/$GITHUB_REPOSITORY/releases/$release_id" --jq .prerelease)" = false
+          test "$(gh api "/repos/$GITHUB_REPOSITORY/releases/$release_id" --jq .tag_name)" = "$GITHUB_REF_NAME"
+          test "$(gh api "/repos/$GITHUB_REPOSITORY/releases/$release_id" --jq .target_commitish)" = "$GITHUB_SHA"
+          expected_assets=$(
+            for name in "${names[@]}"; do
+              digest=$(sha256sum "$candidate/$name" | awk '{print $1}')
+              printf 'sha256:%s  %s\n' "$digest" "$name"
+            done | sort
+          )
+          published_assets=$(gh api "/repos/$GITHUB_REPOSITORY/releases/$release_id" \
+            --jq '.assets[] | "\(.digest)  \(.name)"' | sort)
+          test "$published_assets" = "$expected_assets"
+
+          tag_object_type=$(gh api "/repos/$GITHUB_REPOSITORY/git/ref/tags/$GITHUB_REF_NAME" --jq '.object.type')
+          remote_tag_sha=$(gh api "/repos/$GITHUB_REPOSITORY/git/ref/tags/$GITHUB_REF_NAME" --jq '.object.sha')
+          test "$tag_object_type" = commit
+          test "$remote_tag_sha" = "$GITHUB_SHA"
+          gh release edit "$GITHUB_REF_NAME" --draft=false --latest
+          test "$(gh api "/repos/$GITHUB_REPOSITORY/releases/$release_id" --jq .draft)" = false

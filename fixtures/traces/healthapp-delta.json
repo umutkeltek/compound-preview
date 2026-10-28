@@ -1,0 +1,8 @@
+[
+  { "entity": "project:healthapp", "predicate": "backend_language", "object": "node",
+    "observation_date": "2026-01-01T00:00:00Z", "confidence": 0.9, "derivation": "extracted",
+    "source_trace_ref": "trace_jan", "snippet_hash": "a1b2c3" },
+  { "entity": "project:healthapp", "predicate": "backend_language", "object": "go",
+    "observation_date": "2026-06-01T00:00:00Z", "confidence": 0.95, "derivation": "extracted",
+    "source_trace_ref": "trace_jun", "snippet_hash": "d4e5f6" }
+]

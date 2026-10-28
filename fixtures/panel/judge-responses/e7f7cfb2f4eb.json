@@ -1,0 +1,6 @@
+{
+  "decision": "promote",
+  "confidence": 0.48,
+  "rationale": "The candidate might be useful, but the evidence is too thin for autonomous promotion.",
+  "dissent": [{"lens_ref": "lens:evidence-strength", "position": "park", "note": "The promotion basis is empty and evidence is indirect."}]
+}

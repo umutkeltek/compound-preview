@@ -1,0 +1,4 @@
+{
+  "confidence": 0.83,
+  "findings": [{"claim": "No supplied promoted claim contradicts the runtime selection.", "severity": "low", "evidence_refs": ["trace://synthetic-clean"]}]
+}

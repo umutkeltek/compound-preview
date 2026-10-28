@@ -1,0 +1,27 @@
+{
+  "generated_from": "fixtures/policy/placement-rules.source",
+  "note": "Synthetic placement rules fixture for Compound authority import tests.",
+  "open_write_globs": [
+    "$HOME/compound-open-write/**"
+  ],
+  "owners": [
+    {
+      "id": "docs",
+      "owner": "docs",
+      "status": "active",
+      "canonical_write_globs": [
+        "$HOME/compound-owners/docs/**"
+      ],
+      "deny_globs": [
+        "$HOME/Desktop/docs/**"
+      ],
+      "canon_filename_globs": [
+        "DOC-*.md"
+      ],
+      "write_roles": [
+        "canon"
+      ],
+      "confidence": "block"
+    }
+  ]
+}

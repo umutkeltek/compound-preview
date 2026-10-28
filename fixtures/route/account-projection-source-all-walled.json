@@ -1,0 +1,72 @@
+{
+  "schema": "switchback/admin-accounts@1",
+  "authority_revision": 7,
+  "freshness": "fresh",
+  "metadata_only": true,
+  "accounts": [
+    {
+      "id": "pa_test0000000000000011",
+      "provider": "codex",
+      "state": "enrolled",
+      "aliases": [],
+      "created_revision": 1,
+      "updated_revision": 7,
+      "created_at": "2026-06-01T00:00:00Z",
+      "updated_at": "2026-06-29T10:00:00Z",
+      "superseded_by": null
+    },
+    {
+      "id": "pa_test0000000000000012",
+      "provider": "claude",
+      "state": "enrolled",
+      "aliases": [],
+      "created_revision": 2,
+      "updated_revision": 7,
+      "created_at": "2026-06-01T00:00:00Z",
+      "updated_at": "2026-06-29T10:00:00Z",
+      "superseded_by": null
+    }
+  ],
+  "credentials": [],
+  "active_clients": [],
+  "capacity": [
+    {
+      "account_id": "pa_test0000000000000011",
+      "model": null,
+      "windows": [
+        {
+          "window_kind": "primary",
+          "window_minutes": 300,
+          "used": { "kind": "percent", "used_percent": 100 },
+          "resets_at": { "kind": "unknown" },
+          "source": "codex_bar"
+        }
+      ],
+      "sampled_at": "2026-06-29T11:00:00Z",
+      "ingested_at": "2026-06-29T11:01:00Z",
+      "source_revision": "sha256:def456",
+      "freshness": "fresh"
+    },
+    {
+      "account_id": "pa_test0000000000000012",
+      "model": null,
+      "windows": [
+        {
+          "window_kind": "primary",
+          "window_minutes": 300,
+          "used": { "kind": "percent", "used_percent": 100 },
+          "resets_at": { "kind": "unknown" },
+          "source": "codex_bar"
+        }
+      ],
+      "sampled_at": "2026-06-29T11:05:00Z",
+      "ingested_at": "2026-06-29T11:06:00Z",
+      "source_revision": "sha256:def456",
+      "freshness": "fresh"
+    }
+  ],
+  "sources": [],
+  "conflicts": [],
+  "selection_disabled": [],
+  "configured_account_health": []
+}

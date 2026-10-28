@@ -1,0 +1,30 @@
+schema_version: compound.product_signal_export.v0.1
+source:
+  kind: app_store_connect
+  ref: asc:product:focus-notes:app-analytics:2026-07-13
+signal_id: sig_focus_asc_export_conversion_20260713
+product_id: product:focus-notes
+surface: app-store-page
+change_event: "Changed first screenshot feature focused capture moment."
+metric:
+  name: product_page_conversion_rate
+  before:
+    value: 0.041
+    period: "2026-06-15/2026-06-28"
+    ref: fixture:asc:conversion:before
+  after:
+    value: 0.049
+    period: "2026-06-29/2026-07-13"
+    ref: fixture:asc:conversion:after
+window: "14d after change"
+confidence: 0.61
+confounders:
+  - small sample
+  - weekday mix changed
+interpretations:
+  - lens: conversion
+    claim: direction improved but causality remains unproven
+next_action: "Review hypothesis; do not declare visual win before confounders checked."
+evidence_refs:
+  - fixture:asc-export:app-analytics:2026-07-13
+observed_at: "2026-07-13T12:00:00Z"

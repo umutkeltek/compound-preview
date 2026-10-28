@@ -1,0 +1,16 @@
+{
+  "_note": "intentionally INVALID: state not in the enum, missing owner, empty success_predicate. `compound envelope validate` must reject this.",
+  "schema_version": "compound.work.v0.1",
+  "id": "work_bad",
+  "created_at": "2026-06-28T00:00:00Z",
+  "producer": { "kind": "cli", "name": "compound" },
+  "ids": {},
+  "scope": {},
+  "authority": { "source_class": "runtime" },
+  "privacy": "private",
+  "risk": "tier1",
+  "evidence_refs": [],
+  "uncertainty": { "level": "known" },
+  "state": "frobnicate",
+  "success_predicate": ""
+}

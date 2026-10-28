@@ -1,0 +1,65 @@
+{
+  "schema_version": "compound.distiller.eval_case.v0.1",
+  "id": "eval_llm_response_adapter_without_authority",
+  "seed_traces": [
+    "../traces/distill-session.json"
+  ],
+  "request": {
+    "trace_ref": "trace_fixture",
+    "raw": "../traces/raw-distill-session.txt",
+    "context_pack": "../envelopes/context-pack.distill.json",
+    "work": "../envelopes/work.distill.json",
+    "receipt": "../envelopes/receipt.distill.json",
+    "extra_envelopes": [
+      "../envelopes/hook-event.distill.json"
+    ]
+  },
+  "response": "../traces/llm-extraction-response.json",
+  "expect": {
+    "source_refs": [
+      "work:work_distill_fixture",
+      "context_pack:ctx_distill_fixture",
+      "receipt:rec_distill_fixture",
+      "hook_event:hook_distill_fixture",
+      "raw_trace:trace_fixture"
+    ],
+    "prior_coverage": {
+      "current_claims": 0,
+      "capability_observations": 1,
+      "eval_cases": 1,
+      "method_upgrades": 1
+    },
+    "prior_signals": {
+      "eval_case": 1,
+      "method_upgrade": 1
+    },
+    "decisions": [
+      {
+        "kind": "memory",
+        "verdict": "park",
+        "relation": "new",
+        "basis_contains": "no promotion basis"
+      },
+      {
+        "kind": "method_upgrade",
+        "verdict": "park",
+        "relation": "new",
+        "basis_contains": "operator review"
+      },
+    {
+      "kind": "capability_observation",
+      "verdict": "operationalize",
+      "relation": "new",
+      "basis_contains": "capability graph"
+    },
+    {
+      "kind": "capability_observation",
+      "verdict": "operationalize",
+      "relation": "new",
+      "basis_contains": "capability graph"
+    }
+  ],
+    "current_claims": 0,
+    "live_model_calls": 0
+  }
+}

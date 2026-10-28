@@ -1,0 +1,7 @@
+{
+  "hook": "session-start",
+  "harness": "codex",
+  "cwd": "/repo/compound",
+  "task": "resume compound absorption",
+  "repo_kind": "control-plane"
+}

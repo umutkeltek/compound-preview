@@ -1,0 +1,25 @@
+{
+  "confidence": 0.5,
+  "findings": [
+    {
+      "claim": "A checking-and-closing loop is visible: each of Mom's care-shaped questions is met with a quick, closing answer from Dana, which may lead Mom to check again rather than less, and Dana to close faster each time.",
+      "severity": "medium",
+      "evidence_refs": ["just checking, no reason. I can pick you up from the station if that helps", "I can drive, it's fine", "did you eat today", "yes mom, I'm fine"]
+    },
+    {
+      "claim": "The loop can produce a false shared reality where Mom believes Dana is shutting her out, while Dana believes she is simply being efficient and self-sufficient, with neither belief tested directly.",
+      "severity": "high",
+      "evidence_refs": ["I can drive, it's fine", "just asking. see you Sunday then"]
+    },
+    {
+      "claim": "A possible exit from the loop is for either party to name the logistics-versus-care distinction directly instead of routing care through logistics questions.",
+      "severity": "low",
+      "evidence_refs": ["did you eat today"]
+    },
+    {
+      "claim": "probe: Mom asking directly whether Dana wants the ride offered again next time, or would rather Mom stop offering, would discriminate between the ride offer being received as a genuine care bid versus being received as unwanted oversight.",
+      "severity": "medium",
+      "evidence_refs": ["I can pick you up from the station if that helps", "I can drive, it's fine"]
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "decision": "needs_human",
+  "confidence": 0.75,
+  "rationale": "Lenses materially disagree on whether the mutual hedging is performed indifference protecting against asymmetric investment, or genuinely casual low-stakes contact; both readings are evidenced and no utterance disambiguates them, so this needs a human read plus the systemic lens's probe before any single story is treated as settled.",
+  "dissent": [
+    {"lens_ref": "lens:relational-protective", "position": "promote", "note": "Reads the hedging pattern as a strong, consistent protective signal across both participants and would promote the performed-indifference reading as the primary account."},
+    {"lens_ref": "lens:relational-literal", "position": "park", "note": "The observable layer alone shows only vague, unscheduled language on both sides; without a probe this stays underdetermined and should park rather than resolve toward either story."}
+  ]
+}

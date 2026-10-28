@@ -1,0 +1,1 @@
+{"confidence":0.91,"findings":[{"claim":"candidate preserves valid JSON and adds explicit format metadata","severity":"low","evidence_refs":["target:cmp_candidate_better"]}]}

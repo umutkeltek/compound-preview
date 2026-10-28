@@ -1,0 +1,21 @@
+{
+  "schema_version": "compound.comparison_candidate.v0.1",
+  "id": "cmp_candidate_better",
+  "capability_class": "judge-critique",
+  "input_summary": "Summarize a two-step release checklist as strict JSON",
+  "input_digest": "sha256:cmp-candidate-better-input",
+  "baseline": {
+    "lane_id": "mac/baseline",
+    "output": "{\"steps\":[\"run tests\"]}",
+    "total_tokens": 160,
+    "latency_ms": 420
+  },
+  "candidate": {
+    "lane_id": "mac/candidate",
+    "output": "{\"steps\":[\"run tests\",\"scan secrets\"],\"format\":\"json\"}",
+    "total_tokens": 118,
+    "latency_ms": 280
+  },
+  "state": "awaiting_verdict",
+  "created_at": "2026-07-01T00:00:00Z"
+}

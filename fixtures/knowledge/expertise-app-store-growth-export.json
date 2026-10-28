@@ -1,0 +1,160 @@
+{
+  "schema_version": "compound.knowledge_export.v0.1",
+  "source": {
+    "kind": "expertise-synthesis",
+    "ref": "expertise:app-store-growth:v1",
+    "captured_at": "2026-07-07T18:00:00Z"
+  },
+  "privacy": "public",
+  "producer": {
+    "kind": "model",
+    "name": "claude-fable-5",
+    "version": "expertise-pack-0.1"
+  },
+  "items": [
+    {
+      "ref": "expertise:app-store-growth:mental-model:funnel",
+      "title": "Mental model — the store is a funnel with two conversion rates, not a ranking",
+      "topics": ["app-store", "aso", "growth", "mental-model", "funnel"],
+      "candidate_classes": ["technique"],
+      "lang": "en",
+      "content": "An App Store growth operator thinks in the funnel, not in rankings. The chain is impressions (search results, browse placements, charts) to product page views to downloads to retained users, and every stage has its own lever. Two conversion rates govern everything: tap-through from impression to product page, and product-page conversion from view to install. A keyword ranking is worthless if the icon and first screenshots lose the tap, and traffic is worthless if the page converts at half the category norm. The first diagnostic act is always to split the funnel in App Store Connect analytics by source type — search, browse, referral, and web — because a downloads change is never explained until you know which stage moved. Rankings are an input to impressions; revenue lives three stages downstream, and the operators who win optimize the weakest stage of the funnel, not the most visible one."
+    },
+    {
+      "ref": "expertise:app-store-growth:mental-model:search-algorithm",
+      "title": "Mental model — search ranking rewards velocity and conversion on the query, per storefront",
+      "topics": ["app-store", "aso", "search", "ranking", "mental-model"],
+      "candidate_classes": ["technique"],
+      "lang": "en",
+      "content": "App Store search ranking is per-query and per-storefront, and it blends text relevance with behavioral proof. Text relevance comes from exact and partial matches in the title (strongest), subtitle, and the hidden 100-character keyword field; behavioral proof comes from download velocity on that query, tap-through and conversion for that query, and ratings quality. The non-obvious part is that velocity beats totals: a recent surge of installs from a query moves rank more than a large historical base, which is why launches, features, and external traffic spikes temporarily lift keyword positions and why rank decays when momentum stops. Ranking movements take days to weeks, not hours, so metadata experiments need patience and a fixed observation window. Because ranking is behavioral, you cannot metadata your way past a product that converts poorly on the query — the store is continuously A/B testing you against the apps above and below you."
+    },
+    {
+      "ref": "expertise:app-store-growth:metadata:title-subtitle-keywords",
+      "title": "Metadata — 160 indexable characters, zero waste, changed only with releases",
+      "topics": ["app-store", "aso", "metadata", "keywords"],
+      "candidate_classes": ["technique"],
+      "lang": "en",
+      "content": "The indexable metadata budget is tiny and every character must earn its place: 30 characters of title, 30 of subtitle, 100 in the hidden keyword field. The discipline: never repeat a word across the three fields — repetition adds no index weight and burns budget; put the single most valuable keyword in the title next to the brand name because title carries the most weight; fill the keyword field with comma-separated single words, no spaces after commas, no plurals when you already have the singular of the same stem, no free words Apple gives you anyway (app, your category name, iPhone). Multi-word phrases are assembled from individual indexed words across fields, so you rank for combinations you never wrote literally. Metadata only updates with an app version release, so treat each release as one metadata experiment: change one hypothesis at a time, record the before-rankings, and read the result over two to four weeks. An operator who ships metadata churn every release without measurement is running a random walk, not ASO."
+    },
+    {
+      "ref": "expertise:app-store-growth:metadata:localization-multiplier",
+      "title": "Localization — the cheapest acquisition multiplier, including extra indexed locales per storefront",
+      "topics": ["app-store", "aso", "localization", "keywords"],
+      "candidate_classes": ["technique"],
+      "lang": "en",
+      "content": "Metadata localization is the cheapest multiplier in App Store growth because competition in non-English storefronts is thinner while the mechanics are identical. Two levels matter. First, genuinely localizing title, subtitle, keywords, and screenshots for the storefronts where your category monetizes — translated metadata converts poorly compared to metadata written in the market's own search vocabulary, so mine local competitor metadata and local search suggestions rather than translating your English keywords. Second, several storefronts index more than one localization: the classic example is the United States storefront also indexing Spanish (Mexico) metadata, which effectively grants extra keyword-field budget for US search without touching the visible US listing. Localizing metadata does not require localizing the app itself, which is why doing the top storefronts is days of work for a durable impression lift. Price localization belongs to the same move: setting price tiers by local purchasing power rather than currency conversion routinely changes conversion in emerging storefronts."
+    },
+    {
+      "ref": "expertise:app-store-growth:product-page:screenshots-first-impression",
+      "title": "Product page — the first two screenshots are ads seen in search, not documentation",
+      "topics": ["app-store", "aso", "screenshots", "conversion", "product-page"],
+      "candidate_classes": ["technique"],
+      "lang": "en",
+      "content": "Most product-page conversion is decided before anyone opens the product page: search results show the icon, title, subtitle, and the first visible screenshots, and the majority of installs happen directly from that card. So the first two or three portrait screenshots are the ad, and they must be designed caption-first — a large benefit-led headline readable at thumbnail size, with the UI as supporting evidence, communicating the core value in under three seconds. Feature-tour screenshots that start with a login screen or settings page are the amateur tell. An app preview video autoplays muted in results, so its first seconds must work silently and visually; a weak video is worse than none because it replaces a strong static first impression. Icon changes are the highest-variance conversion lever in the store — never ship a redesign untested, because a beloved icon quietly drives more taps than any keyword win, and a worse one silently taxes every placement at once."
+    },
+    {
+      "ref": "expertise:app-store-growth:ratings:timing-and-response",
+      "title": "Ratings — ask after a value moment, respond to negatives, almost never reset",
+      "topics": ["app-store", "aso", "ratings", "reviews", "conversion"],
+      "candidate_classes": ["technique"],
+      "lang": "en",
+      "content": "The rating is both a conversion asset and a ranking input, and it is manufactured by timing, not by quality alone. Ask with the system rating prompt only after a value moment — a completed workout, a finished export, a streak milestone — never on first launch, never interrupting a task, and never after a crash or a paywall. The system prompt is capped at three appearances per user per year, so each ask is a scarce resource; gate it behind your own logic that filters for engaged, successful users. Ratings display per storefront, so a strong US rating does nothing for Germany. Respond to negative reviews: a developer response that fixes the issue frequently converts a one-star into a four-star, and prospective users read the responses as a support-quality signal. Resetting ratings on a version release is available and almost always wrong — you trade an established social-proof base for a cold start; reserve it for a genuine rebuild after a rating collapse. Watch review velocity and recency: a burst of recent negatives drags conversion immediately, well before the average moves."
+    },
+    {
+      "ref": "expertise:app-store-growth:asa:keyword-intelligence",
+      "title": "Apple Search Ads — the truth serum for keyword value before you commit metadata",
+      "topics": ["app-store", "aso", "apple-search-ads", "keywords", "paid"],
+      "candidate_classes": ["technique"],
+      "lang": "en",
+      "content": "Apple Search Ads is worth running even at tiny budgets because it is the only source of ground truth about App Store search: exact-match campaigns reveal real impression volume, tap-through rate, and conversion per query — data no third-party ASO tool actually has. The senior workflow is to test candidate keywords with small exact-match bids first, read which queries actually convert to installs and to revenue, and only then spend permanent metadata characters on the winners; discovery campaigns with search-match surface query phrasings users invent that you never would. Two second-order effects matter: winning paid installs on a query feeds the same velocity signal that organic ranking reads, so ASA spend can lift the organic position it advertises against; and once competitors bid on your brand name, defending the brand term is usually cheap relative to the installs it protects. Judge ASA by cost per paying user against LTV with a payback window, never by cost per install — cheap installs on the wrong query are the most expensive thing you can buy."
+    },
+    {
+      "ref": "expertise:app-store-growth:testing:ppo-and-cpp",
+      "title": "Testing — Product Page Optimization for organic, Custom Product Pages for traffic you aim",
+      "topics": ["app-store", "aso", "ppo", "cpp", "testing", "conversion"],
+      "candidate_classes": ["technique"],
+      "lang": "en",
+      "content": "The store has two native page-testing tools and experts use them for different jobs. Product Page Optimization runs up to three treatments against the default page on organic traffic, testing icon, screenshots, and preview video — one variable per test, run to statistical confidence, and remember an icon variant must ship in the app binary before it can be tested. Custom Product Pages are not tests but targeting: dozens of alternate pages, each with its own URL, screenshots, and promotional text, so paid social, influencer, and web traffic each land on a page that continues the creative that brought them — a TikTok viewer landing on a page that echoes the TikTok converts measurably better than one landing on the generic page. The discipline mirrors any experimentation program: a hypothesis per test, adequate traffic before calling it (low-traffic apps may need weeks per PPO test, which caps how many tests you get per year — spend them on big swings like icon and first-screenshot concept, not caption wording), and a written log of results, because page learnings compound only if remembered."
+    },
+    {
+      "ref": "expertise:app-store-growth:featuring:editorial",
+      "title": "Featuring — pitch stories and adopt new Apple technology; featuring is earned PR, not a reward",
+      "topics": ["app-store", "aso", "featuring", "editorial"],
+      "candidate_classes": ["technique"],
+      "lang": "en",
+      "content": "Editorial featuring is the largest free-impression event available and it is not a quality prize — it is Apple curating stories for its own storefront. The reliable path is adopting new Apple technologies in the launch window of a new OS: editorial teams are explicitly hunting for apps that showcase the new platform capabilities each September, and a well-executed adoption of the year's headline framework is the single most predictable featuring trigger. The second path is pitching: App Store Connect has a featuring nomination form, and pitches should be submitted weeks ahead of a launch or major update, written like a story pitch — what is new, why now, what makes the app visually and culturally interesting — with polished assets ready. Design quality, accessibility support, and platform-native feel are table stakes screens are judged on. Expect the Today-tab spike to be large but brief, with retention of featured-traffic cohorts below search cohorts; the durable value is the ranking momentum and the credibility asset, so plan the feature window to coincide with your other levers rather than treating it as the strategy."
+    },
+    {
+      "ref": "expertise:app-store-growth:reengagement:events-and-offers",
+      "title": "Re-engagement — In-App Events, win-back offers, and the placements that reach lapsed users without push",
+      "topics": ["app-store", "aso", "events", "retention", "reengagement"],
+      "candidate_classes": ["technique"],
+      "lang": "en",
+      "content": "The store itself is a re-engagement channel most developers ignore. In-App Events get their own cards that surface on your product page, in search results, and in personalized recommendations — and crucially they are shown to users who already have the app installed, reaching lapsed users who long ago disabled push. A steady cadence of events (challenges, content drops, seasonal moments) keeps the product page alive and gives charts-browsing users a reason to return. On the monetization side, win-back offers and promotional offers let you present discounted subscription pricing to churned subscribers directly through store surfaces, which is meaningfully cheaper than re-acquiring them with ads. The senior mindset is that a store listing is not a static brochure but an operated surface with a content calendar: events, offer windows, seasonal screenshot refreshes, and update notes that speak to returning users all compound into the store's engagement signals, and engagement feeds back into visibility."
+    },
+    {
+      "ref": "expertise:app-store-growth:failure-db:rejections",
+      "title": "Failure database — the recurring App Review rejections and how operators clear them fast",
+      "topics": ["app-store", "app-review", "rejections", "failure-modes"],
+      "candidate_classes": ["technique"],
+      "lang": "en",
+      "content": "The same App Review rejections recur across the industry. App completeness (guideline 2.1): crashes on launch, placeholder content, or a login wall with no working demo account — always supply demo credentials and a walkthrough note in the review notes. Spam and minimum functionality (4.3 and 4.2): template apps, thin wrappers around a website, or the tenth re-skin of the same product. Payments (3.1.1): digital goods sold outside in-app purchase or links that steer around it in ways the current rules for your storefront do not permit — the rules here shift with regulation and by region, so verify the current policy before shipping any external purchase flow. Privacy (5.1.x): permission prompts with vague purpose strings, undeclared data collection, or privacy-label mismatches with observed traffic. Misleading metadata (2.3): screenshots or keywords promising what the app does not do. The operational discipline: treat rejection as a dialogue, not a verdict — reply in Resolution Center with specifics, fix precisely what was cited, reserve expedited review for true emergencies, and remember a rejection history of spam-class violations is what escalates toward developer-account risk, not an honest 2.1."
+    },
+    {
+      "ref": "expertise:app-store-growth:failure-db:growth-mistakes",
+      "title": "Failure database — the recurring self-inflicted growth wounds",
+      "topics": ["app-store", "aso", "growth", "failure-modes", "anti-patterns"],
+      "candidate_classes": ["technique"],
+      "lang": "en",
+      "content": "The recurring self-inflicted wounds. Keyword-stuffing the title — rejected under metadata rules, and even when it slips through it taxes conversion because humans read titles. Buying reviews or incentivizing ratings — detectable, punishable up to removal, and it poisons your own signal about what users think. Shipping an icon or screenshot redesign untested — the classic silent conversion collapse that gets misdiagnosed as an algorithm change. Chasing head terms your app cannot win instead of owning a ladder of long-tail queries first and climbing. Doing ASO once at launch and never iterating, when metadata is a per-release experiment loop. Reading downloads without splitting impressions from conversion, then fixing the wrong stage. Translating metadata instead of localizing it into the market's own search language. Showing the paywall before the value moment and harvesting one-star ratings that tax every future impression. And the meta-mistake that contains the rest: pouring acquisition into a product whose retention curve hits zero — a leaky bucket cannot be ASO'd, and every install you buy for it just funds bad ratings."
+    },
+    {
+      "ref": "expertise:app-store-growth:rules-of-thumb:numbers",
+      "title": "Rules of thumb — the numbers an App Store operator carries",
+      "topics": ["app-store", "aso", "benchmarks", "rules-of-thumb"],
+      "candidate_classes": ["technique"],
+      "lang": "en",
+      "content": "Carry numbers, not vibes. Metadata budget: 30-character title, 30-character subtitle, 100-character keyword field — 160 indexable characters per localization. Ratings prompts: the system dialog shows at most three times per user per year. Funnel: search-sourced installs convert from product-page view at a much higher rate than browse-sourced; a conversion rate that trails your category median is a page problem, not a traffic problem. Retention: a common consumer benchmark is roughly 40 percent day-1, 20 percent day-7, 10 percent day-30 for a good app, with subscription products judged instead by trial-start rate, trial-to-paid conversion, and monthly churn. Paid acquisition: judge by payback period on cost per paying user — under six months is comfortable, under twelve is the outer bound for a solo operator without venture float. Experiment windows: give a metadata change two to four weeks before judging; expect keyword rank moves in days-to-weeks. Release cadence: a visible update every few weeks keeps What's New fresh and signals a living product to both users and editorial. These numbers turn debates into pass/fail gates."
+    },
+    {
+      "ref": "expertise:app-store-growth:diagnostic-flow:if-x-investigate-y",
+      "title": "Diagnostic flowchart — downloads moved; find which funnel stage before touching anything",
+      "topics": ["app-store", "aso", "diagnostic", "flowchart", "analytics"],
+      "candidate_classes": ["technique"],
+      "lang": "en",
+      "content": "A reusable if-X-then-Y ladder for store diagnostics. If downloads dropped, first split impressions versus conversion by source type in App Store Connect analytics — never act before knowing which moved. If impressions dropped on search, check your top keyword ranks and whether a competitor launched or a seasonal query faded; if impressions dropped on browse, you lost a featuring or chart placement, which is momentum, not a mistake. If conversion dropped, check for a recent icon/screenshot change, a ratings dip or negative-review burst, and price display changes — in that order of likelihood. If installs are stable but revenue fell, the store funnel is innocent: investigate paywall views, trial starts, trial-to-paid, and renewal churn in that sequence. If a keyword rank fell with no metadata change, look at download velocity on that query and at the competitor set above you before rewriting anything. If everything fell at once across storefronts, suspect a platform event (OS release week, store outage, policy change) and check the developer forums before self-diagnosing. The discipline is that each symptom names its own stage, and the stage names the fix."
+    },
+    {
+      "ref": "expertise:app-store-growth:hidden-knowledge:what-operators-rarely-say",
+      "title": "Hidden knowledge — what experienced store operators rarely say out loud",
+      "topics": ["app-store", "aso", "hidden-knowledge", "tacit", "strategy"],
+      "candidate_classes": ["technique"],
+      "lang": "en",
+      "content": "The tacit rules. Category choice is a strategic decision disguised as a form field — charts, competition density, and editorial attention differ enormously between adjacent categories, and the right secondary category is free visibility. For any established app, branded queries carry most search volume, which means differentiation and word-of-mouth beat optimization: ASO harvests demand, it does not create it. The store rewards momentum everywhere — new-release honeymoons, velocity-weighted rankings, editorial interest in what is new — so batching your levers (feature pitch, external PR or creator spike, metadata release, event) into one window outperforms spreading them evenly. External traffic is an ASO input: a viral TikTok pattern shows up as branded search spikes and velocity, which lifts non-branded ranks too. Most apps die of retention, not discovery, and no store tactic repairs a product users do not return to. And the quiet economic truth: raising product-page conversion compounds across every current and future traffic source forever, which is why page craft is the highest-leverage permanent work in the whole discipline."
+    },
+    {
+      "ref": "expertise:app-store-growth:monologue:app-reviewer",
+      "title": "Internal monologue — inside App Review, minutes per app, hunting for specific tripwires",
+      "topics": ["app-store", "app-review", "monologue", "tacit"],
+      "candidate_classes": ["technique"],
+      "lang": "en",
+      "content": "Simulate the reviewer's head and submissions stop being a lottery. The pass takes minutes, not hours, and it runs down tripwires: launch it — does it crash, is there placeholder content, does it look finished. Login wall — where are the demo credentials; if I cannot get in, that is an automatic completeness rejection. Permission prompts — does the purpose string actually say why, or is it boilerplate. Anything for sale — are digital goods going through in-app purchase; is there a button or link steering out that the current rules for this storefront do not allow. Does the app do what the screenshots and description promise, or is the metadata writing checks the binary cannot cash. Is this a template I have seen ten times this week. Kids category — what SDKs are riding inside. The lesson experienced operators draw: make the golden path unmissable, front-load the review notes with the demo account and a two-line explanation of anything unusual, and never make a reviewer guess — a confused reviewer rejects, because rejecting is the safe action for them."
+    },
+    {
+      "ref": "expertise:app-store-growth:retention:the-real-ranking-input",
+      "title": "Retention — the cohort curve is the product's true size, and the store can smell it",
+      "topics": ["app-store", "retention", "cohorts", "growth", "ltv"],
+      "candidate_classes": ["technique"],
+      "lang": "en",
+      "content": "Everything in store growth eventually cashes out through the retention curve. Plot each weekly install cohort's activity over time: a healthy curve flattens to a plateau — that plateau is your product's true size, because a curve that decays to zero means every user is rented, not owned. Retention feeds the store loop three ways: engaged users generate the sessions and ratings that correlate with sustained rank, they produce the word-of-mouth that becomes branded search, and for subscriptions they are the LTV that makes paid acquisition solvent at all. So the operating rule is to measure by cohort, never by aggregate actives — aggregates rise while cohorts rot whenever acquisition is growing, which is exactly how dying apps look healthy for months. Fix order when retention is weak: first the day-0 experience (time-to-value before the paywall moment), then week-1 habit formation (the reason to come back tomorrow), then long-tail re-engagement (widgets, notifications used sparingly, In-App Events, win-back offers). Acquisition work earns its keep only after the cohort curve flattens above zero."
+    },
+    {
+      "ref": "expertise:app-store-growth:launch:playbook",
+      "title": "Launch playbook — soft-launch to calibrate, then fire every lever in one window",
+      "topics": ["app-store", "launch", "playbook", "aso", "strategy"],
+      "candidate_classes": ["technique"],
+      "lang": "en",
+      "content": "A launch is a momentum event, and momentum is manufactured by sequencing. First soft-launch in one or two small English-speaking storefronts to calibrate the funnel cheaply: measure onboarding completion, day-1 retention, trial starts, and crash rate on real users, and fix the leaks while nobody is watching — a global launch on a leaky funnel converts your one-time press and honeymoon visibility into one-star ratings. When the funnel holds, batch the launch window: final metadata in place at release, featuring pitch submitted weeks ahead, press and creator outreach timed to the same week, and any paid spend concentrated rather than dripped — because rankings are velocity-weighted, one concentrated week of installs buys more durable visibility than the same installs spread over a quarter. Ship the launch version with the ratings prompt wired to a value moment from day one. For updates, use phased release to catch a bad build early, but release the metadata changes you want indexed immediately. And write down the baseline numbers the day before launch — every post-launch judgment is a comparison, and operators who skip the baseline argue from memory."
+    }
+  ]
+}

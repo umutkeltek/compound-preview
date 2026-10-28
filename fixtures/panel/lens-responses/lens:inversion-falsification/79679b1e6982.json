@@ -1,0 +1,1 @@
+{"confidence":0.86,"findings":[{"claim":"candidate would be worse only if strict JSON forbids the added format field","severity":"low","evidence_refs":["target:cmp_candidate_better"]}]}

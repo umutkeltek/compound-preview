@@ -1,0 +1,46 @@
+{
+  "schema_version": "compound.work.v0.1",
+  "id": "work_distill_fixture",
+  "created_at": "2026-06-29T12:00:00Z",
+  "producer": {
+    "kind": "fixture",
+    "name": "compound"
+  },
+  "ids": {
+    "work_id": "work_distill_fixture",
+    "context_pack_id": "ctx_distill_fixture"
+  },
+  "scope": {
+    "entity_id": "system:compound",
+    "surface": "distiller"
+  },
+  "authority": {
+    "source_class": "runtime",
+    "status": "current"
+  },
+  "privacy": "private",
+  "risk": "tier1",
+  "evidence_refs": [],
+  "uncertainty": {
+    "level": "known"
+  },
+  "owner": "distiller:llm",
+  "canonical_surface": "internal/distiller",
+  "state": "running",
+  "desired_outcome": "build a bounded model extraction request from spine artifacts",
+  "success_predicate": "request packet includes context, work, receipt, prior coverage, source refs",
+  "non_goals": [
+    "call a live model",
+    "promote memory"
+  ],
+  "run_ids": [
+    "hook_distill_fixture"
+  ],
+  "artifact_ids": [
+    "artifact_distiller_request"
+  ],
+  "verification_ids": [
+    "go-test-distiller"
+  ],
+  "memory_candidate_ids": []
+}

@@ -1,0 +1,11 @@
+{
+  "trace_ref": "session_2026-06-29_demo",
+  "candidates": [
+    { "kind": "memory", "entity": "project:api", "predicate": "backend_language", "object": "go", "confidence": 0.92, "evidence_refs": ["msg_12"] },
+    { "kind": "memory", "entity": "project:api", "predicate": "cache", "object": "redis", "confidence": 0.30, "evidence_refs": ["msg_18"] },
+    { "kind": "method_upgrade", "subject": "distill.memory", "statement": "resolve relative dates to absolute at extraction", "confidence": 0.85, "evidence_refs": ["msg_30"] },
+    { "kind": "capability_observation", "subject": "skill:paywall-cro", "statement": "paywall", "detail": "missed_when", "confidence": 0.75, "evidence_refs": ["msg_40"] },
+    { "kind": "eval_case", "subject": "distill.skill", "statement": "distiller missed an obvious skill candidate here", "confidence": 1.0, "evidence_refs": ["msg_50"] },
+    { "kind": "skill", "subject": "react-view-transitions", "statement": "useful lens for this UI work", "confidence": 0.8, "evidence_refs": ["msg_60"] }
+  ]
+}

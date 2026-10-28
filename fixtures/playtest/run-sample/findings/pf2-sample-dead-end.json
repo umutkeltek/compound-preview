@@ -1,0 +1,16 @@
+{
+  "schema_version": "playtest.finding.v0.1",
+  "id": "pf2",
+  "severity": "P1",
+  "type": "dead_end",
+  "title": "Reminder toggle leads nowhere: enabling reminders opens a blank screen with no back path",
+  "evidence": {
+    "player_belief": "Turning on reminders should open a schedule picker.",
+    "ledger_truth": "The reminders route renders an empty container; no picker, no controls, and no way back except force-closing the app.",
+    "impact": "Player cannot set a reminder and cannot leave the screen without restarting, so the whole settings flow is abandoned.",
+    "member_findings": ["runner f5 (blank reminders route)"],
+    "screenshots": ["shots/s3-blank-reminders.png"]
+  },
+  "repro": ["seed sample-app per fixture manifest", "open Settings, toggle Reminders on", "observe the blank screen with no back affordance"],
+  "source": "synthetic fixture run-sample; fully fabricated for tests"
+}

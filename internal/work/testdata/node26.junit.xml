@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<testsuites>
+	<testsuite name="product checks" time="0.000000" disabled="0" errors="0" tests="2" failures="0" skipped="1" timestamp="2000-01-01T00:00:00.000Z" hostname="runner.example.invalid">
+		<testcase name="keeps the contract" time="0.000000" classname="product checks" file="/proof/checks.test.mjs"/>
+		<testsuite name="nested" time="0.000000" disabled="0" errors="0" tests="2" failures="0" skipped="1" timestamp="2000-01-01T00:00:00.000Z" hostname="runner.example.invalid">
+			<testcase name="other" time="0.000000" classname="product checks.nested" file="/proof/checks.test.mjs"/>
+			<testcase name="optional" time="0.000000" classname="product checks.nested" file="/proof/checks.test.mjs">
+				<skipped type="skipped" message="synthetic unavailable surface"/>
+			</testcase>
+		</testsuite>
+	</testsuite>
+	<!-- tests 3 -->
+	<!-- suites 2 -->
+	<!-- pass 2 -->
+	<!-- fail 0 -->
+	<!-- cancelled 0 -->
+	<!-- skipped 1 -->
+	<!-- todo 0 -->
+	<!-- duration_ms 0.000000 -->
+</testsuites>

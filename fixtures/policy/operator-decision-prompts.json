@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "generated_at": "2026-07-01T12:00:00Z",
+  "source_governor": "fixtures/operator-governor.json",
+  "delivery_mode": "cards_only_no_direct_send",
+  "prompts": [
+    {
+      "id": "revenue-primary:fixture",
+      "topic": "Apps",
+      "target": "operator",
+      "severity": "high",
+      "question": "Should this selected revenue action become an execution packet?",
+      "action": "Local-only: draft the packet. Do not publish.",
+      "default_if_no_answer": "Do not execute.",
+      "recommended_lane": "Codex",
+      "source": "revenue-control",
+      "generated_at": "2026-07-01T12:00:00Z",
+      "reply_options": ["yes", "no", "modify"],
+      "evidence": ["opportunity_id=fixture"]
+    }
+  ],
+  "last_resolved": [
+    {
+      "id": "old-fixture",
+      "resolved_at": "2026-07-01T11:00:00Z",
+      "resolution": "execution_packet_created"
+    }
+  ]
+}

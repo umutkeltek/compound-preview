@@ -1,0 +1,1 @@
+{ "hook": "session-start", "harness": "claude_code", "cwd": "/repo/productX", "task": "improve paywall", "repo_kind": "product" }

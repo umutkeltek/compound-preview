@@ -1,0 +1,20 @@
+{
+  "confidence": 0.55,
+  "findings": [
+    {
+      "claim": "Mom may intend \"are you still coming Sunday\" and the ride offer as plain logistics and care, but Dana's \"why\" and declining the ride may show she received it as mild oversight or doubt about her plans.",
+      "severity": "medium",
+      "evidence_refs": ["yeah, planning on it, why", "I can drive, it's fine"]
+    },
+    {
+      "claim": "Mom may intend \"did you eat today\" as ordinary care, but Dana's clipped \"yes mom, I'm fine\" suggests she may have received it as checking-up-on-me rather than casual concern.",
+      "severity": "medium",
+      "evidence_refs": ["did you eat today", "yes mom, I'm fine"]
+    },
+    {
+      "claim": "Dana may intend her short replies as simple confirmations, but Mom's closing repetition (\"just asking\") suggests Mom may have received them as slightly defensive.",
+      "severity": "low",
+      "evidence_refs": ["yes mom, I'm fine", "just asking. see you Sunday then"]
+    }
+  ]
+}

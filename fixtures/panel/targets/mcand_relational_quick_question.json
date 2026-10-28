@@ -1,0 +1,15 @@
+{
+  "id": "mcand_relational_quick_question",
+  "entity": "relational-proof",
+  "predicate": "captured_exhaust",
+  "object": "sha256:00507d18776468b417ef88101f3184995c0b0d063de212dd98b4c31f869e9858",
+  "confidence": 0,
+  "derivation": "observed",
+  "promotion_basis": "",
+  "state": "proposed",
+  "visibility": "candidate",
+  "source_trace_ref": "capture:sha256:00507d18776468b417ef88101f3184995c0b0d063de212dd98b4c31f869e9858",
+  "snippet_hash": "sha256:relational-quick-question",
+  "created_at": "2026-07-21T10:00:00Z",
+  "transcript_text": "Jordan: hey, quick question when you have a sec\nPriya: sure, what's up\nJordan: I want to push the deploy this afternoon instead of waiting for the review, is that ok?\nPriya: hm, who else knows about this\nJordan: nobody yet, wanted to check with you first\nPriya: let's loop in the team before you move on it\nJordan: ok, no worries, just wanted to keep things moving\nPriya: appreciate you checking. give me ten minutes\nJordan: sounds good, no rush\n"
+}

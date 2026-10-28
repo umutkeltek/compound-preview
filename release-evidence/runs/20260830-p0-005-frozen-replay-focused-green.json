@@ -1,0 +1,30 @@
+{
+  "schema_version": "compound.release_run.v0.1",
+  "issue_id": "REL-P0-005",
+  "recorded_at": "2026-08-30T19:49:09Z",
+  "source_sha": "d5253234b98bc758c12268d8d947e634e50ffadd",
+  "status": "focused_green",
+  "commands": [
+    {
+      "command": "GOTOOLCHAIN=go1.26.4 go test ./internal/candidates ./internal/mem ./internal/promotedriver -count=1",
+      "exit_code": 0,
+      "duration_seconds": 39.57
+    },
+    {
+      "command": "GOTOOLCHAIN=go1.26.4 go vet ./internal/candidates ./internal/mem ./internal/promotedriver ./cmd/compound",
+      "exit_code": 0
+    },
+    {
+      "command": "GOTOOLCHAIN=go1.26.4 go test -race ./internal/candidates ./internal/mem ./internal/promotedriver -count=1",
+      "exit_code": 0,
+      "duration_seconds": 60.33
+    }
+  ],
+  "covered_invariants": [
+    "A planned pass seals the ordered candidate operation vector, target/companion body digests, promotion current-claim precondition, cursor preconditions, and per-operation idempotency keys before mutation.",
+    "Changed target, companion, or current-claim preconditions produce a durable stale operation result and a non-committed terminal receipt without mutating the stale target.",
+    "An interruption after candidate mutation but before its operation frame replays the same PassID and exact operation list, records already_applied, and creates neither a duplicate claim nor a duplicate transition.",
+    "Terminal frames must exactly match the sealed intent and every recorded operation result; malformed result or post-terminal frames are rejected before a new pass begins."
+  ],
+  "remaining_gate": "Canonical broad proof-check remains required before this issue can close."
+}

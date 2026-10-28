@@ -1,0 +1,25 @@
+{
+  "confidence": 0.5,
+  "findings": [
+    {
+      "claim": "Mom's \"just checking, no reason\" may protect against appearing overly worried or intrusive, softening the offer that follows it.",
+      "severity": "medium",
+      "evidence_refs": ["just checking, no reason. I can pick you up from the station if that helps"]
+    },
+    {
+      "claim": "Dana's short, closing replies (\"it's fine\", \"yes mom, I'm fine\") may protect against having to discuss underlying stress or needs in more depth.",
+      "severity": "medium",
+      "evidence_refs": ["I can drive, it's fine", "yes mom, I'm fine"]
+    },
+    {
+      "claim": "Non-protective alternative: Mom's offer to pick Dana up may be a plain, practical suggestion with no emotional management behind it.",
+      "severity": "low",
+      "evidence_refs": ["I can pick you up from the station if that helps"]
+    },
+    {
+      "claim": "Non-protective alternative: Dana's short answers may simply reflect a low-key communication style rather than any topic avoidance.",
+      "severity": "low",
+      "evidence_refs": ["yeah, planning on it, why", "yes mom, I'm fine"]
+    }
+  ]
+}

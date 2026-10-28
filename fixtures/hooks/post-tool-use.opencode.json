@@ -1,0 +1,7 @@
+{
+  "hook": "post-tool-use",
+  "harness": "opencode",
+  "cwd": "/repo/fixture",
+  "tool": "read",
+  "session_id": "session_opencode_fixture"
+}

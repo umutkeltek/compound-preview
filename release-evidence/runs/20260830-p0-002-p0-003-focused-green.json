@@ -1,0 +1,93 @@
+{
+  "schema_version": "compound.release.run-evidence.v0.1",
+  "recorded_at": "2026-08-30T02:30:16Z",
+  "issues": [
+    "REL-P0-002",
+    "REL-P0-003",
+    "REL-P1-002"
+  ],
+  "work_id": "work_768770e90170",
+  "run_attempt_id": "ratt_20260830T004010Z_cffe0429",
+  "run_attempt_status": "succeeded",
+  "claim_reservation_run_attempt_id": "ratt_20260830T003951Z_8c7c974f",
+  "claim_reservation_status": "superseded",
+  "source_head": "1fe0fcdca88669d7670b823b7bb5129f9878abac",
+  "fix_commit": "1fe0fcdca88669d7670b823b7bb5129f9878abac",
+  "red": [
+    {
+      "base_head": "bdd19c865bcd04f314c6a602c799eadb820bf0a1",
+      "command": "GOTOOLCHAIN=go1.26.4 go test ./internal/mem -run 'Test(AdjudicatePendingWriteCapPinsResumeBeforeUnreadPageRemainder|MemoryCandidatePointReadRejectsNoncanonicalCustody|AdjudicatePendingNamesEveryCustodyCorruptionAndNeverActsOnIt)$' -count=1",
+      "exit_code": 1,
+      "failure": "write-cap continuation changed only three of five actionable candidates; blank-ID, filename/JSON mismatch, alias, and symlink rows became actionable"
+    },
+    {
+      "base_head": "bdd19c865bcd04f314c6a602c799eadb820bf0a1",
+      "command": "GOTOOLCHAIN=go1.26.4 go test ./internal/promotedriver -run 'Test(PromoteWriteCapPinsCursorBeforeDeferredBasisCandidate|DriverPersistsVersionedFilenameCursorsAndReadsLegacyAfterID)$' -count=1",
+      "exit_code": 1,
+      "failure": "promotion advanced to cand_03 instead of pinning before cand_01.json and persisted legacy after_id"
+    },
+    {
+      "base_head": "bdd19c865bcd04f314c6a602c799eadb820bf0a1",
+      "condition": "tests added over the pre-follow-up custody WIP before production correction",
+      "command": "GOTOOLCHAIN=go1.26.4 go test ./internal/mem -run 'Test(AdjudicatePendingConcurrentProposedRewritePinsCursorForRetry|ReconcilePendingStateRefusesCandidateCustodyCorruption|AdjudicatePendingLimitCapsAdjudicatedNotSkipped|AdjudicatePendingNamesCorruptAndChangedIDs)$' -count=1",
+      "exit_code": 1,
+      "failure": "a newer still-proposed generation was skipped, corrupt pending census was accepted, and dry-run claimed committed counters"
+    },
+    {
+      "base_head": "bdd19c865bcd04f314c6a602c799eadb820bf0a1",
+      "condition": "tests added over the pre-follow-up cursor WIP before compatibility correction",
+      "command": "GOTOOLCHAIN=go1.26.4 go test ./internal/promotedriver -run 'Test(SuccessorReconcilesLegacyRawCursorReceipt|ResolveStoredCursorMigratesLegacyIDWithTokenPrefix)$' -count=1",
+      "exit_code": 1,
+      "failure": "historical v0.2 raw-cursor receipts blocked apply and a legal filename-v1-prefixed legacy ID was misparsed as a token"
+    }
+  ],
+  "green": [
+    {
+      "command": "GOTOOLCHAIN=go1.26.4 go test ./internal/candidates ./internal/mem ./internal/promotedriver -count=1",
+      "exit_code": 0,
+      "package_seconds": {
+        "compound/internal/candidates": 5.547,
+        "compound/internal/mem": 33.785,
+        "compound/internal/promotedriver": 5.379
+      }
+    },
+    {
+      "command": "GOTOOLCHAIN=go1.26.4 go test -race ./internal/candidates ./internal/mem ./internal/promotedriver -count=1",
+      "exit_code": 0,
+      "package_seconds": {
+        "compound/internal/candidates": 22.656,
+        "compound/internal/mem": 39.172,
+        "compound/internal/promotedriver": 7.149
+      }
+    },
+    {
+      "command": "GOTOOLCHAIN=go1.26.4 go vet ./internal/candidates ./internal/mem ./internal/promotedriver ./cmd/compound",
+      "exit_code": 0
+    },
+    {
+      "command": "GOTOOLCHAIN=go1.26.4 go test ./cmd/compound -run 'Test(ParseMemoryAfterCursorAcceptsTokenOrFilenameAndRejectsPaths|MemoryAdjudicateNoArgExitsTwoWithUsage|MemoryAdjudicateUnknownIDNamesSearchedLocationAndDoor)$' -count=1",
+      "exit_code": 0,
+      "package_seconds": 2.412
+    },
+    {
+      "command": "git diff --check",
+      "exit_code": 0
+    }
+  ],
+  "properties": [
+    "walked equals decoded plus corrupt",
+    "write-cap continuation pins before the first unfinished actionable entry",
+    "small scan/write caps eventually complete without duplicate mutations",
+    "a newer still-proposed generation pins the frontier and succeeds on retry",
+    "terminalization wins without being overwritten",
+    "durable cursor JSON is versioned while v0.2 receipt and after_id state remain readable",
+    "blank, mismatched, aliased, symlinked, nonregular, traversal, and absolute-path candidates are named corruption and non-actionable",
+    "dry-run Actions describe the plan while adjudicated, verdict counts, and changed_ids remain actual-result counters"
+  ],
+  "status": "focused_green",
+  "closure_blockers": [
+    "supported raw-path candidate consumers still require migration or explicit experimental gating",
+    "canonical broad proof-check has not yet run on this commit",
+    "post-rename directory-fsync ambiguity remains tracked under REL-P1-007"
+  ]
+}

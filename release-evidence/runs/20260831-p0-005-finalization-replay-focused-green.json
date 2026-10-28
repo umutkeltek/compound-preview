@@ -1,0 +1,61 @@
+{
+  "schema_version": "compound.release_run.v0.1",
+  "issue_id": "REL-P0-005",
+  "recorded_at": "2026-08-30T21:13:28Z",
+  "source_sha": "3b26cf7bdbc6f608468b8e082ea14c428357c4f3",
+  "status": "focused_green",
+  "red_evidence": [
+    {
+      "work_id": "work_083e0bc37a50",
+      "run_attempt_id": "ratt_20260830T202551Z_e0f2f07d",
+      "observed": "Recapture reset an ordinary parked candidate to proposed, and an altered terminal Promote.Promoted summary was accepted before a new pass."
+    },
+    {
+      "work_id": "work_a7bac0c8ec8f",
+      "run_attempt_id": "ratt_20260830T203306Z_8ed9756c",
+      "observed": "The first v0.5 implementation attempt failed to compile because terminal finalization validation was incomplete."
+    }
+  ],
+  "governed_verification": {
+    "work_id": "work_9635dd754046",
+    "run_attempt_id": "ratt_20260830T211028Z_cf370c2c",
+    "status": "succeeded",
+    "duration_ms": 135308,
+    "resulting_state": "verifying"
+  },
+  "commands": [
+    {
+      "command": "GOTOOLCHAIN=go1.26.4 go test ./internal/mem ./internal/promotedriver -count=1",
+      "exit_code": 0
+    },
+    {
+      "command": "GOTOOLCHAIN=go1.26.4 go test -race ./internal/mem ./internal/promotedriver -count=1",
+      "exit_code": 0
+    },
+    {
+      "command": "GOTOOLCHAIN=go1.26.4 go test ./cmd/compound -run TestMemoryPromoteDriverDryRunDoesNotMutateCompoundHome -count=1",
+      "exit_code": 0
+    },
+    {
+      "command": "GOTOOLCHAIN=go1.26.4 go vet ./internal/mem ./internal/promotedriver ./cmd/compound",
+      "exit_code": 0
+    },
+    {
+      "command": "git diff --check && git diff --cached --check",
+      "exit_code": 0
+    }
+  ],
+  "covered_invariants": [
+    "A v0.5 pass journals planned, every ordered operation result, one exact finalization result, and only then a canonical terminal projection.",
+    "Cursor and full-sweep pending-state finalization are replayed on the same PassID after interruption; a recorded finalization is reused without duplication.",
+    "Terminal Promote, Dedupe, Sweep, Imports, LaneBeliefs, pending, stage, error, and provenance fields are derived from and must exactly match the frozen intent, operation frames, and finalization frame.",
+    "Semantically false operation results, post-finalization operations, forged legacy recovery classification, and v0.5 finalization drift fail closed before a new pass.",
+    "Completed and interrupted v0.4 frozen journals remain readable and replay with v0.4 framing.",
+    "Recapture preserves any existing adjudicated candidate body byte-for-byte, so an in-flight frozen target cannot be resurrected as proposed."
+  ],
+  "review": {
+    "kind": "independent_read_only",
+    "result": "no remaining Critical or Important findings"
+  },
+  "remaining_gate": "Canonical broad proof-check and the isolated governed memory-loop certifier remain required before REL-P0-005 can close."
+}

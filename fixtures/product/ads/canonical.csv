@@ -1,0 +1,5 @@
+date,campaign_id,campaign_name,spend,impressions,clicks,conversions,revenue,currency
+2026-09-01,c1,Canonical One,10,1000,50,2,30,USD
+2026-09-02,c1,Canonical One,12,1100,55,3,45,USD
+2026-09-03,c1,Canonical One,14,1200,60,4,60,USD
+2026-09-01,c2,Canonical Two,5,400,10,0,0,USD

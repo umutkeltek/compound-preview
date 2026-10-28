@@ -1,0 +1,2 @@
+Operator said a repeated extraction failure should become a bounded distiller request packet.
+The system should use context, work, and receipt as evidence, not authority.

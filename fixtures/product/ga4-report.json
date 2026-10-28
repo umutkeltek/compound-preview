@@ -1,0 +1,17 @@
+{
+  "property": "properties/000000",
+  "rows": [
+    {
+      "date": "2026-06-29",
+      "active_users": 70,
+      "sessions": 95,
+      "conversions": 4
+    },
+    {
+      "date": "2026-06-30",
+      "active_users": 84,
+      "sessions": 126,
+      "conversions": 7
+    }
+  ]
+}

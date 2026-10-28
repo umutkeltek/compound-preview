@@ -1,0 +1,25 @@
+# claude-minimax lane manifest — reference for the lane-manifest slice.
+#
+# One declarative unit that names the minimax lane as both a harness and an API
+# endpoint. the launch owner and compound each generate their projection from it:
+#   - the launch owner owns launch/capture/route truth (wrapper, settings, tap).
+#   - compound owns governance truth (hook roster via `hook install --lane-file`).
+#
+# Compound's consumption today is the hooks.roster field: `compound hook install
+# --lane-file fixtures/lanemanifest/minimax.lane.yaml --config-dir <profile>`
+# derives harness=claude-minimax and installs the declared roster into the
+# isolated minimax profile settings. Governed spawn (`work advance --execute
+# --harness claude_minimax`) requires the full roster and refuses a lane running
+# only the minimal floor. See docs/architecture/contracts/lane-manifest-design.md.
+schema_version: compound.lane_manifest.v0.1
+lane: minimax
+harness: claude-code          # claude-code | codex | opencode | api
+model: minimax/MiniMax-M3
+effort: xhigh
+capture: segmented_full_wire  # metadata_only | segmented_full_wire | none
+permission: bypass            # plan | acceptEdits | bypass | default (harness defaults)
+api:
+  enabled: true               # expose as OpenAI-compatible endpoint
+  route: minimax/*            # gateway route pattern
+hooks:
+  roster: full                # minimal | full (default minimal; governed lanes declare full)

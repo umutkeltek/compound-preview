@@ -1,0 +1,25 @@
+runtime_binding:
+  service_id: service:synthetic-api
+  owner_entity: product:synthetic
+  host_binding: host:local-dev
+  deployment_binding: process:synthetic-api
+  data_bindings:
+    - sqlite:synthetic.db
+  health_check_refs:
+    - http://synthetic-api.example:18080/health
+  risk_tier: tier1
+  evidence_refs:
+    - fixture:runtime-binding
+  status: active
+
+service_contract:
+  service_id: service:synthetic-api
+  interface_refs:
+    - http:get:/health
+  dependencies:
+    - sqlite
+  owner_entity: product:synthetic
+  risk_tier: tier1
+  evidence_refs:
+    - fixture:service-contract
+  status: active

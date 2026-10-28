@@ -1,0 +1,61 @@
+{
+  "schema_version": "compound.release_review.v0.1",
+  "issue_id": "REL-P0-001",
+  "observed_at": "2026-08-29T14:52:13Z",
+  "reviewed_sha": "3eb9ea6bb0dde318db42a26e65c663ea8960c87e",
+  "current_main_sha": "115e199bccb4a773d3f4df74409e0c1779178b59",
+  "status": "fixing",
+  "closed_dimensions": [
+    "one production terminal-close gate invocation",
+    "no transient terminal lease transfer",
+    "original holder retained until release",
+    "no separate successful close-steal ActionIntent trail",
+    "preparation and pre-work crash retries are exact",
+    "non-missing lease read errors fail closed"
+  ],
+  "blocking_findings": [
+    {
+      "severity": "P0",
+      "boundary": "terminal work before lifecycle event",
+      "evidence": "internal/work/work.go publishes terminal WorkEnvelope before appending the sole close event; append failure leaves no resumable frame and exact retry rejects the changed generation."
+    },
+    {
+      "severity": "P0",
+      "boundary": "lease authority decode",
+      "evidence": "A parseable existing lease with blank holder or mismatched work_id is not rejected before holder comparison."
+    },
+    {
+      "severity": "P1",
+      "boundary": "ActionIntent identity",
+      "evidence": "Raw delimiter joining makes holder/reason tuples containing | collision-prone."
+    },
+    {
+      "severity": "P0",
+      "boundary": "Git transaction commit",
+      "evidence": "Commit failure after local terminal publication returns error while retaining the lease; terminal re-close returns existing proof without cleanup."
+    }
+  ],
+  "tests": [
+    {
+      "command": "GOTOOLCHAIN=go1.26.4 go test ./internal/work -run <close-focused-regressions> -count=1",
+      "exit_code": 0,
+      "duration_ms": 10879
+    },
+    {
+      "command": "GOTOOLCHAIN=go1.26.4 go test -race ./internal/work -run <close-focused-regressions> -count=1",
+      "exit_code": 0,
+      "duration_ms": 10999
+    },
+    {
+      "command": "GOTOOLCHAIN=go1.26.4 go test ./internal/work -count=1",
+      "exit_code": 1,
+      "duration_ms": 606230,
+      "result": "default 10-minute timeout"
+    }
+  ],
+  "main_integration": {
+    "commit": "115e199bccb4a773d3f4df74409e0c1779178b59",
+    "apply_check": "clean with offset",
+    "semantic_assessment": "orthogonal earlier policy-refusal authority change; combined focused tests required after integration"
+  }
+}

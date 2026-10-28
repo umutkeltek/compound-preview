@@ -1,0 +1,59 @@
+# Synthetic panel model-router fixture.
+version: 1
+purpose: "Fixture model capability authority for panel plan/run tests."
+rules:
+  - "Every routed panel call records metadata-only execution route evidence."
+  - "Privacy-sensitive packets route only local-batch lanes."
+  - "Free lanes never judge; may object as tripwires only."
+capability_classes:
+  - classify-extract
+  - judge-critique
+models:
+  panel/free-extract:
+    lane: "panel/free-extract (fixture)"
+    provider_route: direct
+    resolution:
+      mode: direct
+      targets:
+        - provider: fixture
+          model: panel/free-extract
+    tier: free
+    packet_ceiling: single-target
+    capabilities:
+      classify-extract:
+        level: primary
+        evidence: "fixture: free extraction lane for panel lens calls"
+  panel/cheap-judge:
+    lane: "panel/cheap-judge (fixture)"
+    provider_route: direct
+    resolution:
+      mode: direct
+      targets:
+        - provider: fixture
+          model: panel/cheap-judge
+    tier: cheap
+    packet_ceiling: panel-target
+    capabilities:
+      judge-critique:
+        level: primary
+        evidence: "fixture: cheap eligible judge lane for panel synthesis"
+  panel/free-judge-tripwire:
+    lane: "panel/free-judge-tripwire (fixture)"
+    provider_route: direct
+    resolution:
+      mode: direct
+      targets:
+        - provider: fixture
+          model: panel/free-judge-tripwire
+    tier: free
+    packet_ceiling: panel-target
+    capabilities:
+      judge-critique:
+        level: capable
+        evidence: "fixture: free judge lane must be omitted from verdict gating"
+routing_defaults:
+  classify-extract:
+    - panel/free-extract
+  judge-critique:
+    - panel/cheap-judge
+    - panel/free-judge-tripwire

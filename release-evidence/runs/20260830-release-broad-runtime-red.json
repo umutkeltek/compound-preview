@@ -1,0 +1,61 @@
+{
+  "schema_version": "compound.release_run_evidence.v0.1",
+  "captured_at": "2026-08-30T05:43:25Z",
+  "candidate_head": "ad8883c47613fc4b7d0dddbe343218939a21d10c",
+  "toolchain": "go1.26.4",
+  "command": "GOTOOLCHAIN=go1.26.4 go test ./...",
+  "exit_code": 1,
+  "results": [
+    {
+      "package": "compound/cmd/compound",
+      "result": "timeout",
+      "duration_seconds": 602.390,
+      "active_test": "TestHookLiveCodexUserPromptSubmitBreakerReturnsNativeContextWarning"
+    },
+    {
+      "package": "compound/internal/work",
+      "result": "timeout",
+      "duration_seconds": 605.424,
+      "active_tests": 19,
+      "classification": "parallel durable-I/O wave remained active under cross-package contention"
+    },
+    {
+      "package": "compound/internal/arch",
+      "result": "failed",
+      "duration_seconds": 562.259,
+      "first_relevant_error": "cmd/compound has 52849 non-test Go LOC, over the ratcheted 52791 budget by 58"
+    },
+    {
+      "package": "compound/internal/distiller",
+      "result": "failed",
+      "duration_seconds": 43.196,
+      "first_relevant_error": "strict candidate custody open refused missing canonical sibling directories"
+    },
+    {
+      "package": "compound/internal/executorlens",
+      "result": "failed",
+      "duration_seconds": 3.563,
+      "first_relevant_error": "strict candidate custody open refused missing canonical inbox directory"
+    },
+    {
+      "package": "compound/internal/product",
+      "result": "failed",
+      "duration_seconds": 105.268,
+      "first_relevant_error": "strict candidate custody open refused missing product-hypotheses directory"
+    }
+  ],
+  "isolated_follow_up": {
+    "command": "GOTOOLCHAIN=go1.26.4 go test ./cmd/compound",
+    "exit_code": 1,
+    "duration_seconds": 600.750,
+    "active_test": "TestProofCheckAttentionFixtureProbeCancellationKillsDescendant",
+    "classification": "1381 top-level tests with only 18 t.Parallel calls leave the parallel wave queued behind a ten-minute serial phase"
+  },
+  "forbidden_remedies": [
+    "raise package timeout",
+    "hide timeout with GOFLAGS",
+    "exclude packages",
+    "skip durability tests",
+    "raise architecture budget"
+  ]
+}

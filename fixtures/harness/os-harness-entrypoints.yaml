@@ -1,0 +1,22 @@
+version: 2
+generated: false
+status: fixture_active
+last_reviewed: 2026-06-11
+review_after: 2026-09-11
+must_include: ~/fixture-os/LIVE_START.md
+harnesses:
+  claude:
+    entrypoint: ~/.claude/CLAUDE.md
+    status: generated_applied
+    generator: ~/fixture-os/spine/steering.config.ts
+    check: bun ~/fixture-os/spine/check.ts
+  codex:
+    entrypoint: ~/.codex/AGENTS.md
+    status: generated_applied
+    generator: ~/fixture-os/spine/steering.config.ts
+    check: bun ~/fixture-os/spine/check.ts
+  hermes:
+    entrypoint: ~/.hermes/hermes-agent/AGENTS.md
+    status: generated_applied
+    generator: ~/fixture-os/spine/steering.config.ts
+    check: bun ~/fixture-os/spine/check.ts

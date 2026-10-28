@@ -1,0 +1,29 @@
+schema_version: compound.product_signal_export.v0.1
+source:
+  kind: google_search_console
+  ref: gsc:site:example.com:search:2026-07-01
+signal_id: sig_example_gsc_clicks_20260701
+product_id: product:example-site
+surface: web-search
+change_event: "Google Search Console metric snapshot observed."
+metric:
+  name: clicks
+  before:
+    value: 120
+    period: "2026-06-01/2026-06-30"
+    ref: fixture:gsc:clicks:before
+  after:
+    value: 120
+    period: "2026-06-01/2026-06-30"
+    ref: fixture:gsc:clicks:after
+window: "neutral snapshot 2026-07-01"
+confidence: 0.5
+confounders:
+  - neutral provider snapshot; no causal movement implied
+interpretations:
+  - lens: provider_snapshot
+    claim: records Google Search Console metric observation only
+next_action: "Review alongside product context before taking action."
+evidence_refs:
+  - fixture:gsc:example.com:2026-07-01
+observed_at: "2026-07-01T00:00:00Z"

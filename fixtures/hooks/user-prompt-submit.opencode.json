@@ -1,0 +1,9 @@
+{
+  "hook": "user-prompt-submit",
+  "harness": "opencode",
+  "cwd": "/repo/fixture",
+  "task": "inspect repository context",
+  "repo_kind": "product",
+  "prompt": "show the relevant repository context",
+  "session_id": "session_opencode_fixture"
+}

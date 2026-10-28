@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.ssd-guardian.pressure-guard</string>
+
+  <key>ProgramArguments</key>
+  <array>
+    <string>__HOME__/.bun/bin/bun</string>
+    <string>__HOME__/Projects/systems/compound/scripts/ssd-guardian/disk_pressure_guard.ts</string>
+    <string>--apply</string>
+  </array>
+
+  <!-- Detect giant deleted-open model files before they consume the SSD for hours. -->
+  <key>StartInterval</key>
+  <integer>300</integer>
+  <key>RunAtLoad</key>
+  <true/>
+  <key>ProcessType</key>
+  <string>Background</string>
+  <key>ThrottleInterval</key>
+  <integer>60</integer>
+
+  <key>StandardOutPath</key>
+  <string>__HOME__/Library/Logs/ssd-guardian-pressure.out.log</string>
+  <key>StandardErrorPath</key>
+  <string>__HOME__/Library/Logs/ssd-guardian-pressure.err.log</string>
+
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>PATH</key>
+    <string>/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:__HOME__/.bun/bin:__HOME__/.local/bin</string>
+    <key>SSD_GUARDIAN_FREE_FLOOR_GIB</key>
+    <string>200</string>
+    <key>SSD_GUARDIAN_GIANT_FILE_GIB</key>
+    <string>8</string>
+    <key>SSD_GUARDIAN_LMSTUDIO_MIN_IDLE_SECONDS</key>
+    <string>1800</string>
+    <key>SSD_GUARDIAN_TEMP_CACHE_MIN_AGE_SECONDS</key>
+    <string>3600</string>
+  </dict>
+</dict>
+</plist>

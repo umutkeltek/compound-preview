@@ -1,0 +1,27 @@
+{
+  "apps": [
+    {
+      "product_id": "product:focus-notes",
+      "asc_app_id": "123456789",
+      "surface": "app-store-page",
+      "metrics": [
+        "units",
+        "developer_proceeds_usd",
+        "impressions",
+        "product_page_views",
+        "product_page_conversion_rate"
+      ]
+    },
+    {
+      "product_id": "product:other-app",
+      "asc_app_id": "987654321",
+      "surface": "app-store-page",
+      "metrics": [
+        "units",
+        "impressions",
+        "product_page_views",
+        "product_page_conversion_rate"
+      ]
+    }
+  ]
+}

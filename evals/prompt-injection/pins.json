@@ -1,0 +1,59 @@
+{
+  "schema_version": "compound.prompt_injection_eval_pins.v0.1",
+  "verified_at": "2026-07-27T00:00:00Z",
+  "tools": [
+    {
+      "id": "promptfoo",
+      "version": "0.121.19",
+      "source": "https://github.com/promptfoo/promptfoo",
+      "revision": "1ede17aaed940e6dff04f71d24e4ecc011809dae",
+      "integrity": "sha512-5YebsCED/bmR9JktH9YNU62Tr1m3ncFMlM2tKrguI8vFFUfvqxhNzUBa3Z6huG7OvDKbi69UpamU4CLtYLDezQ==",
+      "role": "harness regression orchestrator"
+    },
+    {
+      "id": "garak",
+      "version": "0.15.1",
+      "source": "https://github.com/NVIDIA/garak",
+      "artifact_sha256": "c420e2f339662ace10b05dcd113e66dce7eaf918910c6128a2f4618dcac92431",
+      "role": "broad vulnerability probe"
+    },
+    {
+      "id": "pyrit",
+      "version": "1.0.0",
+      "source": "https://github.com/Azure/PyRIT",
+      "artifact_sha256": "a7f2d13f4951caeff217983333a388f75f80206df91049ff1488d5d8c7f7427e",
+      "role": "adaptive and multi-turn red team"
+    },
+    {
+      "id": "llamafirewall",
+      "version": "1.0.3",
+      "source": "https://github.com/meta-llama/PurpleLlama/tree/main/LlamaFirewall",
+      "artifact_sha256": "7bc110f4322c5eefb112fcde83b21da67176de4fa9036c184b14bf04f1ea4b30",
+      "role": "shadow-only runtime scanner"
+    },
+    {
+      "id": "agentdojo",
+      "version": "0.1.35",
+      "source": "https://github.com/ethz-spylab/agentdojo",
+      "revision": "089ed468cf3ed0322acc66b0211f26d9d90dbf60",
+      "suite": "v1",
+      "suite_tree": "fa2b274120a278cd16dc80a98918119dc61deb96",
+      "license": "MIT",
+      "role": "agent utility and prompt-injection benchmark"
+    },
+    {
+      "id": "llama-prompt-guard-2-22m",
+      "source": "https://huggingface.co/meta-llama/Llama-Prompt-Guard-2-22M",
+      "revision": "11614a155199674a0a95e6602d6ab0417b790ed0",
+      "license": "Llama 3.2 Community License",
+      "role": "shadow-only detector"
+    },
+    {
+      "id": "llama-prompt-guard-2-86m",
+      "source": "https://huggingface.co/meta-llama/Llama-Prompt-Guard-2-86M",
+      "revision": "a8ded8e697ce7c355e395a0df51f94adb4a2fd27",
+      "license": "Llama 3.2 Community License",
+      "role": "shadow-only detector"
+    }
+  ]
+}

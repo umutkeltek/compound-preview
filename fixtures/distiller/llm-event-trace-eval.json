@@ -1,0 +1,29 @@
+{
+  "schema_version": "compound.distiller.eval_case.v0.1",
+  "id": "eval_event_trace_memory_candidate_stays_unpromoted",
+  "request": {
+    "trace_ref": "trace_event_source_candidate",
+    "extra_envelopes": [
+      "../envelopes/trace-event.distill.json"
+    ]
+  },
+  "response": "../traces/llm-event-trace-memory-response.json",
+  "expect": {
+    "source_refs": [
+      "trace_envelope:trace_os_event_distill",
+      "os_event:evt_20260629T010000Z_alpha",
+      "path:/workspace/snapshots/daily.json"
+    ],
+    "decisions": [
+      {
+        "kind": "memory",
+        "verdict": "park",
+        "relation": "new",
+        "basis_contains": "no promotion basis"
+      }
+    ],
+    "current_claims": 0,
+    "claims_ledger_exists": false,
+    "live_model_calls": 0
+  }
+}

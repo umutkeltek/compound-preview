@@ -1,0 +1,158 @@
+{
+  "schema_version": "compound.release_issue_evidence.v0.1",
+  "issue_id": "REL-P0-004",
+  "slice": "adopt release/harden-20260829 onto today's main (61442538)",
+  "status": "focused_green",
+  "recorded_at": "2026-09-04T00:00:00Z",
+  "pre_fix_sha": "61442538",
+  "fix_commits": [
+    "53c9dc0540ddca986f0f63ea1a3af9ee7157cd16",
+    "5ae2c2784e71c30af92d1058f8052b9e9affccb5",
+    "d5526a19a83273cc181fa821f1e55323a97ef944",
+    "25bc7de47bf78394ceecb396ace94d52a0e2db38",
+    "92ac0f8181593ebc70cd086fc5b44874450ca904",
+    "e26f496f3ae907ecb8135db4c4b3a53dab4ebacb",
+    "27984af79ddcf751b013f5e5fcef1e7dd9e5dd8a",
+    "8e60a073cf3baff0f0b3c48555521a022bca50f3",
+    "f5ca50c3"
+  ],
+  "fix_tree": "f5ca50c3",
+  "adoption": {
+    "command": "git merge --no-ff release/harden-20260829 -m 'merge: adopt release/harden-20260829 stale-reclaim + admission work for REL-P0-004'",
+    "merge_commits_ahead_of_main": 15,
+    "merge_commit": "f5ca50c3",
+    "merge_clean_per_packet": true
+  },
+  "build_verification": [
+    {
+      "command": "go build ./...",
+      "exit_code": 0
+    },
+    {
+      "command": "go vet ./internal/work/ ./internal/home/ ./internal/landlease/ ./internal/runattempt/",
+      "exit_code": 0
+    }
+  ],
+  "focused_verification": [
+    {
+      "command": "go test ./internal/work -run TestReclaim -count=1 -v",
+      "exit_code": 0,
+      "duration_seconds": 10.539,
+      "tests": [
+        "TestReclaimEnvelopeRefusesWhenStateChangedUnderneath (2.12s)",
+        "TestReclaimEnvelopeRefusesWhenGenerationChangedUnderneath (1.99s)"
+      ]
+    },
+    {
+      "command": "go test ./internal/work -run TestSweepStale -count=1 -v",
+      "exit_code": 0,
+      "duration_seconds": 38.429,
+      "tests": [
+        "TestSweepStalePersistenceFaultsRecoverExactly (7 subtests, all boundaries green): before_pending_persist, after_pending_persist, before_pending_clear, before_event_publish, before_work_publish, after_publication, before_lease_release",
+        "TestSweepStalePendingRejectsChecksumValidSemanticCorruption (19 semantic-corruption subtests)",
+        "TestSweepStalePendingFencesLifecycleMutation",
+        "TestSweepStaleReclaimsClaimedEnvelopeWithAbandonedAttempt",
+        "TestSweepStaleExcludesEnvelopeWithLiveRunAttempt",
+        "TestSweepStaleExcludesFreshRunningEnvelope",
+        "TestSweepStaleFailClosedOnProbeError",
+        "TestSweepStaleExcludesOnLiveDelegateAndLease",
+        "TestSweepStaleVerifyingReclaimsToFailedNotCancelled",
+        "TestSweepStaleNeverTouchesRunAttempts",
+        "TestSweepStaleIgnoresTerminalEnvelopes",
+        "TestSweepStaleApplyRefusesFrozenCloseAuthority",
+        "TestSweepStaleApplyReprobesLivenessInsideMutationBoundary",
+        "TestSweepStaleEventFailureLeavesRecoverableTransaction"
+      ]
+    }
+  ],
+  "four_package_detached": {
+    "command": "go test ./internal/work ./internal/home ./internal/landlease ./internal/runattempt -count=1",
+    "internal_work": "FAIL (606.300s timeout, parallel-scheduler contention on t.Parallel() many-file I/O)",
+    "internal_home": "ok (420.007s)",
+    "internal_landlease": "ok (9.759s)",
+    "internal_runattempt": "FAIL (TestLivenessIncreasingWritesHoldWorkAdmission -- red reproducer for residual d, 1.14s)"
+  },
+  "cmd_compound_ceiling": {
+    "non_test_go_files": 109,
+    "non_test_go_loc": 52073,
+    "file_ceiling_pinned": 112,
+    "loc_ceiling_pinned": 52300,
+    "headroom_files": 3,
+    "headroom_loc": 227,
+    "verdict": "under_budget"
+  },
+  "residual_status_20260904": {
+    "(a) every-boundary fault matrix for reclaim": "open; existing TestSweepStalePersistenceFaultsRecoverExactly already covers 7 boundaries incl. after_pending_persist, after_publication, before_pending_clear, before_lease_release; no new test added in this session",
+    "(b) liveness recheck inside mutation boundary": "open; existing TestSweepStaleApplyReprobesLivenessInsideMutationBoundary already present and green",
+    "(c) resumable physical removal/quarantine recovery": "open; not attempted in this session",
+    "(d) cross-process RunAttempt liveness lock": "open; TestLivenessIncreasingWritesHoldWorkAdmission in internal/runattempt is RED reproducer (1.14s); requires runattempt.Write to acquire home.TryWithWorkAdmissionLock before each write -- not implemented in this session per packet carve-out (only if a-c green and time remains)"
+  },
+  "canonical_broad_status": "pending; the adopted tree has 14 hardened commits; the cross-process RunAttempt liveness lock, full internal/work broad run, every-boundary fault matrix augmentations, and the canonical broad proof-check remain open until a follow-up session closes them.",
+  "v3": {
+    "slice": "make the adopted harden branch landable: residual (d) admission lock on every RunAttempt liveness write + residual (c) resumable removal recovery",
+    "recorded_at": "2026-09-04T00:00:00Z",
+    "fix_commits": [
+      "4a25078a",
+      "7bb4880f",
+      "5bcfbe01"
+    ],
+    "red_first": [
+      {
+        "command": "go test ./internal/runattempt -run TestLivenessIncreasingWritesHoldWorkAdmission -count=1 -v (on 15b12d8b)",
+        "exit_code": 1,
+        "output": "--- FAIL: TestLivenessIncreasingWritesHoldWorkAdmission (1.49s) 6/6 subtests FAIL: work admission lock: authority root /private/var/folders/.../001/work must be materialized and safe: statat work: no such file or directory"
+      },
+      {
+        "command": "go test ./internal/work -run TestSweepStalePendingClearResumesAfterQuarantinedRemoval -count=1 -v (pre-fix)",
+        "exit_code": 1,
+        "output": "sweep_stale_removal_recovery_test.go:64: recovery report = {Threshold:72h0m0s Scanned:0 Safe:0 Reclaimed:0 Skipped:0 ...}, want one exact completed reclaim"
+      }
+    ],
+    "green_verification": [
+      {
+        "command": "go test ./internal/runattempt -run TestLivenessIncreasingWritesHoldWorkAdmission -count=1 -v",
+        "exit_code": 0,
+        "duration_seconds": 0.661,
+        "detail": "6/6 subtests PASS; reproducer file untouched"
+      },
+      {
+        "command": "go test ./internal/runattempt -count=1",
+        "exit_code": 0,
+        "duration_seconds": 41.947
+      },
+      {
+        "command": "go test ./internal/home -run 'Admission|Work' -count=1",
+        "exit_code": 0,
+        "duration_seconds": 4.127
+      },
+      {
+        "command": "go test ./internal/work -run 'RunAttempt|SweepStale|Reclaim|Delegate' -count=1 (detached, alone)",
+        "exit_code": 0,
+        "duration_seconds": 64.751
+      },
+      {
+        "command": "go test ./internal/work -run TestSweepStalePendingClearResumesAfterQuarantinedRemoval -count=1 -v (post 5bcfbe01)",
+        "exit_code": 0,
+        "duration_seconds": 5.544
+      },
+      {
+        "command": "go test ./internal/work -run 'TestSweepStale|TestReclaim' -count=1",
+        "exit_code": 0,
+        "duration_seconds": 24.85
+      },
+      {
+        "command": "go test ./cmd/compound -run TestProofCheckAdmissionSweepAndExpiryCannotBypassLiveProcessTree -count=1",
+        "exit_code": 0,
+        "duration_seconds": 2.04,
+        "detail": "focused spot-check: admission-locked sweeps still protect live proof-check process trees (Protected=1)"
+      },
+      {
+        "command": "go build ./... ; go vet ./internal/runattempt/ ./internal/home/ ./internal/work/ ; gofmt -l <changed .go files>",
+        "exit_code": 0,
+        "detail": "all clean"
+      }
+    ],
+    "residual_delta": "(d) CLOSED (4a25078a home materialization door + 7bb4880f admission on every liveness-increasing write incl. CommitLaunch start callback and sweep tryHeartbeat renew). (c) CLOSED (5bcfbe01: quarantined frozen frame read through home removal chain, rerun reconciles residue). Still open: retained land-lease mutation boundary, (a) fault-matrix augmentation, (b) liveness-recheck augmentation, full internal/work broad run, canonical proof-check.",
+    "notes": "MarkRunning now binds the exact injected now to LastHeartbeatAt (liveness pivot; demanded by the mark_running subtest). Two existing tests encoded the retired cross-work non-convoy expectation during a parked start callback (TestCommitLaunchCrossProcessPerAttemptExclusion, TestDelegateCreateCannotLaunchAfterTerminalSweep); both updated to release the parked callback first while keeping their per-attempt exclusion and post-release progress invariants. Cross-work non-convoy is documented as outside the v0.1 admission support contract."
+  }
+}

@@ -1,0 +1,4 @@
+{
+  "confidence": 0.39,
+  "findings": [{"claim": "Promoting the claim without narrowing may fossilize a temporary configuration detail.", "severity": "medium", "evidence_refs": ["trace://synthetic-dissent"]}]
+}

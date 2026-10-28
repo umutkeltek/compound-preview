@@ -1,0 +1,8 @@
+generated_at: "2026-07-01T12:00:00Z"
+grants:
+  - grant_id: grant_review_finding
+    capabilities:
+      - review.finding
+      - review.summary
+    target_scope: state/runs/*
+    reversibility_ceiling: reversible

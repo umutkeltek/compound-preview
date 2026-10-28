@@ -1,0 +1,24 @@
+schema_version: compound.promotion_criteria.v0.1
+entries:
+  - lane_id: "*"
+    capability_class: classify-extract
+    min_samples: 10
+    max_error_rate: 0.05
+    max_malformed_rate: 0
+    malformed_action: shape_repair
+    min_window_days: 2
+    notes: "Extraction promotion bar. Meaning>shape (operator 2026-07-07, r4 bakeoff): malformed JSON is a repairable shape defect routed via shape-repair, not a disqualifier; rank lanes on faithfulness+insight. Review artifact only; no authority mutation."
+  - lane_id: "*"
+    capability_class: judge-critique
+    min_samples: 20
+    max_error_rate: 0.1
+    max_malformed_rate: 0.1
+    min_window_days: 3
+    notes: "Synthetic default judge critique promotion bar including malformed judge JSON tolerance."
+  - lane_id: local/test-judge
+    capability_class: judge-critique
+    min_samples: 20
+    max_error_rate: 0.1
+    max_malformed_rate: 0.1
+    min_window_days: 3
+    notes: "Synthetic local judge override used by promotion review tests."

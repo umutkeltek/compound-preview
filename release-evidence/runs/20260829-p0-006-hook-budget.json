@@ -1,0 +1,59 @@
+{
+  "schema_version": "compound.release_reproducer.v0.1",
+  "issue_id": "REL-P0-006",
+  "observed_at": "2026-08-29T14:52:13Z",
+  "source_sha": "dde11ad5eabf288672281c73d14fbc14248e8695",
+  "status": "focused_green",
+  "work_chain": {
+    "initial_work_id": "work_38253d38fb70",
+    "successful_rework_id": "work_57d78145582c",
+    "comment_followup_work_id": "work_1ba8d8fca107",
+    "successful_run_attempt_id": "ratt_20260829T143915Z_4b823af9",
+    "comment_run_attempt_id": "ratt_20260829T145113Z_9f1ebbc4",
+    "transcript_ref": "$COMPOUND_HOME/run_attempts/ratt_20260829T143915Z_4b823af9.transcript"
+  },
+  "red_evidence": [
+    {
+      "test": "TestHookBudgetInvalidOverrideCannotDefeatHarnessDeadline",
+      "observed": "oh_my_pi invalid override budget = 45s, want 6s"
+    },
+    {
+      "test": "TestRunHookCommandWithoutHomeReusesOuterAnswerGate",
+      "observed": "old fallback accepted only three arguments and owned an independent gate/watchdog"
+    },
+    {
+      "test": "TestHookUsageNamesSupportedOmpHarness",
+      "observed": "live hook usage omitted supported oh_my_pi"
+    }
+  ],
+  "fix_commits": [
+    "77d506af33a61c9d14d8effb17a23009b7e9dea4",
+    "dde11ad5eabf288672281c73d14fbc14248e8695"
+  ],
+  "checks": [
+    {
+      "command": "GOTOOLCHAIN=go1.26.4 go test ./cmd/compound -run <hook-budget-regressions> -count=1",
+      "exit_code": 0,
+      "duration_ms": 593
+    },
+    {
+      "command": "GOTOOLCHAIN=go1.26.4 go test -race ./internal/hook ./cmd/compound -run <hook-budget-regressions> -count=1",
+      "exit_code": 0,
+      "duration_ms": 2279
+    },
+    {
+      "command": "GOTOOLCHAIN=go1.26.4 go test ./internal/hook ./internal/hookplan -count=1",
+      "exit_code": 0,
+      "duration_ms": 140779
+    },
+    {
+      "command": "GOTOOLCHAIN=go1.26.4 go vet ./internal/hook ./internal/hookplan ./cmd/compound",
+      "exit_code": 0
+    }
+  ],
+  "review": {
+    "behavioral_blockers": [],
+    "nonblocking_gap": "The fallback regression detects a second gate/output; source inspection confirms no second watchdog shares the same gate.",
+    "broad_canonical_proof": "pending"
+  }
+}
